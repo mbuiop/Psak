@@ -42,7 +42,7 @@
             transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
-            height: 500px;
+            height: 520px; /* افزایش ارتفاع برای نمایش بهتر عکس */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -74,7 +74,7 @@
 
         .product-image {
             width: 100%;
-            height: 250px;
+            height: 280px; /* افزایش ارتفاع برای نمایش کامل عکس */
             border-radius: 20px;
             background: linear-gradient(45deg, #ff9a9e, #fecfef);
             display: flex;
@@ -90,8 +90,9 @@
         .product-image img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain; /* تغییر از cover به contain برای نمایش کامل عکس */
             border-radius: 17px;
+            background-color: rgba(255, 255, 255, 0.1); /* پس‌زمینه برای عکس‌های کوچک */
         }
 
         .placeholder-text {
@@ -117,6 +118,10 @@
             font-size: 1rem;
             line-height: 1.6;
             margin-bottom: 1rem;
+            min-height: 60px; /* ارتفاع ثابت برای توضیحات */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .product-phone {
@@ -234,12 +239,12 @@
             }
             
             .product-card {
-                height: 450px;
+                height: 480px; /* افزایش ارتفاع برای موبایل */
                 padding: 1.5rem;
             }
 
             .product-image {
-                height: 200px;
+                height: 220px; /* افزایش ارتفاع برای موبایل */
             }
 
             .product-title {
@@ -248,6 +253,7 @@
 
             .product-description {
                 font-size: 0.9rem;
+                min-height: 50px; /* کاهش ارتفاع برای موبایل */
             }
 
             .bottom-navbar {
@@ -275,12 +281,16 @@
             }
 
             .product-card {
-                height: 400px;
+                height: 450px; /* افزایش ارتفاع برای موبایل کوچک */
                 padding: 1rem;
             }
 
             .product-image {
-                height: 150px;
+                height: 180px; /* افزایش ارتفاع برای موبایل کوچک */
+            }
+            
+            .product-description {
+                min-height: 40px; /* کاهش ارتفاع برای موبایل کوچک */
             }
         }
 
@@ -297,49 +307,49 @@
         <div class="products-grid" id="kids-products">
             <div class="product-card">
                 <div class="product-image">
-                    <img src="m.jpg" alt="لباس بچگانه 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <img src="kids1.jpg" alt="لباس بچگانه 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                     <div class="placeholder-text" style="display: none;">عکس لباس بچگانه</div>
                 </div>
-                <h3 class="product-title"><!-- عنوان محصول اول --></h3>
-                <p class="product-description"><!-- توضیحات محصول اول --></p>
+                <h3 class="product-title">ست لباس بچگانه طرح کارتونی</h3>
+                <p class="product-description">ست لباس زیبا و راحت برای کودکان با طرح‌های کارتونی محبوب. جنس پارچه نخی و با کیفیت. مناسب برای بازی و مهمانی.</p>
                 <div class="product-phone">
-                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                    <a href="tel:09123456789">📞 09123456789</a>
                 </div>
             </div>
 
             <div class="product-card">
                 <div class="product-image">
-                    <img src="m.jpg" alt="لباس بچگانه 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <img src="kids2.jpg" alt="لباس بچگانه 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                     <div class="placeholder-text" style="display: none;">عکس لباس بچگانه</div>
                 </div>
-                <h3 class="product-title"><!-- عنوان محصول دوم --></h3>
-                <p class="product-description"><!-- توضیحات محصول دوم --></p>
+                <h3 class="product-title">پیراهن دخترانه مجلسی</h3>
+                <p class="product-description">پیراهن مجلسی زیبا برای دختربچه‌ها با تزئینات زیبا و رنگ‌بندی شاد. مناسب برای جشن‌ها و مناسبت‌های خاص.</p>
                 <div class="product-phone">
-                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                    <a href="tel:09123456789">📞 09123456789</a>
                 </div>
             </div>
 
             <div class="product-card">
                 <div class="product-image">
-                    <img src="m.jpg" alt="لباس بچگانه 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <img src="kids3.jpg" alt="لباس بچگانه 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                     <div class="placeholder-text" style="display: none;">عکس لباس بچگانه</div>
                 </div>
-                <h3 class="product-title"><!-- عنوان محصول سوم --></h3>
-                <p class="product-description"><!-- توضیحات محصول سوم --></p>
+                <h3 class="product-title">شلوار جین پسرانه</h3>
+                <p class="product-description">شلوار جین با دوام و راحت برای پسران. دارای جیب‌های کاربردی و طراحی مدرن. مناسب برای مدرسه و بازی.</p>
                 <div class="product-phone">
-                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                    <a href="tel:09123456789">📞 09123456789</a>
                 </div>
             </div>
 
             <div class="product-card">
                 <div class="product-image">
-                    <img src="m.jpg" alt="لباس بچگانه 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <img src="kids4.jpg" alt="لباس بچگانه 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                     <div class="placeholder-text" style="display: none;">عکس لباس بچگانه</div>
                 </div>
-                <h3 class="product-title"><!-- عنوان محصول چهارم --></h3>
-                <p class="product-description"><!-- توضیحات محصول چهارم --></p>
+                <h3 class="product-title">کاپشن زمستانی بچگانه</h3>
+                <p class="product-description">کاپشن گرم و ضد آب برای فصول سرد سال. دارای کلاه و آستر گرم. در رنگ‌های متنوع و شیک.</p>
                 <div class="product-phone">
-                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                    <a href="tel:09123456789">📞 09123456789</a>
                 </div>
             </div>
         </div>
@@ -348,49 +358,49 @@
         <div class="products-grid hidden" id="women-products">
             <div class="product-card">
                 <div class="product-image">
-                    <img src="m.jpg" alt="لباس زنانه 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <img src="women1.jpg" alt="لباس زنانه 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                     <div class="placeholder-text" style="display: none;">عکس لباس زنانه</div>
                 </div>
-                <h3 class="product-title"><!-مانتو</h3>
-                <p class="product-description"><!-- مانتو زنانه قیمت ۸۰۰تومان ارسال به تمام نقاط کشور فقد فروش عمده میباشد جهت دریافت تماس یا با پشتیبانی تماس بگیریرن --></p>
+                <h3 class="product-title">مانتو زنانه مدل روز</h3>
+                <p class="product-description">مانتو زنانه قیمت ۸۰۰تومان ارسال به تمام نقاط کشور فقط فروش عمده می‌باشد جهت دریافت تماس یا با پشتیبانی تماس بگیرید</p>
                 <div class="product-phone">
-                    <a href="tel:">📞 <!-- 09145978426 --></a>
+                    <a href="tel:09145978426">📞 09145978426</a>
                 </div>
             </div>
 
             <div class="product-card">
                 <div class="product-image">
-                    <img src="k.jpg" alt="لباس زنانه 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <img src="women2.jpg" alt="لباس زنانه 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                     <div class="placeholder-text" style="display: none;">عکس لباس زنانه</div>
                 </div>
-                <h3 class="product-title"><!-- عنوان محصول دوم --></h3>
-                <p class="product-description"><!-- توضیحات محصول دوم --></p>
+                <h3 class="product-title">بلوز زنانه مجلسی</h3>
+                <p class="product-description">بلوز مجلسی با طراحی شیک و مدرن. جنس پارچه با کیفیت و دوخت دقیق. مناسب برای مهمانی‌ها و مراسم خاص.</p>
                 <div class="product-phone">
-                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                    <a href="tel:09145978426">📞 09145978426</a>
                 </div>
             </div>
 
             <div class="product-card">
                 <div class="product-image">
-                    <img src="k.jpg" alt="لباس زنانه 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <img src="women3.jpg" alt="لباس زنانه 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                     <div class="placeholder-text" style="display: none;">عکس لباس زنانه</div>
                 </div>
-                <h3 class="product-title"><!-- عنوان محصول سوم --></h3>
-                <p class="product-description"><!-- توضیحات محصول سوم --></p>
+                <h3 class="product-title">شلوار کتان زنانه</h3>
+                <p class="product-description">شلوار راحت و شیک از جنس کتان با کیفیت. دارای کش مناسب و طراحی به روز. برای استفاده روزمره و مهمانی.</p>
                 <div class="product-phone">
-                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                    <a href="tel:09145978426">📞 09145978426</a>
                 </div>
             </div>
 
             <div class="product-card">
                 <div class="product-image">
-                    <img src="k.jpg" alt="لباس زنانه 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <img src="women4.jpg" alt="لباس زنانه 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                     <div class="placeholder-text" style="display: none;">عکس لباس زنانه</div>
                 </div>
-                <h3 class="product-title"><!-- عنوان محصول چهارم --></h3>
-                <p class="product-description"><!-- توضیحات محصول چهارم --></p>
+                <h3 class="product-title">دامن مجلسی زنانه</h3>
+                <p class="product-description">دامن مجلسی با طراحی زیبا و پارچه با کیفیت. مناسب برای مراسم خاص و مهمانی‌ها. در سایزهای مختلف موجود است.</p>
                 <div class="product-phone">
-                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                    <a href="tel:09145978426">📞 09145978426</a>
                 </div>
             </div>
         </div>
@@ -399,96 +409,63 @@
         <div class="products-grid hidden" id="men-products">
             <div class="product-card">
                 <div class="product-image">
-                    <img src="n.jpg" alt="لباس مردانه 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <img src="men1.jpg" alt="لباس مردانه 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                     <div class="placeholder-text" style="display: none;">عکس لباس مردانه</div>
                 </div>
-                <h3 class="product-title"><!-- عنوان محصول اول --></h3>
-                <p class="product-description"><!-- توضیحات محصول اول --></p>
+                <h3 class="product-title">پیراهن مردانه رسمی</h3>
+                <p class="product-description">پیراهن مردانه با پارچه با کیفیت و دوخت دقیق. مناسب برای محیط کار و مراسم رسمی. در رنگ‌های متنوع موجود است.</p>
                 <div class="product-phone">
-                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                    <a href="tel:09123456789">📞 09123456789</a>
                 </div>
             </div>
 
             <div class="product-card">
                 <div class="product-image">
-                    <img src="n.jpg" alt="لباس مردانه 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <img src="men2.jpg" alt="لباس مردانه 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                     <div class="placeholder-text" style="display: none;">عکس لباس مردانه</div>
                 </div>
-                <h3 class="product-title"><!-- عنوان محصول دوم --></h3>
-                <p class="product-description"><!-- توضیحات محصول دوم --></p>
+                <h3 class="product-title">شلوار جین مردانه</h3>
+                <p class="product-description">شلوار جین با دوام و راحت برای آقایان. طراحی مدرن و جیب‌های کاربردی. مناسب برای استفاده روزمره.</p>
                 <div class="product-phone">
-                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                    <a href="tel:09123456789">📞 09123456789</a>
                 </div>
             </div>
 
             <div class="product-card">
                 <div class="product-image">
-                    <img src="n.jpg" alt="لباس مردانه 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <img src="men3.jpg" alt="لباس مردانه 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                     <div class="placeholder-text" style="display: none;">عکس لباس مردانه</div>
                 </div>
-                <h3 class="product-title"><!-- عنوان محصول سوم --></h3>
-                <p class="product-description"><!-- توضیحات محصول سوم --></p>
+                <h3 class="product-title">کت و شلوار مردانه</h3>
+                <p class="product-description">کت و شلوار رسمی با پارچه مرغوب و دوخت دقیق. مناسب برای مراسم مهم و جلسات کاری. در سایزهای مختلف.</p>
                 <div class="product-phone">
-                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                    <a href="tel:09123456789">📞 09123456789</a>
                 </div>
             </div>
 
             <div class="product-card">
                 <div class="product-image">
-                    <img src="n.jpg" alt="لباس مردانه 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <img src="men4.jpg" alt="لباس مردانه 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                     <div class="placeholder-text" style="display: none;">عکس لباس مردانه</div>
                 </div>
-                <h3 class="product-title"><!-- عنوان محصول چهارم --></h3>
-                <p class="product-description"><!-- توضیحات محصول چهارم --></p>
+                <h3 class="product-title">پولوشرت مردانه</h3>
+                <p class="product-description">پولوشرت با پارچه نخی و با کیفیت. طراحی شیک و راحت برای استفاده روزمره و ورزش. در رنگ‌های متنوع.</p>
                 <div class="product-phone">
-                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                    <a href="tel:09123456789">📞 09123456789</a>
                 </div>
             </div>
         </div>
 
-        <!-- بخش پشتیبانی -->
+        <!-- بخش پشتیبانی (فقط یک قالب) -->
         <div class="products-grid hidden" id="support-section">
             <div class="product-card">
                 <div class="product-image">
-                    <div class="placeholder-text">📞 <!-- آیکون یا عکس --></div>
+                    <div class="placeholder-text">📞</div>
                 </div>
-                <h3 class="product-title"><!-- عنوان خدمات اول --></h3>
-                <p class="product-description"><!-- توضیحات خدمات اول --></p>
+                <h3 class="product-title">پشتیبانی و ارتباط با ما</h3>
+                <p class="product-description">برای دریافت مشاوره، ثبت سفارش و پیگیری خرید خود با ما در تماس باشید. پاسخگوی شما در ساعات کاری هستیم.</p>
                 <div class="product-phone">
-                    <a href="tel:">📞 <!-- شماره تماس --></a>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image">
-                    <div class="placeholder-text">💬 <!-- آیکون یا عکس --></div>
-                </div>
-                <h3 class="product-title"><!-- عنوان خدمات دوم --></h3>
-                <p class="product-description"><!-- توضیحات خدمات دوم --></p>
-                <div class="product-phone">
-                    <a href="tel:">📞 <!-- شماره تماس --></a>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image">
-                    <div class="placeholder-text">📋 <!-- آیکون یا عکس --></div>
-                </div>
-                <h3 class="product-title"><!-- عنوان خدمات سوم --></h3>
-                <p class="product-description"><!-- توضیحات خدمات سوم --></p>
-                <div class="product-phone">
-                    <a href="tel:">📞 <!-- شماره تماس --></a>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image">
-                    <div class="placeholder-text">🔄 <!-- آیکون یا عکس --></div>
-                </div>
-                <h3 class="product-title"><!-- عنوان خدمات چهارم --></h3>
-                <p class="product-description"><!-- توضیحات خدمات چهارم --></p>
-                <div class="product-phone">
-                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                    <a href="tel:02112345678">📞 021-12345678</a>
                 </div>
             </div>
         </div>
