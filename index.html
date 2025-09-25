@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فروشگاه پوشاک حرفه‌ای</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding-bottom: 120px;
+        }
+
+        /* محتوای اصلی */
+        .main-content {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* قالب‌های محصولات بزرگ */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transform-style: preserve-3d;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            animation: rotate 6s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
+        }
+
+        .product-card:hover {
+            transform: translateY(-15px) rotateX(8deg) rotateY(5deg);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 250px;
+            border-radius: 20px;
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 17px;
+        }
+
+        .placeholder-text {
+            color: white;
+            font-size: 1rem;
+            text-align: center;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+
+        .product-title {
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-description {
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .product-phone {
+            text-align: center;
+        }
+
+        .product-phone a {
+            display: inline-block;
+            background: linear-gradient(145deg, #4CAF50, #45a049);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .product-phone a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(76, 175, 80, 0.6);
+        }
+
+        /* نوار بری پایین */
+        .bottom-navbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            padding: 1.5rem 0;
+            box-shadow: 0 -8px 32px rgba(31, 38, 135, 0.37);
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 0 1rem;
+        }
+
+        .nav-btn {
+            background: linear-gradient(145deg, #ffffff25, #ffffff15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 12px 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(145deg, #4CAF50, #45a049);
+            border-color: #4CAF50;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(76, 175, 80, 0.4);
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-btn:hover::before {
+            left: 100%;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* ریسپانسیو برای گوشی */
+        @media (max-width: 768px) {
+            body {
+                padding-bottom: 100px;
+            }
+
+            .main-content {
+                padding: 0 1rem;
+                margin: 1rem auto;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .product-card {
+                height: 450px;
+                padding: 1.5rem;
+            }
+
+            .product-image {
+                height: 200px;
+            }
+
+            .product-title {
+                font-size: 1.2rem;
+            }
+
+            .product-description {
+                font-size: 0.9rem;
+            }
+
+            .bottom-navbar {
+                padding: 1rem 0;
+            }
+
+            .nav-container {
+                gap: 0.5rem;
+                padding: 0 0.5rem;
+            }
+            
+            .nav-btn {
+                padding: 10px 15px;
+                font-size: 0.8rem;
+                flex-direction: column;
+                text-align: center;
+                gap: 4px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-btn {
+                padding: 8px 10px;
+                font-size: 0.7rem;
+            }
+
+            .product-card {
+                height: 400px;
+                padding: 1rem;
+            }
+
+            .product-image {
+                height: 150px;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- محتوای اصلی -->
+    <main class="main-content">
+
+        <!-- قالب‌های محصولات لباس بچگانه -->
+        <div class="products-grid" id="kids-products">
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="m.jpg" alt="لباس بچگانه 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="placeholder-text" style="display: none;">عکس لباس بچگانه</div>
+                </div>
+                <h3 class="product-title"><!-- عنوان محصول اول --></h3>
+                <p class="product-description"><!-- توضیحات محصول اول --></p>
+                <div class="product-phone">
+                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="m.jpg" alt="لباس بچگانه 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="placeholder-text" style="display: none;">عکس لباس بچگانه</div>
+                </div>
+                <h3 class="product-title"><!-- عنوان محصول دوم --></h3>
+                <p class="product-description"><!-- توضیحات محصول دوم --></p>
+                <div class="product-phone">
+                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="m.jpg" alt="لباس بچگانه 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="placeholder-text" style="display: none;">عکس لباس بچگانه</div>
+                </div>
+                <h3 class="product-title"><!-- عنوان محصول سوم --></h3>
+                <p class="product-description"><!-- توضیحات محصول سوم --></p>
+                <div class="product-phone">
+                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="m.jpg" alt="لباس بچگانه 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="placeholder-text" style="display: none;">عکس لباس بچگانه</div>
+                </div>
+                <h3 class="product-title"><!-- عنوان محصول چهارم --></h3>
+                <p class="product-description"><!-- توضیحات محصول چهارم --></p>
+                <div class="product-phone">
+                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- قالب‌های محصولات لباس زنانه -->
+        <div class="products-grid hidden" id="women-products">
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="k.jpg" alt="لباس زنانه 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="placeholder-text" style="display: none;">عکس لباس زنانه</div>
+                </div>
+                <h3 class="product-title"><!-- عنوان محصول اول --></h3>
+                <p class="product-description"><!-- توضیحات محصول اول --></p>
+                <div class="product-phone">
+                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="k.jpg" alt="لباس زنانه 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="placeholder-text" style="display: none;">عکس لباس زنانه</div>
+                </div>
+                <h3 class="product-title"><!-- عنوان محصول دوم --></h3>
+                <p class="product-description"><!-- توضیحات محصول دوم --></p>
+                <div class="product-phone">
+                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="k.jpg" alt="لباس زنانه 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="placeholder-text" style="display: none;">عکس لباس زنانه</div>
+                </div>
+                <h3 class="product-title"><!-- عنوان محصول سوم --></h3>
+                <p class="product-description"><!-- توضیحات محصول سوم --></p>
+                <div class="product-phone">
+                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="k.jpg" alt="لباس زنانه 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="placeholder-text" style="display: none;">عکس لباس زنانه</div>
+                </div>
+                <h3 class="product-title"><!-- عنوان محصول چهارم --></h3>
+                <p class="product-description"><!-- توضیحات محصول چهارم --></p>
+                <div class="product-phone">
+                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- قالب‌های محصولات لباس مردانه -->
+        <div class="products-grid hidden" id="men-products">
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="n.jpg" alt="لباس مردانه 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="placeholder-text" style="display: none;">عکس لباس مردانه</div>
+                </div>
+                <h3 class="product-title"><!-- عنوان محصول اول --></h3>
+                <p class="product-description"><!-- توضیحات محصول اول --></p>
+                <div class="product-phone">
+                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="n.jpg" alt="لباس مردانه 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="placeholder-text" style="display: none;">عکس لباس مردانه</div>
+                </div>
+                <h3 class="product-title"><!-- عنوان محصول دوم --></h3>
+                <p class="product-description"><!-- توضیحات محصول دوم --></p>
+                <div class="product-phone">
+                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="n.jpg" alt="لباس مردانه 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="placeholder-text" style="display: none;">عکس لباس مردانه</div>
+                </div>
+                <h3 class="product-title"><!-- عنوان محصول سوم --></h3>
+                <p class="product-description"><!-- توضیحات محصول سوم --></p>
+                <div class="product-phone">
+                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="n.jpg" alt="لباس مردانه 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="placeholder-text" style="display: none;">عکس لباس مردانه</div>
+                </div>
+                <h3 class="product-title"><!-- عنوان محصول چهارم --></h3>
+                <p class="product-description"><!-- توضیحات محصول چهارم --></p>
+                <div class="product-phone">
+                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- بخش پشتیبانی -->
+        <div class="products-grid hidden" id="support-section">
+            <div class="product-card">
+                <div class="product-image">
+                    <div class="placeholder-text">📞 <!-- آیکون یا عکس --></div>
+                </div>
+                <h3 class="product-title"><!-- عنوان خدمات اول --></h3>
+                <p class="product-description"><!-- توضیحات خدمات اول --></p>
+                <div class="product-phone">
+                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <div class="placeholder-text">💬 <!-- آیکون یا عکس --></div>
+                </div>
+                <h3 class="product-title"><!-- عنوان خدمات دوم --></h3>
+                <p class="product-description"><!-- توضیحات خدمات دوم --></p>
+                <div class="product-phone">
+                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <div class="placeholder-text">📋 <!-- آیکون یا عکس --></div>
+                </div>
+                <h3 class="product-title"><!-- عنوان خدمات سوم --></h3>
+                <p class="product-description"><!-- توضیحات خدمات سوم --></p>
+                <div class="product-phone">
+                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <div class="placeholder-text">🔄 <!-- آیکون یا عکس --></div>
+                </div>
+                <h3 class="product-title"><!-- عنوان خدمات چهارم --></h3>
+                <p class="product-description"><!-- توضیحات خدمات چهارم --></p>
+                <div class="product-phone">
+                    <a href="tel:">📞 <!-- شماره تماس --></a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- نوار بری پایین -->
+    <nav class="bottom-navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-btn active" onclick="showSection('kids-products', this)">
+                <span>👶</span>
+                <span>لباس بچه گانه</span>
+            </a>
+            <a href="#" class="nav-btn" onclick="showSection('women-products', this)">
+                <span>👩</span>
+                <span>لباس زنانه</span>
+            </a>
+            <a href="#" class="nav-btn" onclick="showSection('men-products', this)">
+                <span>👨</span>
+                <span>لباس مردانه</span>
+            </a>
+            <a href="#" class="nav-btn" onclick="showSection('support-section', this)">
+                <span>📞</span>
+                <span>پشتیبانی</span>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        function showSection(sectionId, clickedBtn) {
+            // مخفی کردن همه بخش‌ها
+            const allSections = document.querySelectorAll('.products-grid');
+            allSections.forEach(section => {
+                section.classList.add('hidden');
+            });
+
+            // نمایش بخش انتخاب شده
+            document.getElementById(sectionId).classList.remove('hidden');
+
+            // حذف کلاس active از همه دکمه‌ها
+            const allBtns = document.querySelectorAll('.nav-btn');
+            allBtns.forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // اضافه کردن کلاس active به دکمه کلیک شده
+            clickedBtn.classList.add('active');
+        }
+    </script>
+</body>
+</html>
