@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فروشگاه کفش حرفه‌ای</title>
+    <title>گالری قالب های تصویری</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -11,556 +12,440 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
             min-height: 100vh;
-            padding-bottom: 120px;
-        }
-
-        /* محتوای اصلی */
-        .main-content {
-            max-width: 1400px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-        }
-
-        /* چیدمان حرفه‌ای و مدرن */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 3rem;
-            margin-top: 3rem;
-            padding: 0 1rem;
-        }
-
-        .product-card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(25px);
-            border-radius: 35px;
-            padding: 2.5rem;
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            position: relative;
-            overflow: hidden;
-            height: 580px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            transform-style: preserve-3d;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+            align-items: center;
+            padding: 20px;
+            color: #333;
+            padding-bottom: 100px; /* فضا برای نواربری پایین */
         }
-
-        .product-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            animation: rotate 8s linear infinite;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .product-card:hover::before {
-            opacity: 1;
-        }
-
-        .product-card:hover {
-            transform: translateY(-20px) rotateX(5deg) rotateY(3deg);
-            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.25);
-            border-color: rgba(255, 255, 255, 0.4);
-            background: rgba(255, 255, 255, 0.12);
-        }
-
-        .product-image {
+        
+        .container {
+            max-width: 1400px;
             width: 100%;
-            height: 320px;
-            border-radius: 25px;
-            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb, #f5576c);
-            background-size: 400% 400%;
-            animation: gradientShift 6s ease infinite;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 2rem;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            flex-grow: 1;
         }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        
+        h1 {
+            color: white;
+            margin: 20px 0 40px;
+            font-size: 2.8rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
         }
-
-        .product-image img {
-            width: 90%;
-            height: 90%;
-            object-fit: contain;
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 35px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background-color: white;
             border-radius: 20px;
-            background-color: rgba(255, 255, 255, 0.05);
-            transition: transform 0.5s ease;
-        }
-
-        .product-card:hover .product-image img {
-            transform: scale(1.05);
-        }
-
-        .placeholder-text {
-            color: white;
-            font-size: 4rem;
-            text-align: center;
-            opacity: 0.8;
-            font-weight: 300;
-            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .product-title {
-            color: white;
-            font-size: 1.6rem;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 1.5rem;
-            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-            letter-spacing: 0.5px;
-            line-height: 1.3;
-        }
-
-        .product-description {
-            color: rgba(255, 255, 255, 0.85);
-            text-align: center;
-            font-size: 1rem;
-            line-height: 1.7;
-            margin-bottom: 2rem;
-            min-height: 80px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 400;
-            letter-spacing: 0.3px;
+            flex-direction: column;
+            height: 100%;
         }
-
-        .product-phone {
-            text-align: center;
+        
+        .card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
         }
-
-        .product-phone a {
-            display: inline-block;
-            background: linear-gradient(145deg, #ff6b6b, #ee5a24);
-            color: white;
-            padding: 15px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 800;
-            font-size: 1.1rem;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4);
-            border: 3px solid rgba(255, 255, 255, 0.3);
+        
+        .card-img-container {
             position: relative;
             overflow: hidden;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            height: 280px;
         }
-
-        .product-phone a:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+        
+        .card-img {
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transition: left 0.6s;
+            object-fit: cover;
+            transition: transform 0.5s ease;
         }
-
-        .product-phone a:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 25px 50px rgba(255, 107, 107, 0.6);
-            background: linear-gradient(145deg, #ee5a24, #ff6b6b);
-            border-color: rgba(255, 255, 255, 0.6);
+        
+        .card:hover .card-img {
+            transform: scale(1.1);
         }
-
-        .product-phone a:hover:before {
-            left: 100%;
+        
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.7));
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
-
-        .product-phone a:active {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(255, 107, 107, 0.8);
+        
+        .card:hover .card-overlay {
+            opacity: 1;
         }
-
-        /* نوار بری پایین */
+        
+        .card-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #1a2a6c;
+            font-weight: 700;
+        }
+        
+        .card-description {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+        
+        .card-phone {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to right, #1a2a6c, #b21f1f);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-phone:hover {
+            background: linear-gradient(to right, #b21f1f, #1a2a6c);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .phone-icon {
+            margin-left: 10px;
+            font-size: 1.2rem;
+        }
+        
+        /* نواربری پایین صفحه */
         .bottom-navbar {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            padding: 1.5rem 0;
-            box-shadow: 0 -8px 32px rgba(31, 38, 135, 0.37);
-            border-top: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 2px solid #1a2a6c;
+            padding: 15px 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.3);
             z-index: 1000;
         }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
+        
+        .nav-item {
             display: flex;
-            justify-content: center;
-            gap: 1rem;
-            padding: 0 1rem;
-        }
-
-        .nav-btn {
-            background: linear-gradient(145deg, #ffffff25, #ffffff15);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 20px;
-            padding: 12px 20px;
-            color: white;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 8px;
+            text-decoration: none;
+            color: #1a2a6c;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 15px;
+            flex: 1;
+            max-width: 120px;
         }
-
-        .nav-btn.active {
-            background: linear-gradient(145deg, #4CAF50, #45a049);
-            border-color: #4CAF50;
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(76, 175, 80, 0.4);
+        
+        .nav-item:hover {
+            background: linear-gradient(to right, #1a2a6c, #b21f1f);
+            color: white;
+            transform: translateY(-5px);
         }
-
-        .nav-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+        
+        .nav-item.active {
+            background: linear-gradient(to right, #1a2a6c, #b21f1f);
+            color: white;
+        }
+        
+        .nav-icon {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+        
+        .nav-text {
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        footer {
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1rem;
+            background-color: rgba(0, 0, 0, 0.2);
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
+            margin-top: 40px;
         }
-
-        .nav-btn:hover::before {
-            left: 100%;
+        
+        @media (max-width: 1200px) {
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
         }
-
-        .nav-btn:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 255, 255, 0.6);
-        }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* ریسپانسیو برای گوشی */
+        
         @media (max-width: 768px) {
-            body {
-                padding-bottom: 100px;
-            }
-
-            .main-content {
-                padding: 0 1rem;
-                margin: 1rem auto;
-            }
-
-            .products-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 25px;
             }
             
-            .product-card {
-                height: 480px;
-                padding: 1.5rem;
-            }
-
-            .product-image {
-                height: 220px;
-            }
-
-            .product-title {
-                font-size: 1.2rem;
-            }
-
-            .product-description {
-                font-size: 0.9rem;
-                min-height: 50px;
-            }
-
-            .bottom-navbar {
-                padding: 1rem 0;
-            }
-
-            .nav-container {
-                gap: 0.5rem;
-                padding: 0 0.5rem;
+            h1 {
+                font-size: 2.2rem;
             }
             
-            .nav-btn {
-                padding: 10px 15px;
-                font-size: 0.8rem;
-                flex-direction: column;
-                text-align: center;
-                gap: 4px;
+            .card-img-container {
+                height: 250px;
             }
-        }
-
-        @media (max-width: 480px) {
-            .nav-btn {
-                padding: 8px 10px;
+            
+            .nav-text {
                 font-size: 0.7rem;
             }
-
-            .product-card {
-                height: 450px;
-                padding: 1rem;
-            }
-
-            .product-image {
-                height: 180px;
-            }
             
-            .product-description {
-                min-height: 40px;
+            .nav-icon {
+                font-size: 1.2rem;
             }
         }
-
-        .hidden {
-            display: none !important;
+        
+        @media (max-width: 480px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .bottom-navbar {
+                padding: 10px 0;
+            }
+            
+            .nav-item {
+                padding: 5px 8px;
+            }
+            
+            .nav-text {
+                font-size: 0.65rem;
+            }
+            
+            .nav-icon {
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- محتوای اصلی -->
-    <main class="main-content">
-
-        <!-- قالب‌های محصولات کفش بچگانه -->
-        <div class="products-grid" id="kids-products">
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="kids_shoe1.jpg" alt="کفش بچگانه 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <div class="placeholder-text" style="display: none;">عکس کفش بچگانه</div>
+    <div class="container">
+        <h1>گالری قالب های تصویری</h1>
+        
+        <div class="grid">
+            <!-- قالب 1 -->
+            <div class="card">
+                <div class="card-img-container">
+                    <img src="m.jpg" alt="قالب 1" class="card-img">
+                    <div class="card-overlay"></div>
                 </div>
-                <h3 class="product-title">کفش ورزشی بچگانه</h3>
-                <p class="product-description">کفش ورزشی با کیفیت و راحت برای کودکان. مناسب برای مدرسه و بازی. دارای کفی طبی و ضد تعریق.</p>
-                <div class="product-phone">
-                    <a href="tel:+989145978426" onclick="window.location.href='tel:+989145978426'">📞 تماس فوری</a>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="kids_shoe2.jpg" alt="کفش بچگانه 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <div class="placeholder-text" style="display: none;">عکس کفش بچگانه</div>
-                </div>
-                <h3 class="product-title">کفش مدرسه دخترانه</h3>
-                <p class="product-description">کفش مدرسه با طراحی زیبا و رنگ‌های شاد. جنس چرم طبیعی و مقاوم. مناسب برای استفاده روزانه.</p>
-                <div class="product-phone">
-                    <a href="tel:+989145978426" onclick="window.location.href='tel:+989145978426'">📞 تماس فوری</a>
+                <div class="card-content">
+                    <h3 class="card-title">قالب شماره 1</h3>
+                    <p class="card-description">این یک قالب زیبا و کاربردی برای نمایش محصولات شماست. طراحی مدرن و امکانات پیشرفته.</p>
+                    <a href="tel:+98123456789" class="card-phone">
+                        <span>09123456789</span>
+                        <span class="phone-icon">📞</span>
+                    </a>
                 </div>
             </div>
-
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="kids_shoe3.jpg" alt="کفش بچگانه 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <div class="placeholder-text" style="display: none;">عکس کفش بچگانه</div>
+            
+            <!-- قالب 2 -->
+            <div class="card">
+                <div class="card-img-container">
+                    <img src="m.jpg" alt="قالب 2" class="card-img">
+                    <div class="card-overlay"></div>
                 </div>
-                <h3 class="product-title">کفش پسرانه کتانی</h3>
-                <p class="product-description">کفش کتانی با دوام و سبک برای پسران. دارای کفی ارتوپدی و طراحی مدرن. مناسب برای ورزش و بازی.</p>
-                <div class="product-phone">
-                    <a href="tel:+989145978426" onclick="window.location.href='tel:+989145978426'">📞 تماس فوری</a>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="kids_shoe4.jpg" alt="کفش بچگانه 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <div class="placeholder-text" style="display: none;">عکس کفش بچگانه</div>
-                </div>
-                <h3 class="product-title">کفش زمستانی بچگانه</h3>
-                <p class="product-description">کفش گرم و ضد آب برای فصول سرد سال. دارای عایق حرارتی و کفی ضد لغزش. در رنگ‌های متنوع.</p>
-                <div class="product-phone">
-                    <a href="tel:+989145978426" onclick="window.location.href='tel:+989145978426'">📞 تماس فوری</a>
+                <div class="card-content">
+                    <h3 class="card-title">قالب شماره 2</h3>
+                    <p class="card-description">قالبی مدرن و حرفه ای برای کسب و کار شما. مناسب برای نمایش خدمات و محصولات.</p>
+                    <a href="tel:+98123456789" class="card-phone">
+                        <span>09123456789</span>
+                        <span class="phone-icon">📞</span>
+                    </a>
                 </div>
             </div>
-        </div>
-
-        <!-- قالب‌های محصولات کفش زنانه -->
-        <div class="products-grid hidden" id="women-products">
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="women_shoe1.jpg" alt="کفش زنانه 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <div class="placeholder-text" style="display: none;">عکس کفش زنانه</div>
+            
+            <!-- قالب 3 -->
+            <div class="card">
+                <div class="card-img-container">
+                    <img src="m.jpg" alt="قالب 3" class="card-img">
+                    <div class="card-overlay"></div>
                 </div>
-                <h3 class="product-title">کفش پاشنه بلند زنانه</h3>
-                <p class="product-description">کفش پاشنه بلند با طراحی شیک و مدرن. مناسب برای مهمانی‌ها و مراسم خاص. در رنگ‌های متنوع موجود است.</p>
-                <div class="product-phone">
-                    <a href="tel:+989145978426" onclick="window.location.href='tel:+989145978426'">📞 تماس فوری</a>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="women_shoe2.jpg" alt="کفش زنانه 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <div class="placeholder-text" style="display: none;">عکس کفش زنانه</div>
-                </div>
-                <h3 class="product-title">کفش اسپرت زنانه</h3>
-                <p class="product-description">کفش اسپرت با کیفیت و راحت برای پیاده‌روی و ورزش. دارای کفی طبی و ضد تعریق. در سایزهای مختلف.</p>
-                <div class="product-phone">
-                    <a href="tel:+989145978426" onclick="window.location.href='tel:+989145978426'">📞 تماس فوری</a>
+                <div class="card-content">
+                    <h3 class="card-title">قالب شماره 3</h3>
+                    <p class="card-description">طراحی زیبا و کاربرپسند با امکانات کامل. مناسب برای انواع کسب و کارها.</p>
+                    <a href="tel:+98123456789" class="card-phone">
+                        <span>09123456789</span>
+                        <span class="phone-icon">📞</span>
+                    </a>
                 </div>
             </div>
-
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="m.jpg" alt="کفش زنانه 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <div class="placeholder-text" style="display: none;">عکس کفش زنانه</div>
+            
+            <!-- قالب 4 -->
+            <div class="card">
+                <div class="card-img-container">
+                    <img src="m.jpg" alt="قالب 4" class="card-img">
+                    <div class="card-overlay"></div>
                 </div>
-                <h3 class="product-title">کفش مجلسی زنانه</h3>
-                <p class="product-description">کفش مجلسی با طراحی زیبا و تزئینات شیک. مناسب برای مراسم عروسی و مهمانی‌های رسمی. جنس چرم طبیعی.</p>
-                <div class="product-phone">
-                    <a href="tel:+989145978426" onclick="window.location.href='tel:+989145978426'">📞 تماس فوری</a>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="women_shoe4.jpg" alt="کفش زنانه 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <div class="placeholder-text" style="display: none;">عکس کفش زنانه</div>
-                </div>
-                <h3 class="product-title">صندل تابستانی زنانه</h3>
-                <p class="product-description">صندل راحت و خنک برای فصل تابستان. طراحی باز و سبک. مناسب برای استفاده روزمره و مسافرت.</p>
-                <div class="product-phone">
-                    <a href="tel:+989145978426" onclick="window.location.href='tel:+989145978426'">📞 تماس فوری</a>
+                <div class="card-content">
+                    <h3 class="card-title">قالب شماره 4</h3>
+                    <p class="card-description">قالبی مناسب برای نمایش خدمات و محصولات. طراحی زیبا و کاربردی.</p>
+                    <a href="tel:+98123456789" class="card-phone">
+                        <span>09123456789</span>
+                        <span class="phone-icon">📞</span>
+                    </a>
                 </div>
             </div>
-        </div>
-
-        <!-- قالب‌های محصولات کفش مردانه -->
-        <div class="products-grid hidden" id="men-products">
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="men_shoe1.jpg" alt="کفش مردانه 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <div class="placeholder-text" style="display: none;">عکس کفش مردانه</div>
+            
+            <!-- قالب 5 -->
+            <div class="card">
+                <div class="card-img-container">
+                    <img src="m.jpg" alt="قالب 5" class="card-img">
+                    <div class="card-overlay"></div>
                 </div>
-                <h3 class="product-title">کفش رسمی مردانه</h3>
-                <p class="product-description">کفش رسمی با چرم با کیفیت و دوخت دقیق. مناسب برای محیط کار و مراسم رسمی. در رنگ‌های کلاسیک.</p>
-                <div class="product-phone">
-                    <a href="tel:+989145978426" onclick="window.location.href='tel:+989145978426'">📞 تماس فوری</a>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="men_shoe2.jpg" alt="کفش مردانه 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <div class="placeholder-text" style="display: none;">عکس کفش مردانه</div>
-                </div>
-                <h3 class="product-title">کفش ورزشی مردانه</h3>
-                <p class="product-description">کفش ورزشی با تکنولوژی روز و طراحی مدرن. مناسب برای دویدن و تمرینات ورزشی. دارای کفی ارتوپدی.</p>
-                <div class="product-phone">
-                    <a href="tel:+989145978426" onclick="window.location.href='tel:+989145978426'">📞 تماس فوری</a>
+                <div class="card-content">
+                    <h3 class="card-title">قالب شماره 5</h3>
+                    <p class="card-description">طراحی ساده و در عین حال جذاب برای کسب و کار. مناسب برای نمایش محصولات.</p>
+                    <a href="tel:+98123456789" class="card-phone">
+                        <span>09123456789</span>
+                        <span class="phone-icon">📞</span>
+                    </a>
                 </div>
             </div>
-
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="men_shoe3.jpg" alt="کفش مردانه 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <div class="placeholder-text" style="display: none;">عکس کفش مردانه</div>
+            
+            <!-- قالب 6 -->
+            <div class="card">
+                <div class="card-img-container">
+                    <img src="m.jpg" alt="قالب 6" class="card-img">
+                    <div class="card-overlay"></div>
                 </div>
-                <h3 class="product-title">کفش کتانی مردانه</h3>
-                <p class="product-description">کفش کتانی با طراحی شیک و راحت برای استفاده روزمره. جنس پارچه با کیفیت و کفی نرم.</p>
-                <div class="product-phone">
-                    <a href="tel:+989145978426" onclick="window.location.href='tel:+989145978426'">📞 تماس فوری</a>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="men_shoe4.jpg" alt="کفش مردانه 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <div class="placeholder-text" style="display: none;">عکس کفش مردانه</div>
-                </div>
-                <h3 class="product-title">بوت زمستانی مردانه</h3>
-                <p class="product-description">بوت گرم و مقاوم برای فصول سرد سال. ضد آب و دارای عایق حرارتی. مناسب برای کوهنوردی و شهر.</p>
-                <div class="product-phone">
-                    <a href="tel:+989145978426" onclick="window.location.href='tel:+989145978426'">📞 تماس فوری</a>
+                <div class="card-content">
+                    <h3 class="card-title">قالب شماره 6</h3>
+                    <p class="card-description">قالبی با طراحی مدرن و امکانات پیشرفته. مناسب برای کسب و کارهای حرفه ای.</p>
+                    <a href="tel:+98123456789" class="card-phone">
+                        <span>09123456789</span>
+                        <span class="phone-icon">📞</span>
+                    </a>
                 </div>
             </div>
-        </div>
-
-        <!-- بخش پشتیبانی (فقط یک قالب) -->
-        <div class="products-grid hidden" id="support-section">
-            <div class="product-card">
-                <div class="product-image">
-                    <div class="placeholder-text">📞</div>
+            
+            <!-- قالب 7 -->
+            <div class="card">
+                <div class="card-img-container">
+                    <img src="m.jpg" alt="قالب 7" class="card-img">
+                    <div class="card-overlay"></div>
                 </div>
-                <h3 class="product-title">پشتیبانی و ارتباط با ما</h3>
-                <p class="product-description">برای دریافت مشاوره، ثبت سفارش و پیگیری خرید خود با ما در تماس باشید. پاسخگوی شما در ساعات کاری هستیم.</p>
-                <div class="product-phone">
-                    <a href="tel:+989145978426" onclick="window.location.href='tel:+989145978426'">📞 تماس فوری</a>
+                <div class="card-content">
+                    <h3 class="card-title">قالب شماره 7</h3>
+                    <p class="card-description">طراحی زیبا و کاربردی برای نمایش محصولات. مناسب برای فروشگاه های اینترنتی.</p>
+                    <a href="tel:+98123456789" class="card-phone">
+                        <span>09123456789</span>
+                        <span class="phone-icon">📞</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- قالب 8 -->
+            <div class="card">
+                <div class="card-img-container">
+                    <img src="m.jpg" alt="قالب 8" class="card-img">
+                    <div class="card-overlay"></div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">قالب شماره 8</h3>
+                    <p class="card-description">قالبی حرفه ای برای کسب و کارهای مختلف. طراحی مدرن و امکانات کامل.</p>
+                    <a href="tel:+98123456789" class="card-phone">
+                        <span>09123456789</span>
+                        <span class="phone-icon">📞</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- قالب 9 -->
+            <div class="card">
+                <div class="card-img-container">
+                    <img src="m.jpg" alt="قالب 9" class="card-img">
+                    <div class="card-overlay"></div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">قالب شماره 9</h3>
+                    <p class="card-description">طراحی مدرن و زیبا برای نمایش خدمات. مناسب برای شرکت های خدماتی.</p>
+                    <a href="tel:+98123456789" class="card-phone">
+                        <span>09123456789</span>
+                        <span class="phone-icon">📞</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- قالب 10 -->
+            <div class="card">
+                <div class="card-img-container">
+                    <img src="m.jpg" alt="قالب 10" class="card-img">
+                    <div class="card-overlay"></div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">قالب شماره 10</h3>
+                    <p class="card-description">قالبی زیبا و کاربرپسند با امکانات کامل. مناسب برای انواع کسب و کارها.</p>
+                    <a href="tel:+98123456789" class="card-phone">
+                        <span>09123456789</span>
+                        <span class="phone-icon">📞</span>
+                    </a>
                 </div>
             </div>
         </div>
-    </main>
-
-    <!-- نوار بری پایین -->
+    </div>
+    
+    <!-- نواربری پایین صفحه -->
     <nav class="bottom-navbar">
-        <div class="nav-container">
-            <a href="m1.html" class="nav-btn active" onclick="showSection('kids-products', this)">
-                <span>👟</span>
-                <span>کفش بچگانه</span>
-            </a>
-            <a href="m2.html" class="nav-btn" onclick="showSection('women-products', this)">
-                <span>👠</span>
-                <span>کفش زنانه</span>
-            </a>
-            <a href="m3.html" class="nav-btn" onclick="showSection('men-products', this)">
-                <span>👞</span>
-                <span>کفش مردانه</span>
-            </a>
-            <a href="#" class="nav-btn" onclick="showSection('support-section', this)">
-                <span>📞</span>
-                <span>پشتیبانی</span>
-            </a>
-        </div>
+        <a href="m.html" class="nav-item active">
+            <i class="fas fa-headset nav-icon"></i>
+            <span class="nav-text">پشتیبانی</span>
+        </a>
+        <a href="m.html" class="nav-item">
+            <i class="fas fa-child nav-icon"></i>
+            <span class="nav-text">کفش بچه گانه</span>
+        </a>
+        <a href="m.html" class="nav-item">
+            <i class="fas fa-female nav-icon"></i>
+            <span class="nav-text">کفش زنانه</span>
+        </a>
+        <a href="m.html" class="nav-item">
+            <i class="fas fa-male nav-icon"></i>
+            <span class="nav-text">کفش مردانه</span>
+        </a>
     </nav>
-
-    <script>
-        function showSection(sectionId, clickedBtn) {
-            // مخفی کردن همه بخش‌ها
-            const allSections = document.querySelectorAll('.products-grid');
-            allSections.forEach(section => {
-                section.classList.add('hidden');
-            });
-
-            // نمایش بخش انتخاب شده
-            document.getElementById(sectionId).classList.remove('hidden');
-
-            // حذف کلاس active از همه دکمه‌ها
-            const allBtns = document.querySelectorAll('.nav-btn');
-            allBtns.forEach(btn => {
-                btn.classList.remove('active');
-            });
-
-            // اضافه کردن کلاس active به دکمه کلیک شده
-            clickedBtn.classList.add('active');
-        }
-    </script>
+    
+    <footer>
+        <p>تمامی حقوق محفوظ است © 2023 - گالری قالب های تصویری</p>
+    </footer>
 </body>
 </html>
