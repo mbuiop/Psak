@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فروشگاه کفش - گالری قالب های تصویری</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            text-align: center;
+            flex-grow: 1;
+        }
+        
+        .store-title {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+        }
+        
+        h1 {
+            color: white;
+            margin: 0 0 40px;
+            font-size: 2.2rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+            font-weight: 300;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 35px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        }
+        
+        .card-img-container {
+            position: relative;
+            overflow: hidden;
+            height: 280px;
+        }
+        
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .card:hover .card-img {
+            transform: scale(1.1);
+        }
+        
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.7));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .card:hover .card-overlay {
+            opacity: 1;
+        }
+        
+        .card-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #1a2a6c;
+            font-weight: 700;
+        }
+        
+        .card-description {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+        
+        .card-phone {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to right, #1a2a6c, #b21f1f);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-phone:hover {
+            background: linear-gradient(to right, #b21f1f, #1a2a6c);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .phone-icon {
+            margin-left: 10px;
+            font-size: 1.2rem;
+        }
+        
+        footer {
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1rem;
+            background-color: rgba(0, 0, 0, 0.2);
+            width: 100%;
+        }
+        
+        @media (max-width: 1200px) {
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 25px;
+            }
+            
+            .store-title {
+                font-size: 2.5rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .card-img-container {
+                height: 250px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .store-title {
+                font-size: 2rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="store-title">فروشگاه کفش</h1>
+        <h1>گالری قالب های تصویری</h1>
+        
+        <div class="grid">
+            <!-- قالب 1 -->
+            <div class="card">
+                <div class="card-img-container">
+                    <img src="m.jpg" alt="قالب 1" class="card-img">
+                    <div class="card-overlay"></div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">قالب شماره 1</h3>
+                    <p class="card-description">این یک قالب زیبا و کاربردی برای نمایش محصولات شماست. طراحی مدرن و امکانات پیشرفته.</p>
+                    <a href="tel:09145978426" class="card-phone">
+                        <span>09145978426</span>
+                        <span class="phone-icon">📞</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- قالب 2 -->
+            <div class="card">
+                <div class="card-img-container">
+                    <img src="m.jpg" alt="قالب 2" class="card-img">
+                    <div class="card-overlay"></div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">قالب شماره 2</h3>
+                    <p class="card-description">قالبی مدرن و حرفه ای برای کسب و کار شما. مناسب برای نمایش خدمات و محصولات.</p>
+                    <a href="tel:09145978426" class="card-phone">
+                        <span>09145978426</span>
+                        <span class="phone-icon">📞</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- قالب 3 -->
+            <div class="card">
+                <div class="card-img-container">
+                    <img src="m.jpg" alt="قالب 3" class="card-img">
+                    <div class="card-overlay"></div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">قالب شماره 3</h3>
+                    <p class="card-description">طراحی زیبا و کاربرپسند با امکانات کامل. مناسب برای انواع کسب و کارها.</p>
+                    <a href="tel:09145978426" class="card-phone">
+                        <span>09145978426</span>
+                        <span class="phone-icon">📞</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- قالب 4 -->
+            <div class="card">
+                <div class="card-img-container">
+                    <img src="m.jpg" alt="قالب 4" class="card-img">
+                    <div class="card-overlay"></div>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">قالب شماره 4</h3>
+                    <p class="card-description">قالبی مناسب برای نمایش خدمات و محصولات. طراحی زیبا و کاربردی.</p>
+                    <a href="tel:09145978426" class="card-phone">
+                        <span>09145978426</span>
+                        <span class="phone-icon">📞</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>تمامی حقوق محفوظ است © 2023 - فروشگاه کفش</p>
+    </footer>
+</body>
+</html>
