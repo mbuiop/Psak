@@ -21,7 +21,6 @@
             align-items: center;
             padding: 20px;
             color: #333;
-            padding-bottom: 30px; /* فضا برای فوتر */
         }
         
         .container {
@@ -154,57 +153,6 @@
             font-size: 1.2rem;
         }
         
-        /* نواربری پایین صفحه */
-        .bottom-navbar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-top: 2px solid #1a2a6c;
-            padding: 15px 0;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-        }
-        
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: #1a2a6c;
-            transition: all 0.3s ease;
-            padding: 8px 15px;
-            border-radius: 15px;
-            flex: 1;
-            max-width: 120px;
-        }
-        
-        .nav-item:hover {
-            background: linear-gradient(to right, #1a2a6c, #b21f1f);
-            color: white;
-            transform: translateY(-5px);
-        }
-        
-        .nav-item.active {
-            background: linear-gradient(to right, #1a2a6c, #b21f1f);
-            color: white;
-        }
-        
-        .nav-icon {
-            font-size: 1.4rem;
-            margin-bottom: 5px;
-        }
-        
-        .nav-text {
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-        
         footer {
             color: white;
             padding: 15px;
@@ -212,7 +160,6 @@
             font-size: 1rem;
             background-color: rgba(0, 0, 0, 0.2);
             width: 100%;
-            margin-top: 40px;
         }
         
         @media (max-width: 1200px) {
@@ -238,14 +185,6 @@
             .card-img-container {
                 height: 250px;
             }
-            
-            .nav-text {
-                font-size: 0.7rem;
-            }
-            
-            .nav-icon {
-                font-size: 1.2rem;
-            }
         }
         
         @media (max-width: 480px) {
@@ -259,22 +198,6 @@
             
             h1 {
                 font-size: 1.5rem;
-            }
-            
-            .bottom-navbar {
-                padding: 10px 0;
-            }
-            
-            .nav-item {
-                padding: 5px 8px;
-            }
-            
-            .nav-text {
-                font-size: 0.65rem;
-            }
-            
-            .nav-icon {
-                font-size: 1.1rem;
             }
         }
     </style>
@@ -350,26 +273,6 @@
             </div>
         </div>
     </div>
-    
-    <!-- نواربری پایین صفحه -->
-    <nav class="bottom-navbar">
-        <a href="index.html" class="nav-item">
-            <i class="fas fa-home nav-icon"></i>
-            <span class="nav-text">صفحه اصلی</span>
-        </a>
-        <a href="m1.html" class="nav-item">
-            <i class="fas fa-child nav-icon"></i>
-            <span class="nav-text">لباس بچه گانه</span>
-        </a>
-        <a href="m2.html" class="nav-item active">
-            <i class="fas fa-female nav-icon"></i>
-            <span class="nav-text">فروشگاه کفش</span>
-        </a>
-        <a href="m3.html" class="nav-item">
-            <i class="fas fa-male nav-icon"></i>
-            <span class="nav-text">لباس مردانه</span>
-        </a>
-    </nav>
     
     <footer>
         <p>فروشگاه کفش آنلاین عمده و تکی</p>
