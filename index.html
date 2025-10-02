@@ -13,7 +13,7 @@
         }
 
         body {
-            background: url('m.webp') no-repeat center center fixed;
+            background: url('m.jpg') no-repeat center center fixed;
             background-size: cover;
             min-height: 100vh;
             display: flex;
@@ -21,6 +21,7 @@
             align-items: center;
             padding: 20px;
             color: white;
+            transition: background-color 0.5s ease;
         }
 
         .game-container {
@@ -33,6 +34,86 @@
             text-align: center;
             border: 2px solid rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(5px);
+            position: relative;
+        }
+
+        .menu-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+
+        .menu-btn:active {
+            transform: scale(0.9);
+        }
+
+        .menu-content {
+            position: absolute;
+            top: 60px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.95);
+            border-radius: 12px;
+            padding: 15px;
+            min-width: 200px;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+        }
+
+        .menu-item {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .menu-item:active {
+            transform: scale(0.95);
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.2s ease;
+        }
+
+        .color-option:active {
+            transform: scale(0.9);
         }
 
         h1 {
@@ -228,6 +309,19 @@
             display: none;
         }
 
+        .level-up-screen {
+            background: url('m1.jpg') no-repeat center center;
+            background-size: cover;
+        }
+
+        .level-up-content {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            border: 3px solid gold;
+        }
+
         .reward-title {
             font-size: 2.5rem;
             color: #ffd700;
@@ -256,6 +350,22 @@
 
         .continue-btn:active {
             transform: scale(0.95);
+        }
+
+        .glf-effect {
+            font-size: 3rem;
+            color: #ffd700;
+            margin-bottom: 20px;
+            animation: glow 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073;
+            }
+            to {
+                text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6;
+            }
         }
 
         @keyframes pulse {
@@ -298,6 +408,29 @@
 </head>
 <body>
     <div class="game-container">
+        <button class="menu-btn" id="menuToggle">☰</button>
+        
+        <div class="menu-content" id="menuContent">
+            <button class="menu-item" id="divisionMode">سوال جواب تقسیم</button>
+            <button class="menu-item" id="multiplicationMode">سوال جواب ضرب</button>
+            <button class="menu-item" id="powerMode">سوال جواب توان</button>
+            <button class="menu-item" id="colorToggle">تغیر رنگ آیکون ها</button>
+            <button class="menu-item" onclick="window.open('m.html', '_blank')">حمایت مالی</button>
+            
+            <div class="color-palette" id="colorPalette">
+                <div class="color-option" style="background: #ff6b6b;" data-color="#ff6b6b"></div>
+                <div class="color-option" style="background: #4ecdc4;" data-color="#4ecdc4"></div>
+                <div class="color-option" style="background: #45b7d1;" data-color="#45b7d1"></div>
+                <div class="color-option" style="background: #96ceb4;" data-color="#96ceb4"></div>
+                <div class="color-option" style="background: #feca57;" data-color="#feca57"></div>
+                <div class="color-option" style="background: #ff9ff3;" data-color="#ff9ff3"></div>
+                <div class="color-option" style="background: #54a0ff;" data-color="#54a0ff"></div>
+                <div class="color-option" style="background: #5f27cd;" data-color="#5f27cd"></div>
+                <div class="color-option" style="background: #00d2d3;" data-color="#00d2d3"></div>
+                <div class="color-option" style="background: #ff9f43;" data-color="#ff9f43"></div>
+            </div>
+        </div>
+        
         <h1>بازی ریاضی پیشرفته</h1>
         
         <div class="stats-row">
@@ -353,6 +486,15 @@
             <div class="reward-desc" id="rewardDesc"></div>
             <button class="continue-btn" id="continueBtn">ادامه بازی</button>
         </div>
+
+        <div class="reward-screen level-up-screen" id="levelUpScreen" style="display: none;">
+            <div class="level-up-content">
+                <div class="glf-effect">GLF</div>
+                <div class="reward-title">تبریک! شما مرحله بعد رفتید</div>
+                <div class="reward-desc">شما ۲۰ سوال را درست پاسخ دادید!</div>
+                <button class="continue-btn" id="levelUpContinue">ادامه بازی</button>
+            </div>
+        </div>
     </div>
 
     <!-- صداهای سفارشی -->
@@ -384,7 +526,9 @@
             timerInterval: null,
             musicEnabled: false,
             autoNextTimeout: null,
-            highScore: 0
+            highScore: 0,
+            questionMode: 'mixed',
+            backgroundColor: null
         };
 
         // بارگذاری تمام وضعیت بازی
@@ -403,6 +547,14 @@
                 gameState.blocks = parsedState.blocks || 0;
                 gameState.questionNumber = parsedState.questionNumber || 1;
                 gameState.highScore = parsedState.highScore || 0;
+                gameState.questionMode = parsedState.questionMode || 'mixed';
+                gameState.backgroundColor = parsedState.backgroundColor || null;
+                
+                // اعمال رنگ پس‌زمینه ذخیره شده
+                if (gameState.backgroundColor) {
+                    document.body.style.backgroundColor = gameState.backgroundColor;
+                    document.body.style.backgroundImage = 'none';
+                }
             }
         }
 
@@ -417,44 +569,73 @@
                 correctInLevel: gameState.correctInLevel,
                 blocks: gameState.blocks,
                 questionNumber: gameState.questionNumber,
-                highScore: gameState.highScore
+                highScore: gameState.highScore,
+                questionMode: gameState.questionMode,
+                backgroundColor: gameState.backgroundColor
             };
             localStorage.setItem('mathGameFullState', JSON.stringify(stateToSave));
         }
 
-        // تولید سوالات پیچیده
+        // تولید سوالات فوق پیچیده
         function generateQuestion() {
-            const level = gameState.level;
             let question, answer;
+            const level = gameState.level;
             
-            // اعداد تصادفی بر اساس سطح
-            const baseNum = level * 15;
-            const r1 = Math.floor(Math.random() * baseNum) + 5;
-            const r2 = Math.floor(Math.random() * baseNum) + 5;
-            const r3 = Math.floor(Math.random() * (baseNum/2)) + 3;
-            const r4 = Math.floor(Math.random() * (baseNum/3)) + 2;
-            const r5 = Math.floor(Math.random() * (baseNum/4)) + 2;
-            const r6 = Math.floor(Math.random() * (baseNum/5)) + 2;
-            
-            if (level === 1) {
-                question = `${r1} × ${r2} + ${r3} = ?`;
-                answer = (r1 * r2) + r3;
-            } else if (level === 2) {
-                question = `(${r1} + ${r2}) × ${r3} - ${r4} = ?`;
-                answer = ((r1 + r2) * r3) - r4;
-            } else if (level === 3) {
-                question = `${r1} × ${r2} ÷ ${r3} + ${r4} = ?`;
-                answer = Math.floor((r1 * r2) / r3) + r4;
-            } else if (level === 4) {
-                question = `(${r1} + ${r2}) × (${r3} - ${r4}) = ?`;
-                answer = (r1 + r2) * (r3 - r4);
-            } else if (level === 5) {
-                question = `${r1}² + ${r2} × ${r3} = ?`;
-                answer = (r1 * r1) + (r2 * r3);
+            if (gameState.questionMode === 'division') {
+                // سوالات تقسیم پیچیده
+                const divisor = Math.floor(Math.random() * 50) + 10;
+                const quotient = Math.floor(Math.random() * 1000) + 100;
+                const dividend = divisor * quotient;
+                const remainder = Math.floor(Math.random() * divisor);
+                
+                question = `${dividend} ÷ ${divisor} = ?`;
+                answer = quotient;
+                
+            } else if (gameState.questionMode === 'multiplication') {
+                // سوالات ضرب پیچیده
+                const num1 = Math.floor(Math.random() * 1000) + 100;
+                const num2 = Math.floor(Math.random() * 1000) + 100;
+                const num3 = Math.floor(Math.random() * 100) + 10;
+                
+                question = `${num1} × ${num2} × ${num3} = ?`;
+                answer = num1 * num2 * num3;
+                
+            } else if (gameState.questionMode === 'power') {
+                // سوالات توان پیچیده
+                const base = Math.floor(Math.random() * 20) + 5;
+                const exponent = Math.floor(Math.random() * 4) + 2;
+                const multiplier = Math.floor(Math.random() * 100) + 10;
+                
+                question = `${base}² × ${multiplier} = ?`;
+                answer = (base * base) * multiplier;
+                
             } else {
-                // سوالات بسیار پیچیده برای سطح 6 به بالا
-                question = `${r1} × ${r2} + ${r3} × ${r4} - ${r5} = ?`;
-                answer = (r1 * r2) + (r3 * r4) - r5;
+                // سوالات ترکیبی فوق پیچیده
+                const r1 = Math.floor(Math.random() * 100000) + 10000;
+                const r2 = Math.floor(Math.random() * 100000) + 10000;
+                const r3 = Math.floor(Math.random() * 1000) + 100;
+                const r4 = Math.floor(Math.random() * 1000) + 100;
+                const r5 = Math.floor(Math.random() * 100) + 10;
+                const r6 = Math.floor(Math.random() * 100) + 10;
+                
+                const operations = [
+                    `${r1} × ${r2} + ${r3} × ${r4} = ?`,
+                    `(${r1} + ${r2}) × (${r3} - ${r4}) = ?`,
+                    `${r1}² + ${r2} × ${r3} - ${r4} = ?`,
+                    `${r1} × ${r2} ÷ ${r3} + ${r4} × ${r5} = ?`,
+                    `√${r1*r1} × ${r2} + ${r3}² = ?`
+                ];
+                
+                const opIndex = Math.floor(Math.random() * operations.length);
+                question = operations[opIndex];
+                
+                switch(opIndex) {
+                    case 0: answer = (r1 * r2) + (r3 * r4); break;
+                    case 1: answer = (r1 + r2) * (r3 - r4); break;
+                    case 2: answer = (r1 * r1) + (r2 * r3) - r4; break;
+                    case 3: answer = Math.floor((r1 * r2) / r3) + (r4 * r5); break;
+                    case 4: answer = r1 * r2 + (r3 * r3); break;
+                }
             }
             
             gameState.currentAnswer = answer;
@@ -474,16 +655,12 @@
             
             while (options.length < 4) {
                 let wrongOption;
-                const variance = Math.max(5, Math.floor(correctAnswer * 0.3));
+                const variance = Math.max(1000, Math.floor(correctAnswer * 0.2));
                 
-                // الگوریتم پیشرفته برای تولید گزینه‌های نادرست
-                if (Math.random() > 0.6) {
+                if (Math.random() > 0.5) {
                     wrongOption = correctAnswer + (Math.random() > 0.5 ? variance : -variance);
-                } else if (Math.random() > 0.3) {
-                    wrongOption = correctAnswer * (Math.random() > 0.5 ? 1.1 : 0.9);
                 } else {
-                    wrongOption = correctAnswer + (Math.random() > 0.5 ? 1 : -1) * 
-                                (Math.floor(Math.random() * variance) + 1);
+                    wrongOption = correctAnswer * (Math.random() > 0.5 ? 1.15 : 0.85);
                 }
                 
                 wrongOption = Math.round(wrongOption);
@@ -500,10 +677,20 @@
                 [options[i], options[j]] = [options[j], options[i]];
             }
             
-            document.getElementById('option1').textContent = options[0];
-            document.getElementById('option2').textContent = options[1];
-            document.getElementById('option3').textContent = options[2];
-            document.getElementById('option4').textContent = options[3];
+            document.getElementById('option1').textContent = this.formatNumber(options[0]);
+            document.getElementById('option2').textContent = this.formatNumber(options[1]);
+            document.getElementById('option3').textContent = this.formatNumber(options[2]);
+            document.getElementById('option4').textContent = this.formatNumber(options[3]);
+        }
+
+        // فرمت اعداد بزرگ
+        function formatNumber(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1) + 'M';
+            } else if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'K';
+            }
+            return num.toString();
         }
 
         // تایمر
@@ -537,7 +724,6 @@
                 gameState.highScore = gameState.score;
             }
             
-            // ذخیره وضعیت کامل پس از هر به‌روزرسانی
             saveGameState();
         }
 
@@ -578,7 +764,16 @@
             clearInterval(gameState.timerInterval);
             clearTimeout(gameState.autoNextTimeout);
             
-            const userAnswer = parseInt(selectedOption.textContent);
+            let userAnswer = selectedOption.textContent;
+            // تبدیل فرمت‌های K و M به عدد
+            if (userAnswer.includes('K')) {
+                userAnswer = parseFloat(userAnswer) * 1000;
+            } else if (userAnswer.includes('M')) {
+                userAnswer = parseFloat(userAnswer) * 1000000;
+            } else {
+                userAnswer = parseInt(userAnswer);
+            }
+            
             gameState.totalQuestions++;
             
             disableOptions();
@@ -591,14 +786,12 @@
             
             updateUI();
             
-            // تولید خودکار سوال بعدی بعد از 2 ثانیه
             gameState.autoNextTimeout = setTimeout(() => {
                 nextQuestion();
             }, 2000);
         }
 
         function handleCorrectAnswer(selectedOption) {
-            // همیشه ۱۰ امتیاز می‌دهد
             gameState.score += 10;
             gameState.correctAnswers++;
             gameState.correctInLevel++;
@@ -607,20 +800,23 @@
             document.getElementById('feedback').textContent = 'آفرین! +۱۰ امتیاز';
             document.getElementById('feedback').className = 'feedback correct';
             
-            // پخش صدای صحیح
             playSound('correct');
             
-            // بررسی ارتقاء سطح
+            // نمایش صفحه ارتقاء سطح پس از ۲۰ پاسخ صحیح
             if (gameState.correctInLevel >= 20) {
-                levelUp();
+                showLevelUpScreen();
             }
             
-            // بررسی دریافت بلوک (فقط وقتی امتیاز به 100 رسید)
             if (gameState.score >= 100 && gameState.score % 100 === 0) {
                 giveBlocks(10);
             }
             
             updateBlocksUI();
+        }
+
+        function showLevelUpScreen() {
+            document.getElementById('levelUpScreen').style.display = 'flex';
+            playSound('levelUp');
         }
 
         function handleWrongAnswer(selectedOption = null) {
@@ -633,15 +829,23 @@
             
             const options = document.querySelectorAll('.option-btn');
             options.forEach(option => {
-                if (parseInt(option.textContent) === gameState.currentAnswer) {
+                let optionValue = option.textContent;
+                if (optionValue.includes('K')) {
+                    optionValue = parseFloat(optionValue) * 1000;
+                } else if (optionValue.includes('M')) {
+                    optionValue = parseFloat(optionValue) * 1000000;
+                } else {
+                    optionValue = parseInt(optionValue);
+                }
+                
+                if (optionValue === gameState.currentAnswer) {
                     option.classList.add('correct');
                 }
             });
             
-            document.getElementById('feedback').textContent = `پاسخ: ${gameState.currentAnswer}`;
+            document.getElementById('feedback').textContent = `پاسخ: ${this.formatNumber(gameState.currentAnswer)}`;
             document.getElementById('feedback').className = 'feedback incorrect';
             
-            // پخش صدای نادرست
             playSound('wrong');
             
             updateProgressBar();
@@ -654,7 +858,16 @@
             
             const options = document.querySelectorAll('.option-btn');
             options.forEach(option => {
-                if (parseInt(option.textContent) === gameState.currentAnswer) {
+                let optionValue = option.textContent;
+                if (optionValue.includes('K')) {
+                    optionValue = parseFloat(optionValue) * 1000;
+                } else if (optionValue.includes('M')) {
+                    optionValue = parseFloat(optionValue) * 1000000;
+                } else {
+                    optionValue = parseInt(optionValue);
+                }
+                
+                if (optionValue === gameState.currentAnswer) {
                     option.classList.add('correct');
                 }
             });
@@ -663,14 +876,12 @@
             document.getElementById('feedback').className = 'feedback incorrect';
             disableOptions();
             
-            // پخش صدای نادرست
             playSound('wrong');
             
             updateProgressBar();
             updateUI();
             updateBlocksUI();
             
-            // تولید خودکار سوال بعدی بعد از 2 ثانیه
             gameState.autoNextTimeout = setTimeout(() => {
                 nextQuestion();
             }, 2000);
@@ -689,12 +900,10 @@
             document.getElementById('rewardDesc').textContent = 'سوالات سخت‌تر شدند!';
             document.getElementById('rewardScreen').style.display = 'flex';
             
-            // پخش صدای ارتقاء سطح
             playSound('levelUp');
             
             updateProgressBar();
             
-            // ادامه بازی بعد از 3 ثانیه
             setTimeout(() => {
                 document.getElementById('rewardScreen').style.display = 'none';
                 nextQuestion();
@@ -708,10 +917,8 @@
             document.getElementById('rewardDesc').textContent = `شما الان ${gameState.blocks} بلوک دارید!`;
             document.getElementById('rewardScreen').style.display = 'flex';
             
-            // پخش صدای دریافت بلوک
             playSound('levelUp');
             
-            // ادامه بازی بعد از 3 ثانیه
             setTimeout(() => {
                 document.getElementById('rewardScreen').style.display = 'none';
                 nextQuestion();
@@ -733,6 +940,14 @@
             });
         }
 
+        // تغییر رنگ پس‌زمینه و آیکون‌ها
+        function changeBackgroundColor(color) {
+            document.body.style.backgroundColor = color;
+            document.body.style.backgroundImage = 'none';
+            gameState.backgroundColor = color;
+            saveGameState();
+        }
+
         // راه‌اندازی بازی
         document.addEventListener('DOMContentLoaded', function() {
             loadGameState();
@@ -740,6 +955,50 @@
             updateProgressBar();
             updateBlocksUI();
             generateQuestion();
+            
+            // منو
+            document.getElementById('menuToggle').addEventListener('click', function() {
+                const menuContent = document.getElementById('menuContent');
+                menuContent.style.display = menuContent.style.display === 'flex' ? 'none' : 'flex';
+            });
+            
+            // تغییر حالت سوالات
+            document.getElementById('divisionMode').addEventListener('click', function() {
+                gameState.questionMode = 'division';
+                saveGameState();
+                nextQuestion();
+                document.getElementById('menuContent').style.display = 'none';
+            });
+            
+            document.getElementById('multiplicationMode').addEventListener('click', function() {
+                gameState.questionMode = 'multiplication';
+                saveGameState();
+                nextQuestion();
+                document.getElementById('menuContent').style.display = 'none';
+            });
+            
+            document.getElementById('powerMode').addEventListener('click', function() {
+                gameState.questionMode = 'power';
+                saveGameState();
+                nextQuestion();
+                document.getElementById('menuContent').style.display = 'none';
+            });
+            
+            // تغییر رنگ
+            document.getElementById('colorToggle').addEventListener('click', function() {
+                const palette = document.getElementById('colorPalette');
+                palette.style.display = palette.style.display === 'grid' ? 'none' : 'grid';
+            });
+            
+            // انتخاب رنگ
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const color = this.getAttribute('data-color');
+                    changeBackgroundColor(color);
+                    document.getElementById('colorPalette').style.display = 'none';
+                    document.getElementById('menuContent').style.display = 'none';
+                });
+            });
             
             // رویدادهای دکمه‌ها
             document.getElementById('option1').addEventListener('click', () => checkAnswer(document.getElementById('option1')));
@@ -751,11 +1010,15 @@
                 document.getElementById('rewardScreen').style.display = 'none';
                 nextQuestion();
             });
+            
+            document.getElementById('levelUpContinue').addEventListener('click', function() {
+                document.getElementById('levelUpScreen').style.display = 'none';
+                levelUp();
+            });
         });
 
         // فعال‌سازی صداها با اولین کلیک
         document.addEventListener('click', function initAudio() {
-            // تست پخش صداها
             const sounds = ['correctSound', 'wrongSound', 'levelUpSound'];
             sounds.forEach(soundId => {
                 const sound = document.getElementById(soundId);
