@@ -13,28 +13,121 @@
         }
 
         body {
-            background: url('m.jpg') no-repeat center center fixed;
-            background-size: cover;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
             color: white;
-            transition: background-color 0.5s ease;
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100%;
         }
 
         .game-container {
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             padding: 20px;
             width: 100%;
             max-width: 600px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             text-align: center;
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
             position: relative;
+            max-height: 95vh;
+            overflow-y: auto;
+        }
+
+        /* اسکرول بار مخفی */
+        .game-container::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .game-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .game-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .welcome-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            border-radius: 20px;
+            padding: 20px;
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
+            color: #ffd700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .welcome-input {
+            width: 80%;
+            max-width: 300px;
+            padding: 15px;
+            font-size: 1.2rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .welcome-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .start-btn {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            background: #00b09b;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .start-btn:active {
+            transform: scale(0.95);
+        }
+
+        .leaderboard-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .leaderboard-btn:active {
+            transform: scale(0.9);
         }
 
         .menu-btn {
@@ -57,6 +150,29 @@
         }
 
         .menu-btn:active {
+            transform: scale(0.9);
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+            display: none;
+        }
+
+        .close-menu:active {
             transform: scale(0.9);
         }
 
@@ -123,6 +239,23 @@
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
         }
 
+        .user-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .username {
+            color: #ffd700;
+            font-weight: bold;
+        }
+
         .stats-row {
             display: flex;
             justify-content: space-between;
@@ -137,6 +270,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            flex: 1;
         }
 
         .stat-value {
@@ -183,16 +317,17 @@
 
         .question-box {
             background: rgba(255, 255, 255, 0.1);
-            padding: 25px;
+            padding: 20px;
             border-radius: 15px;
             margin-bottom: 15px;
-            font-size: 1.6rem;
-            min-height: 100px;
+            font-size: 1.4rem;
+            min-height: 80px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
             line-height: 1.5;
+            word-break: break-word;
         }
 
         .timer-box {
@@ -215,13 +350,13 @@
         .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 10px;
             margin-bottom: 15px;
         }
 
         .option-btn {
-            padding: 18px 10px;
-            font-size: 1.2rem;
+            padding: 15px 8px;
+            font-size: 1.1rem;
             background: rgba(255, 255, 255, 0.15);
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 12px;
@@ -229,10 +364,11 @@
             cursor: pointer;
             font-weight: bold;
             transition: all 0.2s ease;
-            min-height: 70px;
+            min-height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
+            word-break: break-word;
         }
 
         .option-btn:active {
@@ -251,7 +387,7 @@
 
         .feedback {
             margin-top: 10px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             min-height: 35px;
             font-weight: bold;
             padding: 10px;
@@ -269,56 +405,58 @@
             background: rgba(255, 71, 87, 0.1);
         }
 
-        .blocks-info {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px 15px;
-            border-radius: 10px;
-            margin-top: 15px;
+        .blocks-container {
             display: flex;
             justify-content: center;
+            gap: 6px;
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            min-height: 50px;
             align-items: center;
-            gap: 8px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            flex-wrap: wrap;
         }
 
-        .blocks-info:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .block-icon {
-            color: #ffd700;
-            font-size: 1.4rem;
-        }
-
-        .block-active {
-            background: linear-gradient(135deg, #ffd700, #ff6b00);
-            color: #000;
-            font-weight: bold;
-            animation: pulse 1s infinite;
-        }
-
-        .use-block-btn {
-            background: linear-gradient(135deg, #ffd700, #ff6b00);
-            border: none;
+        .block {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
             border-radius: 8px;
-            padding: 8px 15px;
-            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight: bold;
-            cursor: pointer;
-            margin-right: 10px;
-            transition: all 0.2s ease;
+            color: white;
+            font-size: 0.8rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            animation: float 3s ease-in-out infinite;
         }
 
-        .use-block-btn:active {
-            transform: scale(0.95);
+        .block:nth-child(2) {
+            animation-delay: 0.2s;
         }
 
-        .use-block-btn:disabled {
-            background: rgba(255, 255, 255, 0.2);
-            color: rgba(255, 255, 255, 0.5);
-            cursor: not-allowed;
+        .block:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .block:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+
+        .block:nth-child(5) {
+            animation-delay: 0.8s;
+        }
+
+        .block.active {
+            animation: blockGlow 1s ease-in-out infinite alternate, float 3s ease-in-out infinite;
+        }
+
+        .block.exploded {
+            animation: explode 0.5s ease-out forwards;
         }
 
         .reward-screen {
@@ -335,6 +473,7 @@
             z-index: 100;
             border-radius: 20px;
             display: none;
+            padding: 20px;
         }
 
         .level-up-screen {
@@ -342,31 +481,96 @@
             background-size: cover;
         }
 
-        .level-up-content {
-            background: rgba(0, 0, 0, 0.8);
-            padding: 30px;
+        .leaderboard-screen {
+            background: rgba(0, 0, 0, 0.98);
+        }
+
+        .level-up-content, .leaderboard-content {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
             border-radius: 20px;
             text-align: center;
             border: 3px solid gold;
+            backdrop-filter: blur(10px);
+            width: 90%;
+            max-width: 400px;
         }
 
-        .reward-title {
-            font-size: 2.5rem;
+        .level-up-animation {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: celebrate 2s ease-in-out infinite;
+        }
+
+        .leaderboard-title {
+            font-size: 2rem;
             color: #ffd700;
             margin-bottom: 20px;
             text-align: center;
         }
 
+        .leaderboard-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .leaderboard-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .leaderboard-rank {
+            background: #ffd700;
+            color: #000;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .leaderboard-user {
+            flex: 1;
+            text-align: right;
+            padding: 0 10px;
+            font-weight: bold;
+        }
+
+        .leaderboard-score {
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .reward-title {
+            font-size: 2rem;
+            color: #ffd700;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
         .reward-desc {
-            font-size: 1.3rem;
-            margin-bottom: 25px;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
             text-align: center;
             line-height: 1.5;
         }
 
         .continue-btn {
-            padding: 15px 30px;
-            font-size: 1.2rem;
+            padding: 12px 25px;
+            font-size: 1.1rem;
             background: #00b09b;
             color: white;
             border: none;
@@ -381,9 +585,9 @@
         }
 
         .glf-effect {
-            font-size: 3rem;
+            font-size: 2.5rem;
             color: #ffd700;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             animation: glow 1s ease-in-out infinite alternate;
         }
 
@@ -396,49 +600,136 @@
             }
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes blockGlow {
+            from {
+                box-shadow: 0 0 10px #ff6b6b, 0 0 20px #ff6b6b;
+                transform: translateY(0) scale(1);
+            }
+            to {
+                box-shadow: 0 0 20px #ff6b6b, 0 0 30px #ff6b6b, 0 0 40px #ff6b6b;
+                transform: translateY(-5px) scale(1.1);
+            }
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
+
+        @keyframes celebrate {
+            0%, 100% {
+                transform: scale(1) rotate(0deg);
+            }
+            25% {
+                transform: scale(1.2) rotate(10deg);
+            }
+            50% {
+                transform: scale(1.3) rotate(-10deg);
+            }
+            75% {
+                transform: scale(1.2) rotate(5deg);
+            }
         }
 
         /* استایل برای موبایل */
         @media (max-width: 480px) {
             .game-container {
                 padding: 15px;
+                max-height: 90vh;
             }
             
             h1 {
                 font-size: 1.6rem;
             }
             
+            .welcome-title {
+                font-size: 2rem;
+            }
+            
             .question-box {
-                font-size: 1.3rem;
-                padding: 20px;
-                min-height: 90px;
+                font-size: 1.2rem;
+                padding: 15px;
+                min-height: 70px;
             }
             
             .option-btn {
-                font-size: 1.1rem;
-                padding: 15px 8px;
-                min-height: 65px;
+                font-size: 1rem;
+                padding: 12px 6px;
+                min-height: 55px;
             }
             
             .stats-row, .level-info {
-                font-size: 0.9rem;
+                font-size: 0.8rem;
             }
             
             .stat-value, .level-value {
                 font-size: 1.1rem;
+            }
+            
+            .block {
+                width: 30px;
+                height: 30px;
+                font-size: 0.7rem;
+            }
+            
+            .user-info {
+                font-size: 0.9rem;
+                padding: 8px 12px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            
+            .block {
+                width: 28px;
+                height: 28px;
+            }
+            
+            .stats-row {
+                flex-direction: column;
+                gap: 8px;
             }
         }
     </style>
 </head>
 <body>
     <div class="game-container">
+        <!-- صفحه خوش آمدگویی -->
+        <div class="welcome-screen" id="welcomeScreen">
+            <div class="glf-effect">GLF</div>
+            <div class="welcome-title">بازی ریاضی پیشرفته</div>
+            <input type="text" class="welcome-input" id="usernameInput" placeholder="نام کاربری خود را وارد کنید" maxlength="20">
+            <button class="start-btn" id="startBtn">شروع بازی</button>
+        </div>
+
         <button class="menu-btn" id="menuToggle">☰</button>
+        <button class="leaderboard-btn" id="leaderboardToggle">🏆 رکوردها</button>
         
         <div class="menu-content" id="menuContent">
+            <button class="close-menu" id="closeMenu">✕</button>
             <button class="menu-item" id="divisionMode">سوال جواب تقسیم</button>
             <button class="menu-item" id="multiplicationMode">سوال جواب ضرب</button>
             <button class="menu-item" id="powerMode">سوال جواب توان</button>
@@ -460,6 +751,11 @@
         </div>
         
         <h1>بازی ریاضی پیشرفته</h1>
+        
+        <div class="user-info">
+            <span>کاربر:</span>
+            <span class="username" id="usernameDisplay">...</span>
+        </div>
         
         <div class="stats-row">
             <div class="stat-item">
@@ -503,11 +799,8 @@
         
         <div class="feedback" id="feedback"></div>
         
-        <div class="blocks-info" id="blocksInfo">
-            <button class="use-block-btn" id="useBlockBtn" disabled>استفاده از بلوک</button>
-            <span class="block-icon">◼</span>
-            <span id="blocksValue">0</span>
-            <span>بلوک</span>
+        <div class="blocks-container" id="blocksContainer">
+            <!-- بلوک‌ها اینجا ساخته می‌شوند -->
         </div>
         
         <div class="reward-screen" id="rewardScreen">
@@ -518,10 +811,21 @@
 
         <div class="reward-screen level-up-screen" id="levelUpScreen" style="display: none;">
             <div class="level-up-content">
+                <div class="level-up-animation">🎉</div>
                 <div class="glf-effect">GLF</div>
                 <div class="reward-title">تبریک! شما مرحله بعد رفتید</div>
                 <div class="reward-desc">شما ۲۰ سوال را درست پاسخ دادید!</div>
                 <button class="continue-btn" id="levelUpContinue">ادامه بازی</button>
+            </div>
+        </div>
+
+        <div class="reward-screen leaderboard-screen" id="leaderboardScreen" style="display: none;">
+            <div class="leaderboard-content">
+                <div class="leaderboard-title">🏆 جدول رکوردها</div>
+                <ul class="leaderboard-list" id="leaderboardList">
+                    <!-- رکوردها اینجا نمایش داده می‌شوند -->
+                </ul>
+                <button class="continue-btn" id="closeLeaderboard">بستن</button>
             </div>
         </div>
     </div>
@@ -538,6 +842,10 @@
     <audio id="levelUpSound" preload="auto">
         <source src="mn1.mp3.m4a" type="audio/mpeg">
     </audio>
+    
+    <audio id="explosionSound" preload="auto">
+        <source src="mb.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
         // وضعیت بازی
@@ -548,7 +856,6 @@
             totalQuestions: 0,
             level: 1,
             correctInLevel: 0,
-            blocks: 0,
             currentAnswer: 0,
             questionNumber: 1,
             timer: 20,
@@ -557,8 +864,133 @@
             autoNextTimeout: null,
             highScore: 0,
             questionMode: 'mixed',
-            backgroundColor: null
+            backgroundColor: null,
+            consecutiveCorrect: 0,
+            totalBlocksExploded: 0,
+            username: '',
+            usedQuestions: new Set() // برای جلوگیری از سوالات تکراری
         };
+
+        // لیست سوالات متنوع
+        const questionTemplates = [
+            // تقسیم
+            (level) => {
+                const divisor = Math.floor(Math.random() * 50) + 10 + level * 5;
+                const quotient = Math.floor(Math.random() * 1000) + 100 + level * 50;
+                const dividend = divisor * quotient;
+                return {
+                    question: `${dividend} ÷ ${divisor} = ?`,
+                    answer: quotient
+                };
+            },
+            // ضرب سه تایی
+            (level) => {
+                const num1 = Math.floor(Math.random() * 1000) + 100 + level * 50;
+                const num2 = Math.floor(Math.random() * 1000) + 100 + level * 50;
+                const num3 = Math.floor(Math.random() * 100) + 10 + level * 5;
+                return {
+                    question: `${num1} × ${num2} × ${num3} = ?`,
+                    answer: num1 * num2 * num3
+                };
+            },
+            // توان
+            (level) => {
+                const base = Math.floor(Math.random() * 20) + 5 + level;
+                const multiplier = Math.floor(Math.random() * 100) + 10 + level * 10;
+                return {
+                    question: `${base}² × ${multiplier} = ?`,
+                    answer: (base * base) * multiplier
+                };
+            },
+            // ترکیبی 1
+            (level) => {
+                const r1 = Math.floor(Math.random() * 100000) + 10000 + level * 5000;
+                const r2 = Math.floor(Math.random() * 100000) + 10000 + level * 5000;
+                const r3 = Math.floor(Math.random() * 1000) + 100 + level * 50;
+                const r4 = Math.floor(Math.random() * 1000) + 100 + level * 50;
+                return {
+                    question: `${r1} × ${r2} + ${r3} × ${r4} = ?`,
+                    answer: (r1 * r2) + (r3 * r4)
+                };
+            },
+            // ترکیبی 2
+            (level) => {
+                const r1 = Math.floor(Math.random() * 100000) + 10000 + level * 5000;
+                const r2 = Math.floor(Math.random() * 100000) + 10000 + level * 5000;
+                const r3 = Math.floor(Math.random() * 1000) + 100 + level * 50;
+                const r4 = Math.floor(Math.random() * 1000) + 100 + level * 50;
+                return {
+                    question: `(${r1} + ${r2}) × (${r3} - ${r4}) = ?`,
+                    answer: (r1 + r2) * (r3 - r4)
+                };
+            },
+            // ترکیبی 3
+            (level) => {
+                const r1 = Math.floor(Math.random() * 1000) + 100 + level * 50;
+                const r2 = Math.floor(Math.random() * 1000) + 100 + level * 50;
+                const r3 = Math.floor(Math.random() * 100) + 10 + level * 5;
+                const r4 = Math.floor(Math.random() * 100) + 10 + level * 5;
+                return {
+                    question: `${r1}² + ${r2} × ${r3} - ${r4} = ?`,
+                    answer: (r1 * r1) + (r2 * r3) - r4
+                };
+            },
+            // ترکیبی 4
+            (level) => {
+                const r1 = Math.floor(Math.random() * 1000) + 100 + level * 50;
+                const r2 = Math.floor(Math.random() * 1000) + 100 + level * 50;
+                const r3 = Math.floor(Math.random() * 50) + 10 + level * 3;
+                const r4 = Math.floor(Math.random() * 100) + 10 + level * 5;
+                const r5 = Math.floor(Math.random() * 100) + 10 + level * 5;
+                return {
+                    question: `${r1} × ${r2} ÷ ${r3} + ${r4} × ${r5} = ?`,
+                    answer: Math.floor((r1 * r2) / r3) + (r4 * r5)
+                };
+            },
+            // ترکیبی 5
+            (level) => {
+                const r1 = Math.floor(Math.random() * 1000) + 100 + level * 50;
+                const r2 = Math.floor(Math.random() * 1000) + 100 + level * 50;
+                const r3 = Math.floor(Math.random() * 100) + 10 + level * 5;
+                return {
+                    question: `√${r1 * r1} × ${r2} + ${r3}² = ?`,
+                    answer: r1 * r2 + (r3 * r3)
+                };
+            },
+            // ترکیبی 6
+            (level) => {
+                const r1 = Math.floor(Math.random() * 1000) + 100 + level * 50;
+                const r2 = Math.floor(Math.random() * 1000) + 100 + level * 50;
+                const r3 = Math.floor(Math.random() * 100) + 10 + level * 5;
+                const r4 = Math.floor(Math.random() * 100) + 10 + level * 5;
+                return {
+                    question: `(${r1} + ${r2})² ÷ ${r3} - ${r4} = ?`,
+                    answer: Math.floor(((r1 + r2) * (r1 + r2)) / r3) - r4
+                };
+            },
+            // ترکیبی 7
+            (level) => {
+                const r1 = Math.floor(Math.random() * 100) + 10 + level * 5;
+                const r2 = Math.floor(Math.random() * 100) + 10 + level * 5;
+                const r3 = Math.floor(Math.random() * 100) + 10 + level * 5;
+                const r4 = Math.floor(Math.random() * 100) + 10 + level * 5;
+                return {
+                    question: `${r1}³ + ${r2}² × ${r3} - ${r4} = ?`,
+                    answer: (r1 * r1 * r1) + (r2 * r2 * r3) - r4
+                };
+            },
+            // ترکیبی 8
+            (level) => {
+                const r1 = Math.floor(Math.random() * 1000) + 100 + level * 50;
+                const r2 = Math.floor(Math.random() * 1000) + 100 + level * 50;
+                const r3 = Math.floor(Math.random() * 100) + 10 + level * 5;
+                const r4 = Math.floor(Math.random() * 100) + 10 + level * 5;
+                return {
+                    question: `${r1} × (${r2} + ${r3}) - ${r4}² = ?`,
+                    answer: r1 * (r2 + r3) - (r4 * r4)
+                };
+            }
+        ];
 
         // بارگذاری تمام وضعیت بازی
         function loadGameState() {
@@ -573,16 +1005,25 @@
                 gameState.totalQuestions = parsedState.totalQuestions || 0;
                 gameState.level = parsedState.level || 1;
                 gameState.correctInLevel = parsedState.correctInLevel || 0;
-                gameState.blocks = parsedState.blocks || 0;
                 gameState.questionNumber = parsedState.questionNumber || 1;
                 gameState.highScore = parsedState.highScore || 0;
                 gameState.questionMode = parsedState.questionMode || 'mixed';
                 gameState.backgroundColor = parsedState.backgroundColor || null;
+                gameState.consecutiveCorrect = parsedState.consecutiveCorrect || 0;
+                gameState.totalBlocksExploded = parsedState.totalBlocksExploded || 0;
+                gameState.username = parsedState.username || '';
+                gameState.usedQuestions = new Set(parsedState.usedQuestions || []);
                 
                 // اعمال رنگ پس‌زمینه ذخیره شده
                 if (gameState.backgroundColor) {
                     document.body.style.backgroundColor = gameState.backgroundColor;
                     document.body.style.backgroundImage = 'none';
+                }
+
+                // اگر کاربر قبلاً ثبت نام کرده، صفحه خوش آمدگویی را مخفی کن
+                if (gameState.username) {
+                    document.getElementById('welcomeScreen').style.display = 'none';
+                    document.getElementById('usernameDisplay').textContent = gameState.username;
                 }
             }
         }
@@ -596,86 +1037,129 @@
                 totalQuestions: gameState.totalQuestions,
                 level: gameState.level,
                 correctInLevel: gameState.correctInLevel,
-                blocks: gameState.blocks,
                 questionNumber: gameState.questionNumber,
                 highScore: gameState.highScore,
                 questionMode: gameState.questionMode,
-                backgroundColor: gameState.backgroundColor
+                backgroundColor: gameState.backgroundColor,
+                consecutiveCorrect: gameState.consecutiveCorrect,
+                totalBlocksExploded: gameState.totalBlocksExploded,
+                username: gameState.username,
+                usedQuestions: Array.from(gameState.usedQuestions)
             };
             localStorage.setItem('mathGameFullState', JSON.stringify(stateToSave));
         }
 
-        // تولید سوالات فوق پیچیده
-        function generateQuestion() {
-            let question, answer;
-            const level = gameState.level;
+        // مدیریت جدول رکوردها
+        function getLeaderboard() {
+            const leaderboard = localStorage.getItem('mathGameLeaderboard');
+            return leaderboard ? JSON.parse(leaderboard) : [];
+        }
+
+        function saveLeaderboard(leaderboard) {
+            localStorage.setItem('mathGameLeaderboard', JSON.stringify(leaderboard));
+        }
+
+        function updateLeaderboard() {
+            if (gameState.totalBlocksExploded < 1000) return;
+
+            const leaderboard = getLeaderboard();
+            const userEntry = {
+                username: gameState.username,
+                score: gameState.totalBlocksExploded,
+                date: new Date().toLocaleDateString('fa-IR')
+            };
+
+            const existingIndex = leaderboard.findIndex(entry => entry.username === gameState.username);
             
-            if (gameState.questionMode === 'division') {
-                // سوالات تقسیم پیچیده
-                const divisor = Math.floor(Math.random() * 50) + 10;
-                const quotient = Math.floor(Math.random() * 1000) + 100;
-                const dividend = divisor * quotient;
-                const remainder = Math.floor(Math.random() * divisor);
-                
-                question = `${dividend} ÷ ${divisor} = ?`;
-                answer = quotient;
-                
-            } else if (gameState.questionMode === 'multiplication') {
-                // سوالات ضرب پیچیده
-                const num1 = Math.floor(Math.random() * 1000) + 100;
-                const num2 = Math.floor(Math.random() * 1000) + 100;
-                const num3 = Math.floor(Math.random() * 100) + 10;
-                
-                question = `${num1} × ${num2} × ${num3} = ?`;
-                answer = num1 * num2 * num3;
-                
-            } else if (gameState.questionMode === 'power') {
-                // سوالات توان پیچیده
-                const base = Math.floor(Math.random() * 20) + 5;
-                const exponent = Math.floor(Math.random() * 4) + 2;
-                const multiplier = Math.floor(Math.random() * 100) + 10;
-                
-                question = `${base}² × ${multiplier} = ?`;
-                answer = (base * base) * multiplier;
-                
-            } else {
-                // سوالات ترکیبی فوق پیچیده
-                const r1 = Math.floor(Math.random() * 100000) + 10000;
-                const r2 = Math.floor(Math.random() * 100000) + 10000;
-                const r3 = Math.floor(Math.random() * 1000) + 100;
-                const r4 = Math.floor(Math.random() * 1000) + 100;
-                const r5 = Math.floor(Math.random() * 100) + 10;
-                const r6 = Math.floor(Math.random() * 100) + 10;
-                
-                const operations = [
-                    `${r1} × ${r2} + ${r3} × ${r4} = ?`,
-                    `(${r1} + ${r2}) × (${r3} - ${r4}) = ?`,
-                    `${r1}² + ${r2} × ${r3} - ${r4} = ?`,
-                    `${r1} × ${r2} ÷ ${r3} + ${r4} × ${r5} = ?`,
-                    `√${r1*r1} × ${r2} + ${r3}² = ?`
-                ];
-                
-                const opIndex = Math.floor(Math.random() * operations.length);
-                question = operations[opIndex];
-                
-                switch(opIndex) {
-                    case 0: answer = (r1 * r2) + (r3 * r4); break;
-                    case 1: answer = (r1 + r2) * (r3 - r4); break;
-                    case 2: answer = (r1 * r1) + (r2 * r3) - r4; break;
-                    case 3: answer = Math.floor((r1 * r2) / r3) + (r4 * r5); break;
-                    case 4: answer = r1 * r2 + (r3 * r3); break;
+            if (existingIndex !== -1) {
+                if (gameState.totalBlocksExploded > leaderboard[existingIndex].score) {
+                    leaderboard[existingIndex] = userEntry;
                 }
+            } else {
+                leaderboard.push(userEntry);
             }
+
+            leaderboard.sort((a, b) => b.score - a.score);
             
-            gameState.currentAnswer = answer;
-            document.getElementById('questionText').textContent = question;
-            generateOptions(answer);
+            if (leaderboard.length > 10) {
+                leaderboard.splice(10);
+            }
+
+            saveLeaderboard(leaderboard);
+        }
+
+        function displayLeaderboard() {
+            const leaderboard = getLeaderboard();
+            const leaderboardList = document.getElementById('leaderboardList');
+            leaderboardList.innerHTML = '';
+
+            if (leaderboard.length === 0) {
+                leaderboardList.innerHTML = '<div style="text-align: center; padding: 20px; color: rgba(255,255,255,0.6)">هنوز رکوردی ثبت نشده است!</div>';
+                return;
+            }
+
+            leaderboard.forEach((entry, index) => {
+                const li = document.createElement('li');
+                li.className = 'leaderboard-item';
+                
+                li.innerHTML = `
+                    <div class="leaderboard-rank">${index + 1}</div>
+                    <div class="leaderboard-user">${entry.username}</div>
+                    <div class="leaderboard-score">${entry.score.toLocaleString()} بلوک</div>
+                `;
+                
+                leaderboardList.appendChild(li);
+            });
+        }
+
+        // تولید سوالات غیر تکراری
+        function generateQuestion() {
+            let questionData;
+            let attempts = 0;
+            const maxAttempts = 50;
+
+            do {
+                let templateIndex;
+                if (gameState.questionMode === 'division') {
+                    templateIndex = 0;
+                } else if (gameState.questionMode === 'multiplication') {
+                    templateIndex = 1;
+                } else if (gameState.questionMode === 'power') {
+                    templateIndex = 2;
+                } else {
+                    templateIndex = Math.floor(Math.random() * questionTemplates.length);
+                }
+                
+                questionData = questionTemplates[templateIndex](gameState.level);
+                attempts++;
+                
+                if (attempts >= maxAttempts) {
+                    // اگر نتوانستیم سوال غیر تکراری پیدا کنیم، ست را خالی کنیم
+                    gameState.usedQuestions.clear();
+                    break;
+                }
+            } while (gameState.usedQuestions.has(questionData.question));
+
+            gameState.usedQuestions.add(questionData.question);
+            
+            // اگر تعداد سوالات ذخیره شده زیاد شد، قدیمی‌ها را پاک کن
+            if (gameState.usedQuestions.size > 100) {
+                const array = Array.from(gameState.usedQuestions);
+                array.splice(0, 50);
+                gameState.usedQuestions = new Set(array);
+            }
+
+            gameState.currentAnswer = questionData.answer;
+            document.getElementById('questionText').textContent = questionData.question;
+            generateOptions(questionData.answer);
             enableOptions();
             document.getElementById('feedback').textContent = '';
             document.getElementById('feedback').className = 'feedback';
             startTimer();
             updateProgressBar();
             updateBlocksUI();
+            
+            saveGameState();
         }
 
         // تولید گزینه‌ها
@@ -747,7 +1231,6 @@
             document.getElementById('questionNumber').textContent = gameState.questionNumber;
             document.getElementById('highScore').textContent = gameState.highScore;
             document.getElementById('levelValue').textContent = gameState.level;
-            document.getElementById('blocksValue').textContent = gameState.blocks;
             
             if (gameState.score > gameState.highScore) {
                 gameState.highScore = gameState.score;
@@ -756,17 +1239,16 @@
             saveGameState();
         }
 
-        // به‌روزرسانی وضعیت بلوک‌ها
+        // به‌روزرسانی بلوک‌ها
         function updateBlocksUI() {
-            const blocksInfo = document.getElementById('blocksInfo');
-            const useBlockBtn = document.getElementById('useBlockBtn');
+            const blocksContainer = document.getElementById('blocksContainer');
+            blocksContainer.innerHTML = '';
             
-            if (gameState.blocks > 0) {
-                useBlockBtn.disabled = false;
-                blocksInfo.classList.add('block-active');
-            } else {
-                useBlockBtn.disabled = true;
-                blocksInfo.classList.remove('block-active');
+            for (let i = 0; i < gameState.consecutiveCorrect; i++) {
+                const block = document.createElement('div');
+                block.className = 'block active';
+                block.textContent = i + 1;
+                blocksContainer.appendChild(block);
             }
         }
 
@@ -792,42 +1274,34 @@
             }
         }
 
-        // استفاده از بلوک برای دیدن جواب درست
-        function useBlock() {
-            if (gameState.blocks > 0) {
-                gameState.blocks--;
-                
-                // پیدا کردن گزینه درست و هایلایت کردن آن
-                const options = document.querySelectorAll('.option-btn');
-                options.forEach(option => {
-                    let optionValue = option.textContent;
-                    if (optionValue.includes('K')) {
-                        optionValue = parseFloat(optionValue) * 1000;
-                    } else if (optionValue.includes('M')) {
-                        optionValue = parseFloat(optionValue) * 1000000;
-                    } else {
-                        optionValue = parseInt(optionValue);
-                    }
-                    
-                    if (optionValue === gameState.currentAnswer) {
-                        option.classList.add('correct');
-                        option.style.animation = 'pulse 1s infinite';
-                    }
-                });
-                
-                document.getElementById('feedback').textContent = `جواب درست نشان داده شد! (${formatNumber(gameState.currentAnswer)})`;
-                document.getElementById('feedback').className = 'feedback correct';
-                
-                // دادن ۱۰ امتیاز بابت استفاده از بلوک
-                gameState.score += 10;
-                updateUI();
+        // انفجار بلوک‌ها
+        function explodeBlocks() {
+            const blocks = document.querySelectorAll('.block');
+            let delay = 0;
+            
+            playSound('explosion');
+            
+            blocks.forEach((block, index) => {
+                setTimeout(() => {
+                    block.classList.remove('active');
+                    block.classList.add('exploded');
+                }, delay);
+                delay += 200;
+            });
+            
+            // آپدیت آمار
+            gameState.totalBlocksExploded += 5;
+            gameState.score += 50;
+            
+            // آپدیت جدول رکوردها
+            updateLeaderboard();
+            
+            // پاک کردن بلوک‌ها پس از انفجار
+            setTimeout(() => {
+                gameState.consecutiveCorrect = 0;
                 updateBlocksUI();
-                
-                playSound('correct');
-                
-                // غیرفعال کردن دکمه استفاده از بلوک تا سوال بعدی
-                document.getElementById('useBlockBtn').disabled = true;
-            }
+                updateUI();
+            }, 1000);
         }
 
         // بررسی پاسخ
@@ -836,7 +1310,6 @@
             clearTimeout(gameState.autoNextTimeout);
             
             let userAnswer = selectedOption.textContent;
-            // تبدیل فرمت‌های K و M به عدد
             if (userAnswer.includes('K')) {
                 userAnswer = parseFloat(userAnswer) * 1000;
             } else if (userAnswer.includes('M')) {
@@ -866,9 +1339,18 @@
             gameState.score += 10;
             gameState.correctAnswers++;
             gameState.correctInLevel++;
+            gameState.consecutiveCorrect++;
             
             selectedOption.classList.add('correct');
-            document.getElementById('feedback').textContent = 'آفرین! +۱۰ امتیاز';
+            
+            // بررسی برای انفجار بلوک‌ها
+            if (gameState.consecutiveCorrect >= 5) {
+                document.getElementById('feedback').textContent = 'آفرین! +۱۰ امتیاز +۵۰ امتیاز بلوک!';
+                explodeBlocks();
+            } else {
+                document.getElementById('feedback').textContent = 'آفرین! +۱۰ امتیاز';
+            }
+            
             document.getElementById('feedback').className = 'feedback correct';
             
             playSound('correct');
@@ -878,21 +1360,13 @@
                 showLevelUpScreen();
             }
             
-            if (gameState.score >= 100 && gameState.score % 100 === 0) {
-                giveBlocks(10);
-            }
-            
             updateBlocksUI();
-        }
-
-        function showLevelUpScreen() {
-            document.getElementById('levelUpScreen').style.display = 'flex';
-            playSound('levelUp');
         }
 
         function handleWrongAnswer(selectedOption = null) {
             gameState.wrongAnswers++;
             gameState.correctInLevel = 0;
+            // بلوک‌ها نمی‌روند! فقط correctInLevel ریست می‌شود
             
             if (selectedOption) {
                 selectedOption.classList.add('wrong');
@@ -920,12 +1394,18 @@
             playSound('wrong');
             
             updateProgressBar();
-            updateBlocksUI();
+            // بلوک‌ها باقی می‌مانند - فقط updateBlocksUI نمی‌کنیم
+        }
+
+        function showLevelUpScreen() {
+            document.getElementById('levelUpScreen').style.display = 'flex';
+            playSound('levelUp');
         }
 
         function handleTimeOut() {
             gameState.wrongAnswers++;
             gameState.correctInLevel = 0;
+            // بلوک‌ها نمی‌روند!
             
             const options = document.querySelectorAll('.option-btn');
             options.forEach(option => {
@@ -951,11 +1431,7 @@
             
             updateProgressBar();
             updateUI();
-            updateBlocksUI();
-            
-            gameState.autoNextTimeout = setTimeout(() => {
-                nextQuestion();
-            }, 2000);
+            // بلوک‌ها باقی می‌مانند
         }
 
         function nextQuestion() {
@@ -981,21 +1457,6 @@
             }, 3000);
         }
 
-        function giveBlocks(count) {
-            gameState.blocks += count;
-            
-            document.getElementById('rewardTitle').textContent = `${count} بلوک دریافت کردید!`;
-            document.getElementById('rewardDesc').textContent = `شما الان ${gameState.blocks} بلوک دارید!`;
-            document.getElementById('rewardScreen').style.display = 'flex';
-            
-            playSound('levelUp');
-            
-            setTimeout(() => {
-                document.getElementById('rewardScreen').style.display = 'none';
-                nextQuestion();
-            }, 3000);
-        }
-
         function enableOptions() {
             const options = document.querySelectorAll('.option-btn');
             options.forEach(option => {
@@ -1003,11 +1464,6 @@
                 option.classList.remove('correct', 'wrong');
                 option.style.animation = 'none';
             });
-            
-            // فعال کردن دکمه استفاده از بلوک اگر بلوک موجود باشد
-            if (gameState.blocks > 0) {
-                document.getElementById('useBlockBtn').disabled = false;
-            }
         }
 
         function disableOptions() {
@@ -1015,9 +1471,6 @@
             options.forEach(option => {
                 option.disabled = true;
             });
-            
-            // غیرفعال کردن دکمه استفاده از بلوک
-            document.getElementById('useBlockBtn').disabled = true;
         }
 
         // تغییر رنگ پس‌زمینه و آیکون‌ها
@@ -1034,12 +1487,56 @@
             updateUI();
             updateProgressBar();
             updateBlocksUI();
-            generateQuestion();
             
-            // منو
+            // اگر کاربر ثبت نام کرده، بازی را شروع کن
+            if (gameState.username) {
+                generateQuestion();
+            }
+
+            // مدیریت منو
             document.getElementById('menuToggle').addEventListener('click', function() {
                 const menuContent = document.getElementById('menuContent');
-                menuContent.style.display = menuContent.style.display === 'flex' ? 'none' : 'flex';
+                const closeMenu = document.getElementById('closeMenu');
+                menuContent.style.display = 'flex';
+                closeMenu.style.display = 'flex';
+            });
+
+            document.getElementById('closeMenu').addEventListener('click', function() {
+                const menuContent = document.getElementById('menuContent');
+                const closeMenu = document.getElementById('closeMenu');
+                menuContent.style.display = 'none';
+                closeMenu.style.display = 'none';
+            });
+
+            // شروع بازی
+            document.getElementById('startBtn').addEventListener('click', function() {
+                const username = document.getElementById('usernameInput').value.trim();
+                if (username) {
+                    gameState.username = username;
+                    document.getElementById('welcomeScreen').style.display = 'none';
+                    document.getElementById('usernameDisplay').textContent = username;
+                    saveGameState();
+                    generateQuestion();
+                } else {
+                    alert('لطفاً نام کاربری خود را وارد کنید!');
+                }
+            });
+
+            // Enter برای شروع بازی
+            document.getElementById('usernameInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('startBtn').click();
+                }
+            });
+
+            // جدول رکوردها
+            document.getElementById('leaderboardToggle').addEventListener('click', function() {
+                displayLeaderboard();
+                document.getElementById('leaderboardScreen').style.display = 'flex';
+            });
+
+            document.getElementById('closeLeaderboard').addEventListener('click', function() {
+                document.getElementById('leaderboardScreen').style.display = 'none';
             });
             
             // تغییر حالت سوالات
@@ -1048,6 +1545,7 @@
                 saveGameState();
                 nextQuestion();
                 document.getElementById('menuContent').style.display = 'none';
+                document.getElementById('closeMenu').style.display = 'none';
             });
             
             document.getElementById('multiplicationMode').addEventListener('click', function() {
@@ -1055,6 +1553,7 @@
                 saveGameState();
                 nextQuestion();
                 document.getElementById('menuContent').style.display = 'none';
+                document.getElementById('closeMenu').style.display = 'none';
             });
             
             document.getElementById('powerMode').addEventListener('click', function() {
@@ -1062,6 +1561,7 @@
                 saveGameState();
                 nextQuestion();
                 document.getElementById('menuContent').style.display = 'none';
+                document.getElementById('closeMenu').style.display = 'none';
             });
             
             // تغییر رنگ
@@ -1077,11 +1577,9 @@
                     changeBackgroundColor(color);
                     document.getElementById('colorPalette').style.display = 'none';
                     document.getElementById('menuContent').style.display = 'none';
+                    document.getElementById('closeMenu').style.display = 'none';
                 });
             });
-            
-            // استفاده از بلوک
-            document.getElementById('useBlockBtn').addEventListener('click', useBlock);
             
             // رویدادهای دکمه‌ها
             document.getElementById('option1').addEventListener('click', () => checkAnswer(document.getElementById('option1')));
@@ -1102,7 +1600,7 @@
 
         // فعال‌سازی صداها با اولین کلیک
         document.addEventListener('click', function initAudio() {
-            const sounds = ['correctSound', 'wrongSound', 'levelUpSound'];
+            const sounds = ['correctSound', 'wrongSound', 'levelUpSound', 'explosionSound'];
             sounds.forEach(soundId => {
                 const sound = document.getElementById(soundId);
                 sound.volume = 0.001;
