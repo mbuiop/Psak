@@ -13,7 +13,7 @@
         }
 
         body {
-            background: url('m.webp') no-repeat center center fixed;
+            background: url('m.jpg') no-repeat center center fixed;
             background-size: cover;
             min-height: 100vh;
             display: flex;
@@ -279,6 +279,12 @@
             align-items: center;
             gap: 8px;
             font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .blocks-info:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .block-icon {
@@ -291,6 +297,28 @@
             color: #000;
             font-weight: bold;
             animation: pulse 1s infinite;
+        }
+
+        .use-block-btn {
+            background: linear-gradient(135deg, #ffd700, #ff6b00);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 15px;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .use-block-btn:active {
+            transform: scale(0.95);
+        }
+
+        .use-block-btn:disabled {
+            background: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.5);
+            cursor: not-allowed;
         }
 
         .reward-screen {
@@ -476,6 +504,7 @@
         <div class="feedback" id="feedback"></div>
         
         <div class="blocks-info" id="blocksInfo">
+            <button class="use-block-btn" id="useBlockBtn" disabled>استفاده از بلوک</button>
             <span class="block-icon">◼</span>
             <span id="blocksValue">0</span>
             <span>بلوک</span>
@@ -730,9 +759,13 @@
         // به‌روزرسانی وضعیت بلوک‌ها
         function updateBlocksUI() {
             const blocksInfo = document.getElementById('blocksInfo');
-            if (gameState.score >= 100) {
+            const useBlockBtn = document.getElementById('useBlockBtn');
+            
+            if (gameState.blocks > 0) {
+                useBlockBtn.disabled = false;
                 blocksInfo.classList.add('block-active');
             } else {
+                useBlockBtn.disabled = true;
                 blocksInfo.classList.remove('block-active');
             }
         }
@@ -756,6 +789,44 @@
                 }
             } catch (error) {
                 console.log('خطا در پخش صدا:', error);
+            }
+        }
+
+        // استفاده از بلوک برای دیدن جواب درست
+        function useBlock() {
+            if (gameState.blocks > 0) {
+                gameState.blocks--;
+                
+                // پیدا کردن گزینه درست و هایلایت کردن آن
+                const options = document.querySelectorAll('.option-btn');
+                options.forEach(option => {
+                    let optionValue = option.textContent;
+                    if (optionValue.includes('K')) {
+                        optionValue = parseFloat(optionValue) * 1000;
+                    } else if (optionValue.includes('M')) {
+                        optionValue = parseFloat(optionValue) * 1000000;
+                    } else {
+                        optionValue = parseInt(optionValue);
+                    }
+                    
+                    if (optionValue === gameState.currentAnswer) {
+                        option.classList.add('correct');
+                        option.style.animation = 'pulse 1s infinite';
+                    }
+                });
+                
+                document.getElementById('feedback').textContent = `جواب درست نشان داده شد! (${formatNumber(gameState.currentAnswer)})`;
+                document.getElementById('feedback').className = 'feedback correct';
+                
+                // دادن ۱۰ امتیاز بابت استفاده از بلوک
+                gameState.score += 10;
+                updateUI();
+                updateBlocksUI();
+                
+                playSound('correct');
+                
+                // غیرفعال کردن دکمه استفاده از بلوک تا سوال بعدی
+                document.getElementById('useBlockBtn').disabled = true;
             }
         }
 
@@ -930,7 +1001,13 @@
             options.forEach(option => {
                 option.disabled = false;
                 option.classList.remove('correct', 'wrong');
+                option.style.animation = 'none';
             });
+            
+            // فعال کردن دکمه استفاده از بلوک اگر بلوک موجود باشد
+            if (gameState.blocks > 0) {
+                document.getElementById('useBlockBtn').disabled = false;
+            }
         }
 
         function disableOptions() {
@@ -938,6 +1015,9 @@
             options.forEach(option => {
                 option.disabled = true;
             });
+            
+            // غیرفعال کردن دکمه استفاده از بلوک
+            document.getElementById('useBlockBtn').disabled = true;
         }
 
         // تغییر رنگ پس‌زمینه و آیکون‌ها
@@ -999,6 +1079,9 @@
                     document.getElementById('menuContent').style.display = 'none';
                 });
             });
+            
+            // استفاده از بلوک
+            document.getElementById('useBlockBtn').addEventListener('click', useBlock);
             
             // رویدادهای دکمه‌ها
             document.getElementById('option1').addEventListener('click', () => checkAnswer(document.getElementById('option1')));
