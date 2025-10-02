@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بازی ریاضی پیشرفته</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: white;
+        }
+
+        .game-container {
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 20px;
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #ffd700;
+            margin-top: 3px;
+        }
+
+        .level-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .level-text {
+            font-size: 1.1rem;
+        }
+
+        .level-value {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+
+        .progress-container {
+            background: rgba(255, 255, 255, 0.1);
+            height: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #00b09b, #96c93d);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            line-height: 1.5;
+        }
+
+        .timer-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .timer-value {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #ff4757;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .option-btn {
+            padding: 18px 10px;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .option-btn:active {
+            transform: scale(0.98);
+        }
+
+        .option-btn.correct {
+            background: #00b09b;
+            border-color: rgba(255, 255, 255, 0.7);
+        }
+
+        .option-btn.wrong {
+            background: #ff4757;
+            border-color: rgba(255, 255, 255, 0.7);
+        }
+
+        .feedback {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            min-height: 35px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .feedback.correct {
+            color: #4cff00;
+            background: rgba(76, 255, 0, 0.1);
+        }
+
+        .feedback.incorrect {
+            color: #ff4757;
+            background: rgba(255, 71, 87, 0.1);
+        }
+
+        .blocks-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+        }
+
+        .block-icon {
+            color: #ffd700;
+            font-size: 1.4rem;
+        }
+
+        .block-active {
+            background: linear-gradient(135deg, #ffd700, #ff6b00);
+            color: #000;
+            font-weight: bold;
+            animation: pulse 1s infinite;
+        }
+
+        .reward-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            border-radius: 20px;
+            display: none;
+        }
+
+        .reward-title {
+            font-size: 2.5rem;
+            color: #ffd700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .reward-desc {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .continue-btn {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            background: #00b09b;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .continue-btn:active {
+            transform: scale(0.95);
+        }
+
+        .music-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+        }
+
+        .music-btn:active {
+            transform: scale(0.9);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* استایل برای موبایل */
+        @media (max-width: 480px) {
+            .game-container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .question-box {
+                font-size: 1.3rem;
+                padding: 20px;
+                min-height: 90px;
+            }
+            
+            .option-btn {
+                font-size: 1.1rem;
+                padding: 15px 8px;
+                min-height: 65px;
+            }
+            
+            .stats-row, .level-info {
+                font-size: 0.9rem;
+            }
+            
+            .stat-value, .level-value {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="music-btn" id="musicToggle">♪</button>
+    
+    <div class="game-container">
+        <h1>بازی ریاضی پیشرفته</h1>
+        
+        <div class="stats-row">
+            <div class="stat-item">
+                <span>امتیاز</span>
+                <span class="stat-value" id="scoreValue">0</span>
+            </div>
+            <div class="stat-item">
+                <span>سوال</span>
+                <span class="stat-value" id="questionNumber">1</span>
+            </div>
+            <div class="stat-item">
+                <span>رکورد</span>
+                <span class="stat-value" id="highScore">0</span>
+            </div>
+        </div>
+        
+        <div class="level-info">
+            <div class="level-text">مرحله:</div>
+            <div class="level-value" id="levelValue">1</div>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <div class="question-box">
+            <div id="questionText">...</div>
+        </div>
+        
+        <div class="timer-box">
+            <div class="timer-value" id="timerValue">20</div>
+            <span>ثانیه</span>
+        </div>
+        
+        <div class="options-grid">
+            <button class="option-btn" id="option1"></button>
+            <button class="option-btn" id="option2"></button>
+            <button class="option-btn" id="option3"></button>
+            <button class="option-btn" id="option4"></button>
+        </div>
+        
+        <div class="feedback" id="feedback"></div>
+        
+        <div class="blocks-info" id="blocksInfo">
+            <span class="block-icon">◼</span>
+            <span id="blocksValue">0</span>
+            <span>بلوک</span>
+        </div>
+        
+        <div class="reward-screen" id="rewardScreen">
+            <div class="reward-title" id="rewardTitle">تبریک!</div>
+            <div class="reward-desc" id="rewardDesc"></div>
+            <button class="continue-btn" id="continueBtn">ادامه بازی</button>
+        </div>
+    </div>
+
+    <!-- صداهای سفارشی -->
+    <audio id="correctSound" preload="auto">
+        <source src="mn1.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="wrongSound" preload="auto">
+        <source src="m1.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="levelUpSound" preload="auto">
+        <source src="mn1.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // وضعیت بازی
+        const gameState = {
+            score: 0,
+            correctAnswers: 0,
+            wrongAnswers: 0,
+            totalQuestions: 0,
+            level: 1,
+            correctInLevel: 0,
+            blocks: 0,
+            currentAnswer: 0,
+            questionNumber: 1,
+            timer: 20,
+            timerInterval: null,
+            musicEnabled: false,
+            autoNextTimeout: null
+        };
+
+        // بارگذاری رکورد
+        function loadGameState() {
+            const savedHighScore = localStorage.getItem('mathGameHighScore');
+            if (savedHighScore) {
+                gameState.highScore = parseInt(savedHighScore);
+            } else {
+                gameState.highScore = 0;
+            }
+        }
+
+        // ذخیره رکورد
+        function saveHighScore() {
+            localStorage.setItem('mathGameHighScore', gameState.highScore.toString());
+        }
+
+        // تولید سوالات پیچیده
+        function generateQuestion() {
+            const level = gameState.level;
+            let question, answer;
+            
+            // اعداد تصادفی بر اساس سطح
+            const baseNum = level * 15;
+            const r1 = Math.floor(Math.random() * baseNum) + 5;
+            const r2 = Math.floor(Math.random() * baseNum) + 5;
+            const r3 = Math.floor(Math.random() * (baseNum/2)) + 3;
+            const r4 = Math.floor(Math.random() * (baseNum/3)) + 2;
+            const r5 = Math.floor(Math.random() * (baseNum/4)) + 2;
+            const r6 = Math.floor(Math.random() * (baseNum/5)) + 2;
+            
+            if (level === 1) {
+                question = `${r1} × ${r2} + ${r3} = ?`;
+                answer = (r1 * r2) + r3;
+            } else if (level === 2) {
+                question = `(${r1} + ${r2}) × ${r3} - ${r4} = ?`;
+                answer = ((r1 + r2) * r3) - r4;
+            } else if (level === 3) {
+                question = `${r1} × ${r2} ÷ ${r3} + ${r4} = ?`;
+                answer = Math.floor((r1 * r2) / r3) + r4;
+            } else if (level === 4) {
+                question = `(${r1} + ${r2}) × (${r3} - ${r4}) = ?`;
+                answer = (r1 + r2) * (r3 - r4);
+            } else if (level === 5) {
+                question = `${r1}² + ${r2} × ${r3} = ?`;
+                answer = (r1 * r1) + (r2 * r3);
+            } else {
+                // سوالات بسیار پیچیده برای سطح 6 به بالا
+                question = `${r1} × ${r2} + ${r3} × ${r4} - ${r5} = ?`;
+                answer = (r1 * r2) + (r3 * r4) - r5;
+            }
+            
+            gameState.currentAnswer = answer;
+            document.getElementById('questionText').textContent = question;
+            generateOptions(answer);
+            enableOptions();
+            document.getElementById('feedback').textContent = '';
+            document.getElementById('feedback').className = 'feedback';
+            startTimer();
+            updateProgressBar();
+            updateBlocksUI();
+        }
+
+        // تولید گزینه‌ها
+        function generateOptions(correctAnswer) {
+            const options = [correctAnswer];
+            
+            while (options.length < 4) {
+                let wrongOption;
+                const variance = Math.max(5, Math.floor(correctAnswer * 0.3));
+                
+                // الگوریتم پیشرفته برای تولید گزینه‌های نادرست
+                if (Math.random() > 0.6) {
+                    wrongOption = correctAnswer + (Math.random() > 0.5 ? variance : -variance);
+                } else if (Math.random() > 0.3) {
+                    wrongOption = correctAnswer * (Math.random() > 0.5 ? 1.1 : 0.9);
+                } else {
+                    wrongOption = correctAnswer + (Math.random() > 0.5 ? 1 : -1) * 
+                                (Math.floor(Math.random() * variance) + 1);
+                }
+                
+                wrongOption = Math.round(wrongOption);
+                wrongOption = Math.max(1, wrongOption);
+                
+                if (!options.includes(wrongOption) && wrongOption !== correctAnswer) {
+                    options.push(wrongOption);
+                }
+            }
+            
+            // مخلوط کردن
+            for (let i = options.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [options[i], options[j]] = [options[j], options[i]];
+            }
+            
+            document.getElementById('option1').textContent = options[0];
+            document.getElementById('option2').textContent = options[1];
+            document.getElementById('option3').textContent = options[2];
+            document.getElementById('option4').textContent = options[3];
+        }
+
+        // تایمر
+        function startTimer() {
+            clearInterval(gameState.timerInterval);
+            clearTimeout(gameState.autoNextTimeout);
+            
+            gameState.timer = 20;
+            document.getElementById('timerValue').textContent = gameState.timer;
+            
+            gameState.timerInterval = setInterval(() => {
+                gameState.timer--;
+                document.getElementById('timerValue').textContent = gameState.timer;
+                
+                if (gameState.timer <= 0) {
+                    clearInterval(gameState.timerInterval);
+                    handleTimeOut();
+                }
+            }, 1000);
+        }
+
+        // به‌روزرسانی UI
+        function updateUI() {
+            document.getElementById('scoreValue').textContent = gameState.score;
+            document.getElementById('questionNumber').textContent = gameState.questionNumber;
+            document.getElementById('highScore').textContent = gameState.highScore;
+            document.getElementById('levelValue').textContent = gameState.level;
+            document.getElementById('blocksValue').textContent = gameState.blocks;
+            
+            if (gameState.score > gameState.highScore) {
+                gameState.highScore = gameState.score;
+                saveHighScore();
+            }
+        }
+
+        // به‌روزرسانی وضعیت بلوک‌ها
+        function updateBlocksUI() {
+            const blocksInfo = document.getElementById('blocksInfo');
+            if (gameState.score >= 100) {
+                blocksInfo.classList.add('block-active');
+            } else {
+                blocksInfo.classList.remove('block-active');
+            }
+        }
+
+        function updateProgressBar() {
+            const progress = (gameState.correctInLevel / 20) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+        }
+
+        // پخش صدا
+        function playSound(soundType) {
+            try {
+                const sound = document.getElementById(soundType + 'Sound');
+                sound.currentTime = 0;
+                const playPromise = sound.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log('پخش صدا با خطا مواجه شد:', error);
+                    });
+                }
+            } catch (error) {
+                console.log('خطا در پخش صدا:', error);
+            }
+        }
+
+        // بررسی پاسخ
+        function checkAnswer(selectedOption) {
+            clearInterval(gameState.timerInterval);
+            clearTimeout(gameState.autoNextTimeout);
+            
+            const userAnswer = parseInt(selectedOption.textContent);
+            gameState.totalQuestions++;
+            
+            disableOptions();
+            
+            if (userAnswer === gameState.currentAnswer) {
+                handleCorrectAnswer(selectedOption);
+            } else {
+                handleWrongAnswer(selectedOption);
+            }
+            
+            updateUI();
+            
+            // تولید خودکار سوال بعدی بعد از 2 ثانیه
+            gameState.autoNextTimeout = setTimeout(() => {
+                nextQuestion();
+            }, 2000);
+        }
+
+        function handleCorrectAnswer(selectedOption) {
+            // همیشه ۱۰ امتیاز می‌دهد
+            gameState.score += 10;
+            gameState.correctAnswers++;
+            gameState.correctInLevel++;
+            
+            selectedOption.classList.add('correct');
+            document.getElementById('feedback').textContent = 'آفرین! +۱۰ امتیاز';
+            document.getElementById('feedback').className = 'feedback correct';
+            
+            // پخش صدای صحیح
+            playSound('correct');
+            
+            // بررسی ارتقاء سطح
+            if (gameState.correctInLevel >= 20) {
+                levelUp();
+            }
+            
+            // بررسی دریافت بلوک (فقط وقتی امتیاز به 100 رسید)
+            if (gameState.score >= 100 && gameState.score % 100 === 0) {
+                giveBlocks(10);
+            }
+            
+            updateBlocksUI();
+        }
+
+        function handleWrongAnswer(selectedOption = null) {
+            gameState.wrongAnswers++;
+            gameState.correctInLevel = 0;
+            
+            if (selectedOption) {
+                selectedOption.classList.add('wrong');
+            }
+            
+            const options = document.querySelectorAll('.option-btn');
+            options.forEach(option => {
+                if (parseInt(option.textContent) === gameState.currentAnswer) {
+                    option.classList.add('correct');
+                }
+            });
+            
+            document.getElementById('feedback').textContent = `پاسخ: ${gameState.currentAnswer}`;
+            document.getElementById('feedback').className = 'feedback incorrect';
+            
+            // پخش صدای نادرست
+            playSound('wrong');
+            
+            updateProgressBar();
+            updateBlocksUI();
+        }
+
+        function handleTimeOut() {
+            gameState.wrongAnswers++;
+            gameState.correctInLevel = 0;
+            
+            const options = document.querySelectorAll('.option-btn');
+            options.forEach(option => {
+                if (parseInt(option.textContent) === gameState.currentAnswer) {
+                    option.classList.add('correct');
+                }
+            });
+            
+            document.getElementById('feedback').textContent = 'زمان تمام شد!';
+            document.getElementById('feedback').className = 'feedback incorrect';
+            disableOptions();
+            
+            // پخش صدای نادرست
+            playSound('wrong');
+            
+            updateProgressBar();
+            updateUI();
+            updateBlocksUI();
+            
+            // تولید خودکار سوال بعدی بعد از 2 ثانیه
+            gameState.autoNextTimeout = setTimeout(() => {
+                nextQuestion();
+            }, 2000);
+        }
+
+        function nextQuestion() {
+            gameState.questionNumber++;
+            generateQuestion();
+        }
+
+        function levelUp() {
+            gameState.level++;
+            gameState.correctInLevel = 0;
+            
+            document.getElementById('rewardTitle').textContent = `مرحله ${gameState.level}`;
+            document.getElementById('rewardDesc').textContent = 'سوالات سخت‌تر شدند!';
+            document.getElementById('rewardScreen').style.display = 'flex';
+            
+            // پخش صدای ارتقاء سطح
+            playSound('levelUp');
+            
+            updateProgressBar();
+            
+            // ادامه بازی بعد از 3 ثانیه
+            setTimeout(() => {
+                document.getElementById('rewardScreen').style.display = 'none';
+                nextQuestion();
+            }, 3000);
+        }
+
+        function giveBlocks(count) {
+            gameState.blocks += count;
+            
+            document.getElementById('rewardTitle').textContent = `${count} بلوک دریافت کردید!`;
+            document.getElementById('rewardDesc').textContent = `شما الان ${gameState.blocks} بلوک دارید!`;
+            document.getElementById('rewardScreen').style.display = 'flex';
+            
+            // پخش صدای دریافت بلوک
+            playSound('levelUp');
+            
+            // ادامه بازی بعد از 3 ثانیه
+            setTimeout(() => {
+                document.getElementById('rewardScreen').style.display = 'none';
+                nextQuestion();
+            }, 3000);
+        }
+
+        function enableOptions() {
+            const options = document.querySelectorAll('.option-btn');
+            options.forEach(option => {
+                option.disabled = false;
+                option.classList.remove('correct', 'wrong');
+            });
+        }
+
+        function disableOptions() {
+            const options = document.querySelectorAll('.option-btn');
+            options.forEach(option => {
+                option.disabled = true;
+            });
+        }
+
+        // راه‌اندازی بازی
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGameState();
+            updateUI();
+            updateProgressBar();
+            updateBlocksUI();
+            generateQuestion();
+            
+            // رویدادهای دکمه‌ها
+            document.getElementById('option1').addEventListener('click', () => checkAnswer(document.getElementById('option1')));
+            document.getElementById('option2').addEventListener('click', () => checkAnswer(document.getElementById('option2')));
+            document.getElementById('option3').addEventListener('click', () => checkAnswer(document.getElementById('option3')));
+            document.getElementById('option4').addEventListener('click', () => checkAnswer(document.getElementById('option4')));
+            
+            document.getElementById('continueBtn').addEventListener('click', function() {
+                document.getElementById('rewardScreen').style.display = 'none';
+                nextQuestion();
+            });
+        });
+
+        // فعال‌سازی صداها با اولین کلیک
+        document.addEventListener('click', function initAudio() {
+            // تست پخش صداها
+            const sounds = ['correctSound', 'wrongSound', 'levelUpSound'];
+            sounds.forEach(soundId => {
+                const sound = document.getElementById(soundId);
+                sound.volume = 0.001;
+                sound.play().then(() => {
+                    sound.pause();
+                    sound.currentTime = 0;
+                    sound.volume = 1;
+                }).catch(() => {
+                    // ignore
+                });
+            });
+            
+            document.removeEventListener('click', initAudio);
+        }, { once: true });
+    </script>
+</body>
+</html>
