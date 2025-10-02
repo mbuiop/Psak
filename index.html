@@ -13,7 +13,8 @@
         }
 
         body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background: url('m.jpg') no-repeat center center fixed;
+            background-size: cover;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -23,14 +24,15 @@
         }
 
         .game-container {
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.85);
             border-radius: 20px;
             padding: 20px;
             width: 100%;
             max-width: 600px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
             text-align: center;
-            border: 2px solid rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
         }
 
         h1 {
@@ -256,28 +258,6 @@
             transform: scale(0.95);
         }
 
-        .music-btn {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.2rem;
-            transition: all 0.2s ease;
-        }
-
-        .music-btn:active {
-            transform: scale(0.9);
-        }
-
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
@@ -317,8 +297,6 @@
     </style>
 </head>
 <body>
-    <button class="music-btn" id="musicToggle">♪</button>
-    
     <div class="game-container">
         <h1>بازی ریاضی پیشرفته</h1>
         
@@ -405,22 +383,43 @@
             timer: 20,
             timerInterval: null,
             musicEnabled: false,
-            autoNextTimeout: null
+            autoNextTimeout: null,
+            highScore: 0
         };
 
-        // بارگذاری رکورد
+        // بارگذاری تمام وضعیت بازی
         function loadGameState() {
-            const savedHighScore = localStorage.getItem('mathGameHighScore');
-            if (savedHighScore) {
-                gameState.highScore = parseInt(savedHighScore);
-            } else {
-                gameState.highScore = 0;
+            const savedState = localStorage.getItem('mathGameFullState');
+            if (savedState) {
+                const parsedState = JSON.parse(savedState);
+                
+                // بازیابی تمام مقادیر
+                gameState.score = parsedState.score || 0;
+                gameState.correctAnswers = parsedState.correctAnswers || 0;
+                gameState.wrongAnswers = parsedState.wrongAnswers || 0;
+                gameState.totalQuestions = parsedState.totalQuestions || 0;
+                gameState.level = parsedState.level || 1;
+                gameState.correctInLevel = parsedState.correctInLevel || 0;
+                gameState.blocks = parsedState.blocks || 0;
+                gameState.questionNumber = parsedState.questionNumber || 1;
+                gameState.highScore = parsedState.highScore || 0;
             }
         }
 
-        // ذخیره رکورد
-        function saveHighScore() {
-            localStorage.setItem('mathGameHighScore', gameState.highScore.toString());
+        // ذخیره تمام وضعیت بازی
+        function saveGameState() {
+            const stateToSave = {
+                score: gameState.score,
+                correctAnswers: gameState.correctAnswers,
+                wrongAnswers: gameState.wrongAnswers,
+                totalQuestions: gameState.totalQuestions,
+                level: gameState.level,
+                correctInLevel: gameState.correctInLevel,
+                blocks: gameState.blocks,
+                questionNumber: gameState.questionNumber,
+                highScore: gameState.highScore
+            };
+            localStorage.setItem('mathGameFullState', JSON.stringify(stateToSave));
         }
 
         // تولید سوالات پیچیده
@@ -536,8 +535,10 @@
             
             if (gameState.score > gameState.highScore) {
                 gameState.highScore = gameState.score;
-                saveHighScore();
             }
+            
+            // ذخیره وضعیت کامل پس از هر به‌روزرسانی
+            saveGameState();
         }
 
         // به‌روزرسانی وضعیت بلوک‌ها
