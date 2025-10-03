@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>بازی ریاضی پیشرفته</title>
     <style>
         * {
             margin: 0;
@@ -13,13 +13,13 @@
         }
 
         body {
-            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            background: #000000;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            color: white;
+            color: #ffffff;
             overflow: hidden;
             position: fixed;
             width: 100%;
@@ -27,33 +27,15 @@
         }
 
         .game-container {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
             padding: 20px;
             width: 100%;
-            max-width: 600px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            text-align: center;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
+            max-width: 500px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
             max-height: 95vh;
             overflow-y: auto;
-        }
-
-        /* اسکرول بار مخفی */
-        .game-container::-webkit-scrollbar {
-            width: 5px;
-        }
-
-        .game-container::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-        }
-
-        .game-container::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
         }
 
         .welcome-screen {
@@ -62,49 +44,46 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.95);
+            background: #000000;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            border-radius: 20px;
+            border-radius: 15px;
             padding: 20px;
         }
 
         .welcome-title {
-            font-size: 2.5rem;
-            color: #ffd700;
+            font-size: 2rem;
+            color: #ffffff;
             margin-bottom: 20px;
             text-align: center;
+            font-weight: 300;
         }
 
         .welcome-input {
             width: 80%;
             max-width: 300px;
-            padding: 15px;
-            font-size: 1.2rem;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
+            padding: 12px;
+            font-size: 1.1rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
             background: rgba(255, 255, 255, 0.1);
-            color: white;
+            color: #ffffff;
             text-align: center;
             margin-bottom: 20px;
         }
 
-        .welcome-input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
         .start-btn {
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            background: #00b09b;
-            color: white;
-            border: none;
-            border-radius: 10px;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 500;
             transition: all 0.2s ease;
         }
 
@@ -117,17 +96,12 @@
             top: 15px;
             right: 15px;
             background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 8px;
-            padding: 10px 15px;
-            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            padding: 8px 12px;
+            color: #ffffff;
             cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
-        }
-
-        .leaderboard-btn:active {
-            transform: scale(0.9);
+            font-size: 0.8rem;
         }
 
         .menu-btn {
@@ -135,135 +109,79 @@
             top: 15px;
             left: 15px;
             background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 8px;
-            width: 40px;
-            height: 40px;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.5rem;
-            transition: all 0.2s ease;
-            z-index: 1000;
-        }
-
-        .menu-btn:active {
-            transform: scale(0.9);
-        }
-
-        .close-menu {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            width: 35px;
+            height: 35px;
+            color: #ffffff;
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 1.2rem;
-            transition: all 0.2s ease;
-            display: none;
-        }
-
-        .close-menu:active {
-            transform: scale(0.9);
         }
 
         .menu-content {
             position: absolute;
-            top: 60px;
+            top: 55px;
             left: 15px;
-            background: rgba(0, 0, 0, 0.95);
-            border-radius: 12px;
-            padding: 15px;
-            min-width: 200px;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 8px;
+            padding: 10px;
+            min-width: 180px;
             display: none;
             flex-direction: column;
-            gap: 10px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            gap: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             z-index: 1000;
         }
 
         .menu-item {
             background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 8px;
-            padding: 12px;
-            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            padding: 10px;
+            color: #ffffff;
             cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
+            font-size: 0.8rem;
             text-align: center;
         }
 
-        .menu-item:active {
-            transform: scale(0.95);
-        }
-
-        .menu-item:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .color-palette {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 5px;
-            margin-top: 10px;
-            display: none;
-        }
-
-        .color-option {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            transition: transform 0.2s ease;
-        }
-
-        .color-option:active {
-            transform: scale(0.9);
-        }
-
         h1 {
-            font-size: 2rem;
+            font-size: 1.5rem;
             margin-bottom: 15px;
-            color: #fff;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+            font-weight: 300;
+            text-align: center;
         }
 
         .user-info {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .username {
-            color: #ffd700;
-            font-weight: bold;
+            color: #ffffff;
+            font-weight: 500;
         }
 
         .stats-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 12px;
-            border-radius: 12px;
-            font-size: 0.9rem;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .stat-item {
@@ -274,189 +192,170 @@
         }
 
         .stat-value {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #ffd700;
-            margin-top: 3px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #ffffff;
+            margin-top: 2px;
         }
 
         .level-info {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px;
-            border-radius: 10px;
-            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px;
+            border-radius: 8px;
+            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .level-text {
-            font-size: 1.1rem;
+            font-size: 0.9rem;
         }
 
         .level-value {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: #ff6b6b;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #ffffff;
         }
 
         .progress-container {
-            background: rgba(255, 255, 255, 0.1);
-            height: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 12px;
             overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .progress-bar {
             height: 100%;
-            background: linear-gradient(to right, #00b09b, #96c93d);
+            background: rgba(255, 255, 255, 0.3);
             width: 0%;
-            transition: width 0.3s ease;
+            transition: width 0.2s ease;
         }
 
         .question-box {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 15px;
-            font-size: 1.4rem;
-            min-height: 80px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+            min-height: 70px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            line-height: 1.5;
-            word-break: break-word;
+            font-weight: 500;
+            line-height: 1.4;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .timer-box {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px;
+            border-radius: 6px;
+            margin-bottom: 12px;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .timer-value {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: #ff4757;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #ffffff;
         }
 
         .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 8px;
+            margin-bottom: 12px;
         }
 
         .option-btn {
-            padding: 15px 8px;
-            font-size: 1.1rem;
-            background: rgba(255, 255, 255, 0.15);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
-            color: white;
+            padding: 12px 6px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #ffffff;
             cursor: pointer;
-            font-weight: bold;
-            transition: all 0.2s ease;
-            min-height: 60px;
+            font-weight: 500;
+            min-height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
-            word-break: break-word;
-        }
-
-        .option-btn:active {
-            transform: scale(0.98);
         }
 
         .option-btn.correct {
-            background: #00b09b;
-            border-color: rgba(255, 255, 255, 0.7);
+            background: rgba(0, 255, 0, 0.2);
+            border-color: rgba(0, 255, 0, 0.5);
         }
 
         .option-btn.wrong {
-            background: #ff4757;
-            border-color: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 0, 0, 0.2);
+            border-color: rgba(255, 0, 0, 0.5);
         }
 
         .feedback {
-            margin-top: 10px;
-            font-size: 1.1rem;
-            min-height: 35px;
-            font-weight: bold;
-            padding: 10px;
-            border-radius: 8px;
-            transition: all 0.3s;
+            margin-top: 8px;
+            font-size: 1rem;
+            min-height: 30px;
+            font-weight: 500;
+            padding: 8px;
+            border-radius: 6px;
         }
 
         .feedback.correct {
-            color: #4cff00;
-            background: rgba(76, 255, 0, 0.1);
+            color: #00ff00;
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid rgba(0, 255, 0, 0.3);
         }
 
         .feedback.incorrect {
-            color: #ff4757;
-            background: rgba(255, 71, 87, 0.1);
+            color: #ff0000;
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
         }
 
         .blocks-container {
             display: flex;
             justify-content: center;
-            gap: 6px;
-            margin-top: 15px;
-            padding: 10px;
+            gap: 5px;
+            margin-top: 12px;
+            padding: 8px;
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            min-height: 50px;
+            border-radius: 8px;
+            min-height: 45px;
             align-items: center;
             flex-wrap: wrap;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .block {
-            width: 35px;
-            height: 35px;
-            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
-            border-radius: 8px;
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            color: white;
-            font-size: 0.8rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .block:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .block:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        .block:nth-child(4) {
-            animation-delay: 0.6s;
-        }
-
-        .block:nth-child(5) {
-            animation-delay: 0.8s;
+            font-weight: 500;
+            color: #ffffff;
+            font-size: 0.7rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .block.active {
-            animation: blockGlow 1s ease-in-out infinite alternate, float 3s ease-in-out infinite;
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
         }
 
         .block.exploded {
-            animation: explode 0.5s ease-out forwards;
+            animation: explode 0.3s ease-out forwards;
         }
 
         .reward-screen {
@@ -471,57 +370,47 @@
             justify-content: center;
             align-items: center;
             z-index: 100;
-            border-radius: 20px;
+            border-radius: 15px;
             display: none;
             padding: 20px;
-        }
-
-        .level-up-screen {
-            background: url('m1.webp') no-repeat center center;
-            background-size: cover;
-        }
-
-        .leaderboard-screen {
-            background: rgba(0, 0, 0, 0.98);
         }
 
         .level-up-content, .leaderboard-content {
             background: rgba(255, 255, 255, 0.1);
             padding: 20px;
-            border-radius: 20px;
+            border-radius: 12px;
             text-align: center;
-            border: 3px solid gold;
-            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             width: 90%;
-            max-width: 400px;
+            max-width: 350px;
         }
 
         .level-up-animation {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            animation: celebrate 2s ease-in-out infinite;
+            font-size: 3rem;
+            margin-bottom: 15px;
         }
 
         .leaderboard-title {
-            font-size: 2rem;
-            color: #ffd700;
-            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 15px;
             text-align: center;
+            font-weight: 300;
         }
 
         .leaderboard-list {
             list-style: none;
             padding: 0;
-            margin: 0 0 20px 0;
-            max-height: 300px;
+            margin: 0 0 15px 0;
+            max-height: 250px;
             overflow-y: auto;
         }
 
         .leaderboard-item {
             background: rgba(255, 255, 255, 0.1);
-            padding: 12px;
-            margin-bottom: 8px;
-            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 6px;
+            border-radius: 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -529,95 +418,56 @@
         }
 
         .leaderboard-rank {
-            background: #ffd700;
-            color: #000;
-            width: 25px;
-            height: 25px;
+            background: rgba(255, 255, 255, 0.3);
+            color: #000000;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            font-size: 0.9rem;
+            font-weight: 500;
+            font-size: 0.8rem;
         }
 
         .leaderboard-user {
             flex: 1;
             text-align: right;
-            padding: 0 10px;
-            font-weight: bold;
+            padding: 0 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
         }
 
         .leaderboard-score {
-            color: #ffd700;
-            font-weight: bold;
-            font-size: 1.1rem;
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 0.9rem;
         }
 
         .reward-title {
-            font-size: 2rem;
-            color: #ffd700;
-            margin-bottom: 15px;
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 12px;
             text-align: center;
+            font-weight: 300;
         }
 
         .reward-desc {
-            font-size: 1.1rem;
-            margin-bottom: 20px;
+            font-size: 1rem;
+            margin-bottom: 15px;
             text-align: center;
-            line-height: 1.5;
+            line-height: 1.4;
         }
 
         .continue-btn {
-            padding: 12px 25px;
-            font-size: 1.1rem;
-            background: #00b09b;
-            color: white;
-            border: none;
-            border-radius: 10px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
             cursor: pointer;
-            font-weight: bold;
-            transition: all 0.2s ease;
-        }
-
-        .continue-btn:active {
-            transform: scale(0.95);
-        }
-
-        .glf-effect {
-            font-size: 2.5rem;
-            color: #ffd700;
-            margin-bottom: 15px;
-            animation: glow 1s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073;
-            }
-            to {
-                text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6;
-            }
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        @keyframes blockGlow {
-            from {
-                box-shadow: 0 0 10px #ff6b6b, 0 0 20px #ff6b6b;
-                transform: translateY(0) scale(1);
-            }
-            to {
-                box-shadow: 0 0 20px #ff6b6b, 0 0 30px #ff6b6b, 0 0 40px #ff6b6b;
-                transform: translateY(-5px) scale(1.1);
-            }
+            font-weight: 500;
         }
 
         @keyframes explode {
@@ -626,27 +476,12 @@
                 opacity: 1;
             }
             50% {
-                transform: scale(1.5);
+                transform: scale(1.3);
                 opacity: 0.7;
             }
             100% {
                 transform: scale(0);
                 opacity: 0;
-            }
-        }
-
-        @keyframes celebrate {
-            0%, 100% {
-                transform: scale(1) rotate(0deg);
-            }
-            25% {
-                transform: scale(1.2) rotate(10deg);
-            }
-            50% {
-                transform: scale(1.3) rotate(-10deg);
-            }
-            75% {
-                transform: scale(1.2) rotate(5deg);
             }
         }
 
@@ -658,59 +493,29 @@
             }
             
             h1 {
-                font-size: 1.6rem;
+                font-size: 1.3rem;
             }
             
             .welcome-title {
-                font-size: 2rem;
+                font-size: 1.5rem;
             }
             
             .question-box {
-                font-size: 1.2rem;
-                padding: 15px;
-                min-height: 70px;
+                font-size: 1.1rem;
+                padding: 12px;
+                min-height: 60px;
             }
             
             .option-btn {
-                font-size: 1rem;
-                padding: 12px 6px;
-                min-height: 55px;
-            }
-            
-            .stats-row, .level-info {
-                font-size: 0.8rem;
-            }
-            
-            .stat-value, .level-value {
-                font-size: 1.1rem;
-            }
-            
-            .block {
-                width: 30px;
-                height: 30px;
-                font-size: 0.7rem;
-            }
-            
-            .user-info {
                 font-size: 0.9rem;
-                padding: 8px 12px;
-            }
-        }
-
-        @media (max-width: 360px) {
-            .options-grid {
-                grid-template-columns: 1fr;
-                gap: 8px;
+                padding: 10px 4px;
+                min-height: 45px;
             }
             
             .block {
-                width: 28px;
-                height: 28px;
-            }
-            
-            .stats-row {
-                flex-direction: column;
-                gap: 8px;
+                width: 25px;
+                height: 25px;
+                font-size: 0.6rem;
             }
         }
     </style>
@@ -719,9 +524,8 @@
     <div class="game-container">
         <!-- صفحه خوش آمدگویی -->
         <div class="welcome-screen" id="welcomeScreen">
-            <div class="glf-effect">GLF</div>
-            <div class="welcome-title"></div>
-            <input type="text" class="welcome-input" id="usernameInput" placeholder="نام کاربری خود را وارد کنید" maxlength="20">
+            <div class="welcome-title">بازی ریاضی پیشرفته</div>
+            <input type="text" class="welcome-input" id="usernameInput" placeholder="نام کاربری خود را وارد کنید" maxlength="15">
             <button class="start-btn" id="startBtn">شروع بازی</button>
         </div>
 
@@ -729,28 +533,13 @@
         <button class="leaderboard-btn" id="leaderboardToggle">🏆 رکوردها</button>
         
         <div class="menu-content" id="menuContent">
-            <button class="close-menu" id="closeMenu">✕</button>
-            <button class="menu-item" id="divisionMode">سوال جواب تقسیم</button>
-            <button class="menu-item" id="multiplicationMode">سوال جواب ضرب</button>
-            <button class="menu-item" id="powerMode">سوال جواب توان</button>
-            <button class="menu-item" id="colorToggle">تغیر رنگ آیکون ها</button>
+            <button class="menu-item" id="divisionMode">سوال تقسیم</button>
+            <button class="menu-item" id="multiplicationMode">سوال ضرب</button>
+            <button class="menu-item" id="powerMode">سوال توان</button>
             <button class="menu-item" onclick="window.open('m.html', '_blank')">حمایت مالی</button>
-            
-            <div class="color-palette" id="colorPalette">
-                <div class="color-option" style="background: #ff6b6b;" data-color="#ff6b6b"></div>
-                <div class="color-option" style="background: #4ecdc4;" data-color="#4ecdc4"></div>
-                <div class="color-option" style="background: #45b7d1;" data-color="#45b7d1"></div>
-                <div class="color-option" style="background: #96ceb4;" data-color="#96ceb4"></div>
-                <div class="color-option" style="background: #feca57;" data-color="#feca57"></div>
-                <div class="color-option" style="background: #ff9ff3;" data-color="#ff9ff3"></div>
-                <div class="color-option" style="background: #54a0ff;" data-color="#54a0ff"></div>
-                <div class="color-option" style="background: #5f27cd;" data-color="#5f27cd"></div>
-                <div class="color-option" style="background: #00d2d3;" data-color="#00d2d3"></div>
-                <div class="color-option" style="background: #ff9f43;" data-color="#ff9f43"></div>
-            </div>
         </div>
         
-        <h1></h1>
+        <h1>بازی ریاضی پیشرفته</h1>
         
         <div class="user-info">
             <span>کاربر:</span>
@@ -809,17 +598,16 @@
             <button class="continue-btn" id="continueBtn">ادامه بازی</button>
         </div>
 
-        <div class="reward-screen level-up-screen" id="levelUpScreen" style="display: none;">
+        <div class="reward-screen" id="levelUpScreen" style="display: none;">
             <div class="level-up-content">
                 <div class="level-up-animation">🎉</div>
-                <div class="glf-effect">GLF</div>
                 <div class="reward-title">تبریک! شما مرحله بعد رفتید</div>
                 <div class="reward-desc">شما ۲۰ سوال را درست پاسخ دادید!</div>
                 <button class="continue-btn" id="levelUpContinue">ادامه بازی</button>
             </div>
         </div>
 
-        <div class="reward-screen leaderboard-screen" id="leaderboardScreen" style="display: none;">
+        <div class="reward-screen" id="leaderboardScreen" style="display: none;">
             <div class="leaderboard-content">
                 <div class="leaderboard-title">🏆 جدول رکوردها</div>
                 <ul class="leaderboard-list" id="leaderboardList">
@@ -840,7 +628,7 @@
     </audio>
     
     <audio id="levelUpSound" preload="auto">
-        <source src="mn1.mp3" type="audio/mpeg">
+        <source src="mn1.mp3.m4a" type="audio/mpeg">
     </audio>
     
     <audio id="explosionSound" preload="auto">
@@ -848,7 +636,7 @@
     </audio>
 
     <script>
-        // وضعیت بازی
+        // وضعیت بازی - بسیار سبک و بهینه
         const gameState = {
             score: 0,
             correctAnswers: 0,
@@ -860,207 +648,119 @@
             questionNumber: 1,
             timer: 20,
             timerInterval: null,
-            musicEnabled: false,
             autoNextTimeout: null,
             highScore: 0,
             questionMode: 'mixed',
-            backgroundColor: null,
             consecutiveCorrect: 0,
             totalBlocksExploded: 0,
             username: '',
-            usedQuestions: new Set() // برای جلوگیری از سوالات تکراری
+            lastQuestionHash: ''
         };
 
-        // لیست سوالات متنوع
-        const questionTemplates = [
-            // تقسیم
-            (level) => {
-                const divisor = Math.floor(Math.random() * 50) + 10 + level * 5;
-                const quotient = Math.floor(Math.random() * 1000) + 100 + level * 50;
+        // توابع ساده و بهینه برای تولید سوال
+        const questionGenerators = {
+            division: (level) => {
+                const divisor = Math.floor(Math.random() * 30) + 10;
+                const quotient = Math.floor(Math.random() * 500) + 100;
                 const dividend = divisor * quotient;
                 return {
                     question: `${dividend} ÷ ${divisor} = ?`,
-                    answer: quotient
+                    answer: quotient,
+                    hash: `div_${dividend}_${divisor}`
                 };
             },
-            // ضرب سه تایی
-            (level) => {
-                const num1 = Math.floor(Math.random() * 1000) + 100 + level * 50;
-                const num2 = Math.floor(Math.random() * 1000) + 100 + level * 50;
-                const num3 = Math.floor(Math.random() * 100) + 10 + level * 5;
+            multiplication: (level) => {
+                const num1 = Math.floor(Math.random() * 100) + 20;
+                const num2 = Math.floor(Math.random() * 100) + 20;
+                const num3 = Math.floor(Math.random() * 10) + 5;
                 return {
                     question: `${num1} × ${num2} × ${num3} = ?`,
-                    answer: num1 * num2 * num3
+                    answer: num1 * num2 * num3,
+                    hash: `mul_${num1}_${num2}_${num3}`
                 };
             },
-            // توان
-            (level) => {
-                const base = Math.floor(Math.random() * 20) + 5 + level;
-                const multiplier = Math.floor(Math.random() * 100) + 10 + level * 10;
+            power: (level) => {
+                const base = Math.floor(Math.random() * 15) + 5;
+                const multiplier = Math.floor(Math.random() * 50) + 10;
                 return {
                     question: `${base}² × ${multiplier} = ?`,
-                    answer: (base * base) * multiplier
+                    answer: (base * base) * multiplier,
+                    hash: `pow_${base}_${multiplier}`
                 };
             },
-            // ترکیبی 1
-            (level) => {
-                const r1 = Math.floor(Math.random() * 100000) + 10000 + level * 5000;
-                const r2 = Math.floor(Math.random() * 100000) + 10000 + level * 5000;
-                const r3 = Math.floor(Math.random() * 1000) + 100 + level * 50;
-                const r4 = Math.floor(Math.random() * 1000) + 100 + level * 50;
+            mixed1: (level) => {
+                const r1 = Math.floor(Math.random() * 100) + 20;
+                const r2 = Math.floor(Math.random() * 100) + 20;
+                const r3 = Math.floor(Math.random() * 50) + 10;
+                const r4 = Math.floor(Math.random() * 50) + 10;
                 return {
                     question: `${r1} × ${r2} + ${r3} × ${r4} = ?`,
-                    answer: (r1 * r2) + (r3 * r4)
+                    answer: (r1 * r2) + (r3 * r4),
+                    hash: `mix1_${r1}_${r2}_${r3}_${r4}`
                 };
             },
-            // ترکیبی 2
-            (level) => {
-                const r1 = Math.floor(Math.random() * 100000) + 10000 + level * 5000;
-                const r2 = Math.floor(Math.random() * 100000) + 10000 + level * 5000;
-                const r3 = Math.floor(Math.random() * 1000) + 100 + level * 50;
-                const r4 = Math.floor(Math.random() * 1000) + 100 + level * 50;
+            mixed2: (level) => {
+                const r1 = Math.floor(Math.random() * 100) + 20;
+                const r2 = Math.floor(Math.random() * 100) + 20;
+                const r3 = Math.floor(Math.random() * 50) + 10;
+                const r4 = Math.floor(Math.random() * 50) + 10;
                 return {
                     question: `(${r1} + ${r2}) × (${r3} - ${r4}) = ?`,
-                    answer: (r1 + r2) * (r3 - r4)
-                };
-            },
-            // ترکیبی 3
-            (level) => {
-                const r1 = Math.floor(Math.random() * 1000) + 100 + level * 50;
-                const r2 = Math.floor(Math.random() * 1000) + 100 + level * 50;
-                const r3 = Math.floor(Math.random() * 100) + 10 + level * 5;
-                const r4 = Math.floor(Math.random() * 100) + 10 + level * 5;
-                return {
-                    question: `${r1}² + ${r2} × ${r3} - ${r4} = ?`,
-                    answer: (r1 * r1) + (r2 * r3) - r4
-                };
-            },
-            // ترکیبی 4
-            (level) => {
-                const r1 = Math.floor(Math.random() * 1000) + 100 + level * 50;
-                const r2 = Math.floor(Math.random() * 1000) + 100 + level * 50;
-                const r3 = Math.floor(Math.random() * 50) + 10 + level * 3;
-                const r4 = Math.floor(Math.random() * 100) + 10 + level * 5;
-                const r5 = Math.floor(Math.random() * 100) + 10 + level * 5;
-                return {
-                    question: `${r1} × ${r2} ÷ ${r3} + ${r4} × ${r5} = ?`,
-                    answer: Math.floor((r1 * r2) / r3) + (r4 * r5)
-                };
-            },
-            // ترکیبی 5
-            (level) => {
-                const r1 = Math.floor(Math.random() * 1000) + 100 + level * 50;
-                const r2 = Math.floor(Math.random() * 1000) + 100 + level * 50;
-                const r3 = Math.floor(Math.random() * 100) + 10 + level * 5;
-                return {
-                    question: `√${r1 * r1} × ${r2} + ${r3}² = ?`,
-                    answer: r1 * r2 + (r3 * r3)
-                };
-            },
-            // ترکیبی 6
-            (level) => {
-                const r1 = Math.floor(Math.random() * 1000) + 100 + level * 50;
-                const r2 = Math.floor(Math.random() * 1000) + 100 + level * 50;
-                const r3 = Math.floor(Math.random() * 100) + 10 + level * 5;
-                const r4 = Math.floor(Math.random() * 100) + 10 + level * 5;
-                return {
-                    question: `(${r1} + ${r2})² ÷ ${r3} - ${r4} = ?`,
-                    answer: Math.floor(((r1 + r2) * (r1 + r2)) / r3) - r4
-                };
-            },
-            // ترکیبی 7
-            (level) => {
-                const r1 = Math.floor(Math.random() * 100) + 10 + level * 5;
-                const r2 = Math.floor(Math.random() * 100) + 10 + level * 5;
-                const r3 = Math.floor(Math.random() * 100) + 10 + level * 5;
-                const r4 = Math.floor(Math.random() * 100) + 10 + level * 5;
-                return {
-                    question: `${r1}³ + ${r2}² × ${r3} - ${r4} = ?`,
-                    answer: (r1 * r1 * r1) + (r2 * r2 * r3) - r4
-                };
-            },
-            // ترکیبی 8
-            (level) => {
-                const r1 = Math.floor(Math.random() * 1000) + 100 + level * 50;
-                const r2 = Math.floor(Math.random() * 1000) + 100 + level * 50;
-                const r3 = Math.floor(Math.random() * 100) + 10 + level * 5;
-                const r4 = Math.floor(Math.random() * 100) + 10 + level * 5;
-                return {
-                    question: `${r1} × (${r2} + ${r3}) - ${r4}² = ?`,
-                    answer: r1 * (r2 + r3) - (r4 * r4)
+                    answer: (r1 + r2) * (r3 - r4),
+                    hash: `mix2_${r1}_${r2}_${r3}_${r4}`
                 };
             }
-        ];
+        };
 
-        // بارگذاری تمام وضعیت بازی
+        const generatorKeys = Object.keys(questionGenerators);
+
+        // بارگذاری وضعیت بازی
         function loadGameState() {
-            const savedState = localStorage.getItem('mathGameFullState');
-            if (savedState) {
-                const parsedState = JSON.parse(savedState);
-                
-                // بازیابی تمام مقادیر
-                gameState.score = parsedState.score || 0;
-                gameState.correctAnswers = parsedState.correctAnswers || 0;
-                gameState.wrongAnswers = parsedState.wrongAnswers || 0;
-                gameState.totalQuestions = parsedState.totalQuestions || 0;
-                gameState.level = parsedState.level || 1;
-                gameState.correctInLevel = parsedState.correctInLevel || 0;
-                gameState.questionNumber = parsedState.questionNumber || 1;
-                gameState.highScore = parsedState.highScore || 0;
-                gameState.questionMode = parsedState.questionMode || 'mixed';
-                gameState.backgroundColor = parsedState.backgroundColor || null;
-                gameState.consecutiveCorrect = parsedState.consecutiveCorrect || 0;
-                gameState.totalBlocksExploded = parsedState.totalBlocksExploded || 0;
-                gameState.username = parsedState.username || '';
-                gameState.usedQuestions = new Set(parsedState.usedQuestions || []);
-                
-                // اعمال رنگ پس‌زمینه ذخیره شده
-                if (gameState.backgroundColor) {
-                    document.body.style.backgroundColor = gameState.backgroundColor;
-                    document.body.style.backgroundImage = 'none';
+            try {
+                const savedState = localStorage.getItem('mathGameFullState');
+                if (savedState) {
+                    const parsedState = JSON.parse(savedState);
+                    Object.assign(gameState, parsedState);
+                    
+                    if (gameState.username) {
+                        document.getElementById('welcomeScreen').style.display = 'none';
+                        document.getElementById('usernameDisplay').textContent = gameState.username;
+                    }
                 }
-
-                // اگر کاربر قبلاً ثبت نام کرده، صفحه خوش آمدگویی را مخفی کن
-                if (gameState.username) {
-                    document.getElementById('welcomeScreen').style.display = 'none';
-                    document.getElementById('usernameDisplay').textContent = gameState.username;
-                }
+            } catch (e) {
+                console.log('خطا در بارگذاری وضعیت بازی');
             }
         }
 
-        // ذخیره تمام وضعیت بازی
+        // ذخیره وضعیت بازی
         function saveGameState() {
-            const stateToSave = {
-                score: gameState.score,
-                correctAnswers: gameState.correctAnswers,
-                wrongAnswers: gameState.wrongAnswers,
-                totalQuestions: gameState.totalQuestions,
-                level: gameState.level,
-                correctInLevel: gameState.correctInLevel,
-                questionNumber: gameState.questionNumber,
-                highScore: gameState.highScore,
-                questionMode: gameState.questionMode,
-                backgroundColor: gameState.backgroundColor,
-                consecutiveCorrect: gameState.consecutiveCorrect,
-                totalBlocksExploded: gameState.totalBlocksExploded,
-                username: gameState.username,
-                usedQuestions: Array.from(gameState.usedQuestions)
-            };
-            localStorage.setItem('mathGameFullState', JSON.stringify(stateToSave));
+            try {
+                localStorage.setItem('mathGameFullState', JSON.stringify(gameState));
+            } catch (e) {
+                console.log('خطا در ذخیره وضعیت بازی');
+            }
         }
 
         // مدیریت جدول رکوردها
         function getLeaderboard() {
-            const leaderboard = localStorage.getItem('mathGameLeaderboard');
-            return leaderboard ? JSON.parse(leaderboard) : [];
+            try {
+                const leaderboard = localStorage.getItem('mathGameLeaderboard');
+                return leaderboard ? JSON.parse(leaderboard) : [];
+            } catch (e) {
+                return [];
+            }
         }
 
         function saveLeaderboard(leaderboard) {
-            localStorage.setItem('mathGameLeaderboard', JSON.stringify(leaderboard));
+            try {
+                localStorage.setItem('mathGameLeaderboard', JSON.stringify(leaderboard));
+            } catch (e) {
+                console.log('خطا در ذخیره رکوردها');
+            }
         }
 
         function updateLeaderboard() {
-            if (gameState.totalBlocksExploded < 1000) return;
+            if (gameState.totalBlocksExploded < 100) return;
 
             const leaderboard = getLeaderboard();
             const userEntry = {
@@ -1080,11 +780,7 @@
             }
 
             leaderboard.sort((a, b) => b.score - a.score);
-            
-            if (leaderboard.length > 10) {
-                leaderboard.splice(10);
-            }
-
+            if (leaderboard.length > 10) leaderboard.splice(10);
             saveLeaderboard(leaderboard);
         }
 
@@ -1094,62 +790,48 @@
             leaderboardList.innerHTML = '';
 
             if (leaderboard.length === 0) {
-                leaderboardList.innerHTML = '<div style="text-align: center; padding: 20px; color: rgba(255,255,255,0.6)">هنوز رکوردی ثبت نشده است!</div>';
+                leaderboardList.innerHTML = '<div style="text-align: center; padding: 15px; color: rgba(255,255,255,0.6)">هنوز رکوردی ثبت نشده است!</div>';
                 return;
             }
 
             leaderboard.forEach((entry, index) => {
                 const li = document.createElement('li');
                 li.className = 'leaderboard-item';
-                
                 li.innerHTML = `
                     <div class="leaderboard-rank">${index + 1}</div>
                     <div class="leaderboard-user">${entry.username}</div>
-                    <div class="leaderboard-score">${entry.score.toLocaleString()} بلوک</div>
+                    <div class="leaderboard-score">${entry.score} بلوک</div>
                 `;
-                
                 leaderboardList.appendChild(li);
             });
         }
 
-        // تولید سوالات غیر تکراری
+        // تولید سوال غیر تکراری
         function generateQuestion() {
             let questionData;
             let attempts = 0;
-            const maxAttempts = 50;
-
+            
             do {
-                let templateIndex;
+                let generatorKey;
                 if (gameState.questionMode === 'division') {
-                    templateIndex = 0;
+                    generatorKey = 'division';
                 } else if (gameState.questionMode === 'multiplication') {
-                    templateIndex = 1;
+                    generatorKey = 'multiplication';
                 } else if (gameState.questionMode === 'power') {
-                    templateIndex = 2;
+                    generatorKey = 'power';
                 } else {
-                    templateIndex = Math.floor(Math.random() * questionTemplates.length);
+                    generatorKey = generatorKeys[Math.floor(Math.random() * generatorKeys.length)];
                 }
                 
-                questionData = questionTemplates[templateIndex](gameState.level);
+                questionData = questionGenerators[generatorKey](gameState.level);
                 attempts++;
                 
-                if (attempts >= maxAttempts) {
-                    // اگر نتوانستیم سوال غیر تکراری پیدا کنیم، ست را خالی کنیم
-                    gameState.usedQuestions.clear();
-                    break;
-                }
-            } while (gameState.usedQuestions.has(questionData.question));
+                if (attempts > 10) break; // جلوگیری از حلقه بی‌نهایت
+            } while (questionData.hash === gameState.lastQuestionHash);
 
-            gameState.usedQuestions.add(questionData.question);
-            
-            // اگر تعداد سوالات ذخیره شده زیاد شد، قدیمی‌ها را پاک کن
-            if (gameState.usedQuestions.size > 100) {
-                const array = Array.from(gameState.usedQuestions);
-                array.splice(0, 50);
-                gameState.usedQuestions = new Set(array);
-            }
-
+            gameState.lastQuestionHash = questionData.hash;
             gameState.currentAnswer = questionData.answer;
+            
             document.getElementById('questionText').textContent = questionData.question;
             generateOptions(questionData.answer);
             enableOptions();
@@ -1158,8 +840,6 @@
             startTimer();
             updateProgressBar();
             updateBlocksUI();
-            
-            saveGameState();
         }
 
         // تولید گزینه‌ها
@@ -1168,42 +848,32 @@
             
             while (options.length < 4) {
                 let wrongOption;
-                const variance = Math.max(1000, Math.floor(correctAnswer * 0.2));
+                const variance = Math.max(10, Math.floor(correctAnswer * 0.2));
                 
                 if (Math.random() > 0.5) {
                     wrongOption = correctAnswer + (Math.random() > 0.5 ? variance : -variance);
                 } else {
-                    wrongOption = correctAnswer * (Math.random() > 0.5 ? 1.15 : 0.85);
+                    wrongOption = correctAnswer * (Math.random() > 0.5 ? 1.1 : 0.9);
                 }
                 
                 wrongOption = Math.round(wrongOption);
                 wrongOption = Math.max(1, wrongOption);
                 
-                if (!options.includes(wrongOption) && wrongOption !== correctAnswer) {
+                if (!options.includes(wrongOption)) {
                     options.push(wrongOption);
                 }
             }
             
-            // مخلوط کردن
+            // مخلوط کردن ساده
             for (let i = options.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [options[i], options[j]] = [options[j], options[i]];
             }
             
-            document.getElementById('option1').textContent = this.formatNumber(options[0]);
-            document.getElementById('option2').textContent = this.formatNumber(options[1]);
-            document.getElementById('option3').textContent = this.formatNumber(options[2]);
-            document.getElementById('option4').textContent = this.formatNumber(options[3]);
-        }
-
-        // فرمت اعداد بزرگ
-        function formatNumber(num) {
-            if (num >= 1000000) {
-                return (num / 1000000).toFixed(1) + 'M';
-            } else if (num >= 1000) {
-                return (num / 1000).toFixed(1) + 'K';
-            }
-            return num.toString();
+            document.getElementById('option1').textContent = options[0];
+            document.getElementById('option2').textContent = options[1];
+            document.getElementById('option3').textContent = options[2];
+            document.getElementById('option4').textContent = options[3];
         }
 
         // تایمر
@@ -1261,47 +931,34 @@
         function playSound(soundType) {
             try {
                 const sound = document.getElementById(soundType + 'Sound');
-                sound.currentTime = 0;
-                const playPromise = sound.play();
-                
-                if (playPromise !== undefined) {
-                    playPromise.catch(error => {
-                        console.log('پخش صدا با خطا مواجه شد:', error);
-                    });
+                if (sound) {
+                    sound.currentTime = 0;
+                    sound.play().catch(() => {});
                 }
-            } catch (error) {
-                console.log('خطا در پخش صدا:', error);
+            } catch (e) {
+                // ignore errors
             }
         }
 
         // انفجار بلوک‌ها
         function explodeBlocks() {
-            const blocks = document.querySelectorAll('.block');
-            let delay = 0;
-            
             playSound('explosion');
             
-            blocks.forEach((block, index) => {
-                setTimeout(() => {
-                    block.classList.remove('active');
-                    block.classList.add('exploded');
-                }, delay);
-                delay += 200;
+            const blocks = document.querySelectorAll('.block');
+            blocks.forEach(block => {
+                block.classList.remove('active');
+                block.classList.add('exploded');
             });
             
-            // آپدیت آمار
             gameState.totalBlocksExploded += 5;
             gameState.score += 50;
-            
-            // آپدیت جدول رکوردها
             updateLeaderboard();
             
-            // پاک کردن بلوک‌ها پس از انفجار
             setTimeout(() => {
                 gameState.consecutiveCorrect = 0;
                 updateBlocksUI();
                 updateUI();
-            }, 1000);
+            }, 300);
         }
 
         // بررسی پاسخ
@@ -1309,15 +966,7 @@
             clearInterval(gameState.timerInterval);
             clearTimeout(gameState.autoNextTimeout);
             
-            let userAnswer = selectedOption.textContent;
-            if (userAnswer.includes('K')) {
-                userAnswer = parseFloat(userAnswer) * 1000;
-            } else if (userAnswer.includes('M')) {
-                userAnswer = parseFloat(userAnswer) * 1000000;
-            } else {
-                userAnswer = parseInt(userAnswer);
-            }
-            
+            const userAnswer = parseInt(selectedOption.textContent);
             gameState.totalQuestions++;
             
             disableOptions();
@@ -1332,7 +981,7 @@
             
             gameState.autoNextTimeout = setTimeout(() => {
                 nextQuestion();
-            }, 2000);
+            }, 1500);
         }
 
         function handleCorrectAnswer(selectedOption) {
@@ -1343,7 +992,6 @@
             
             selectedOption.classList.add('correct');
             
-            // بررسی برای انفجار بلوک‌ها
             if (gameState.consecutiveCorrect >= 5) {
                 document.getElementById('feedback').textContent = 'آفرین! +۱۰ امتیاز +۵۰ امتیاز بلوک!';
                 explodeBlocks();
@@ -1352,10 +1000,8 @@
             }
             
             document.getElementById('feedback').className = 'feedback correct';
-            
             playSound('correct');
             
-            // نمایش صفحه ارتقاء سطح پس از ۲۰ پاسخ صحیح
             if (gameState.correctInLevel >= 20) {
                 showLevelUpScreen();
             }
@@ -1363,38 +1009,24 @@
             updateBlocksUI();
         }
 
-        function handleWrongAnswer(selectedOption = null) {
+        function handleWrongAnswer(selectedOption) {
             gameState.wrongAnswers++;
             gameState.correctInLevel = 0;
-            // بلوک‌ها نمی‌روند! فقط correctInLevel ریست می‌شود
+            // بلوک‌ها باقی می‌مانند
             
-            if (selectedOption) {
-                selectedOption.classList.add('wrong');
-            }
+            selectedOption.classList.add('wrong');
             
             const options = document.querySelectorAll('.option-btn');
             options.forEach(option => {
-                let optionValue = option.textContent;
-                if (optionValue.includes('K')) {
-                    optionValue = parseFloat(optionValue) * 1000;
-                } else if (optionValue.includes('M')) {
-                    optionValue = parseFloat(optionValue) * 1000000;
-                } else {
-                    optionValue = parseInt(optionValue);
-                }
-                
-                if (optionValue === gameState.currentAnswer) {
+                if (parseInt(option.textContent) === gameState.currentAnswer) {
                     option.classList.add('correct');
                 }
             });
             
-            document.getElementById('feedback').textContent = `پاسخ: ${this.formatNumber(gameState.currentAnswer)}`;
+            document.getElementById('feedback').textContent = `پاسخ: ${gameState.currentAnswer}`;
             document.getElementById('feedback').className = 'feedback incorrect';
-            
             playSound('wrong');
-            
             updateProgressBar();
-            // بلوک‌ها باقی می‌مانند - فقط updateBlocksUI نمی‌کنیم
         }
 
         function showLevelUpScreen() {
@@ -1405,20 +1037,11 @@
         function handleTimeOut() {
             gameState.wrongAnswers++;
             gameState.correctInLevel = 0;
-            // بلوک‌ها نمی‌روند!
+            // بلوک‌ها باقی می‌مانند
             
             const options = document.querySelectorAll('.option-btn');
             options.forEach(option => {
-                let optionValue = option.textContent;
-                if (optionValue.includes('K')) {
-                    optionValue = parseFloat(optionValue) * 1000;
-                } else if (optionValue.includes('M')) {
-                    optionValue = parseFloat(optionValue) * 1000000;
-                } else {
-                    optionValue = parseInt(optionValue);
-                }
-                
-                if (optionValue === gameState.currentAnswer) {
+                if (parseInt(option.textContent) === gameState.currentAnswer) {
                     option.classList.add('correct');
                 }
             });
@@ -1426,12 +1049,13 @@
             document.getElementById('feedback').textContent = 'زمان تمام شد!';
             document.getElementById('feedback').className = 'feedback incorrect';
             disableOptions();
-            
             playSound('wrong');
-            
             updateProgressBar();
             updateUI();
-            // بلوک‌ها باقی می‌مانند
+            
+            gameState.autoNextTimeout = setTimeout(() => {
+                nextQuestion();
+            }, 1500);
         }
 
         function nextQuestion() {
@@ -1448,13 +1072,12 @@
             document.getElementById('rewardScreen').style.display = 'flex';
             
             playSound('levelUp');
-            
             updateProgressBar();
             
             setTimeout(() => {
                 document.getElementById('rewardScreen').style.display = 'none';
                 nextQuestion();
-            }, 3000);
+            }, 2000);
         }
 
         function enableOptions() {
@@ -1462,7 +1085,6 @@
             options.forEach(option => {
                 option.disabled = false;
                 option.classList.remove('correct', 'wrong');
-                option.style.animation = 'none';
             });
         }
 
@@ -1473,14 +1095,6 @@
             });
         }
 
-        // تغییر رنگ پس‌زمینه و آیکون‌ها
-        function changeBackgroundColor(color) {
-            document.body.style.backgroundColor = color;
-            document.body.style.backgroundImage = 'none';
-            gameState.backgroundColor = color;
-            saveGameState();
-        }
-
         // راه‌اندازی بازی
         document.addEventListener('DOMContentLoaded', function() {
             loadGameState();
@@ -1488,7 +1102,6 @@
             updateProgressBar();
             updateBlocksUI();
             
-            // اگر کاربر ثبت نام کرده، بازی را شروع کن
             if (gameState.username) {
                 generateQuestion();
             }
@@ -1496,16 +1109,14 @@
             // مدیریت منو
             document.getElementById('menuToggle').addEventListener('click', function() {
                 const menuContent = document.getElementById('menuContent');
-                const closeMenu = document.getElementById('closeMenu');
-                menuContent.style.display = 'flex';
-                closeMenu.style.display = 'flex';
+                menuContent.style.display = menuContent.style.display === 'flex' ? 'none' : 'flex';
             });
 
-            document.getElementById('closeMenu').addEventListener('click', function() {
-                const menuContent = document.getElementById('menuContent');
-                const closeMenu = document.getElementById('closeMenu');
-                menuContent.style.display = 'none';
-                closeMenu.style.display = 'none';
+            // بستن منو با کلیک خارج
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.menu-content') && !e.target.closest('.menu-btn')) {
+                    document.getElementById('menuContent').style.display = 'none';
+                }
             });
 
             // شروع بازی
@@ -1517,12 +1128,9 @@
                     document.getElementById('usernameDisplay').textContent = username;
                     saveGameState();
                     generateQuestion();
-                } else {
-                    alert('لطفاً نام کاربری خود را وارد کنید!');
                 }
             });
 
-            // Enter برای شروع بازی
             document.getElementById('usernameInput').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     document.getElementById('startBtn').click();
@@ -1545,7 +1153,6 @@
                 saveGameState();
                 nextQuestion();
                 document.getElementById('menuContent').style.display = 'none';
-                document.getElementById('closeMenu').style.display = 'none';
             });
             
             document.getElementById('multiplicationMode').addEventListener('click', function() {
@@ -1553,7 +1160,6 @@
                 saveGameState();
                 nextQuestion();
                 document.getElementById('menuContent').style.display = 'none';
-                document.getElementById('closeMenu').style.display = 'none';
             });
             
             document.getElementById('powerMode').addEventListener('click', function() {
@@ -1561,24 +1167,6 @@
                 saveGameState();
                 nextQuestion();
                 document.getElementById('menuContent').style.display = 'none';
-                document.getElementById('closeMenu').style.display = 'none';
-            });
-            
-            // تغییر رنگ
-            document.getElementById('colorToggle').addEventListener('click', function() {
-                const palette = document.getElementById('colorPalette');
-                palette.style.display = palette.style.display === 'grid' ? 'none' : 'grid';
-            });
-            
-            // انتخاب رنگ
-            document.querySelectorAll('.color-option').forEach(option => {
-                option.addEventListener('click', function() {
-                    const color = this.getAttribute('data-color');
-                    changeBackgroundColor(color);
-                    document.getElementById('colorPalette').style.display = 'none';
-                    document.getElementById('menuContent').style.display = 'none';
-                    document.getElementById('closeMenu').style.display = 'none';
-                });
             });
             
             // رویدادهای دکمه‌ها
@@ -1597,24 +1185,6 @@
                 levelUp();
             });
         });
-
-        // فعال‌سازی صداها با اولین کلیک
-        document.addEventListener('click', function initAudio() {
-            const sounds = ['correctSound', 'wrongSound', 'levelUpSound', 'explosionSound'];
-            sounds.forEach(soundId => {
-                const sound = document.getElementById(soundId);
-                sound.volume = 0.001;
-                sound.play().then(() => {
-                    sound.pause();
-                    sound.currentTime = 0;
-                    sound.volume = 1;
-                }).catch(() => {
-                    // ignore
-                });
-            });
-            
-            document.removeEventListener('click', initAudio);
-        }, { once: true });
     </script>
 </body>
 </html>
