@@ -215,6 +215,15 @@
             height: 100px;
         }
 
+        .square:active {
+            transform: scale(0.95);
+        }
+
+        .square.holding {
+            box-shadow: 0 0 20px #ffeb3b;
+            border: 2px solid #ffeb3b;
+        }
+
         .square-image {
             width: 100%;
             height: 80%;
@@ -468,8 +477,9 @@
         <div class="menu-section">
             <h3>📋 راهنما</h3>
             <div style="color: #ccc; line-height: 1.6; font-size: 0.95em;">
-                <p>🎯 <strong>هدف بازی:</strong> مربع‌ها را با کلیک یا تیربار نابود کن!</p>
+                <p>🎯 <strong>هدف بازی:</strong> مربع‌ها را با کلیک یا نگه داشتن نابود کن!</p>
                 <p>🔫 <strong>تیربار:</strong> از مرحله ۵ فعال می‌شود</p>
+                <p>👆 <strong>نگه دارید:</strong> روی مربع‌ها نگه دارید تا سریع‌تر نابود شوند</p>
                 <p>💎 <strong>قدرت‌ها:</strong> از بالا می‌آیند - جمع‌آوری کن!</p>
                 <p>💰 <strong>سکه‌ها:</strong> با نابود کردن مربع‌ها کسب کن</p>
                 <p>🛒 <strong>فروشگاه:</strong> اسلحه‌های قدرتمند بخر</p>
@@ -569,7 +579,9 @@
                 9: { name: "اسلحه کوانتومی", power: 30, price: 1000000, owned: false, bullets: 80 },
                 10: { name: "اسلحه افسانه‌ای", power: 50, price: 2000000, owned: false, bullets: 50 }
             },
-            bulletPower: 1 // قدرت جداگانه برای گلوله‌ها
+            bulletPower: 1,
+            holdingSquares: new Map(), // برای مدیریت مربع‌های در حال نگه‌داشته شدن
+            holdInterval: null
         };
 
         // تنظیمات مراحل
@@ -653,6 +665,7 @@
             }
             startStage();
             updateWeaponsList();
+            startHoldInterval();
         }
 
         // ریست بازی
@@ -692,7 +705,9 @@
                     9: { name: "اسلحه کوانتومی", power: 30, price: 1000000, owned: false, bullets: 80 },
                     10: { name: "اسلحه افسانه‌ای", power: 50, price: 2000000, owned: false, bullets: 50 }
                 },
-                bulletPower: 1
+                bulletPower: 1,
+                holdingSquares: new Map(),
+                holdInterval: null
             };
             updateUI();
             updateGunPosition();
@@ -760,21 +775,95 @@
             square.dataset.number = number;
             square.dataset.initialNumber = number;
             
-            // کلیک با هر تعداد دست
-            const handleInteraction = (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handleSquareClick(square);
-            };
-            
-            square.addEventListener('click', handleInteraction);
-            square.addEventListener('touchstart', handleInteraction);
+            // رویدادهای کلیک و نگه‌داشتن
+            setupSquareInteractions(square);
 
             squaresContainer.appendChild(square);
             gameState.squares.push({
                 element: square,
                 number: number
             });
+        }
+
+        // تنظیم رویدادهای مربع برای کلیک و نگه‌داشتن
+        function setupSquareInteractions(square) {
+            let holdTimer = null;
+            let isHolding = false;
+
+            const startHold = (e) => {
+                e.preventDefault();
+                if (isHolding) return;
+                
+                isHolding = true;
+                square.classList.add('holding');
+                
+                // اضافه کردن به لیست مربع‌های در حال نگه‌داشته شدن
+                gameState.holdingSquares.set(square, {
+                    startTime: Date.now(),
+                    lastProcessTime: Date.now()
+                });
+            };
+
+            const endHold = (e) => {
+                e.preventDefault();
+                if (!isHolding) return;
+                
+                isHolding = false;
+                square.classList.remove('holding');
+                gameState.holdingSquares.delete(square);
+                
+                // اگر نگه‌داشتن کوتاه بود، یک بار کلیک انجام بده
+                if (Date.now() - (gameState.holdingSquares.get(square)?.startTime || Date.now()) < 300) {
+                    handleSquareClick(square);
+                }
+            };
+
+            // رویدادهای موس
+            square.addEventListener('mousedown', startHold);
+            square.addEventListener('mouseup', endHold);
+            square.addEventListener('mouseleave', endHold);
+
+            // رویدادهای لمسی
+            square.addEventListener('touchstart', startHold, { passive: false });
+            square.addEventListener('touchend', endHold);
+            square.addEventListener('touchcancel', endHold);
+        }
+
+        // شروع اینتروال برای پردازش مربع‌های در حال نگه‌داشته شدن
+        function startHoldInterval() {
+            if (gameState.holdInterval) {
+                clearInterval(gameState.holdInterval);
+            }
+            
+            gameState.holdInterval = setInterval(() => {
+                const now = Date.now();
+                gameState.holdingSquares.forEach((data, square) => {
+                    if (now - data.lastProcessTime >= 100) { // هر 100 میلی‌ثانیه
+                        handleSquareHold(square);
+                        data.lastProcessTime = now;
+                    }
+                });
+            }, 50); // بررسی هر 50 میلی‌ثانیه
+        }
+
+        // پردازش نگه‌داشتن مربع
+        function handleSquareHold(square) {
+            const weaponPower = gameState.weapons[gameState.currentWeapon].power;
+            const totalPower = weaponPower * (gameState.isPowerActive ? gameState.currentPower : 1);
+            
+            let currentNumber = parseInt(square.dataset.number);
+            currentNumber -= totalPower;
+            
+            if (currentNumber <= 0) {
+                destroySquare(square);
+                gameState.holdingSquares.delete(square);
+            } else {
+                square.dataset.number = currentNumber;
+                square.querySelector('.square-number').textContent = currentNumber.toLocaleString();
+            }
+            
+            updateUI();
+            saveGame();
         }
 
         // کلیک روی مربع
@@ -807,6 +896,8 @@
                 if (square.parentNode) {
                     square.remove();
                 }
+                // حذف از لیست نگه‌داشته شدن
+                gameState.holdingSquares.delete(square);
                 checkStageComplete();
             }, 300);
         }
