@@ -3,1371 +3,658 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بازی ریاضی پیشرفته</title>
+    <title>Math Mastermind: Quantum Challenge</title>
     <style>
+        :root {
+            --primary-dark: #0a0a1a;
+            --secondary-dark: #1a1a2e;
+            --accent-purple: #4a1e6b;
+            --neon-blue: #00f3ff;
+            --neon-green: #00ff9d;
+            --neon-yellow: #ffeb3b;
+            --neon-red: #ff2a6d;
+            --text-light: #ffffff;
+            --white: #ffffff;
+            --correct-color: #00ff9d;
+            --incorrect-color: #ff2a6d;
+            --particle-color: rgba(0, 243, 255, 0.3);
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
-            background: #000000 url('m1.webp') no-repeat center center fixed;
-            background-size: cover;
+            background: linear-gradient(135deg, var(--primary-dark), var(--accent-purple));
+            color: var(--text-light);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            color: #ffffff;
-            overflow: hidden;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        #particles-js {
             position: fixed;
             width: 100%;
             height: 100%;
-        }
-
-        /* حذف کامل overlay برای نمایش مستقیم عکس */
-        .game-container {
-            background: rgba(0, 0, 0, 0.2); /* شفافیت بسیار کم */
-            border-radius: 20px;
-            padding: 20px;
-            width: 100%;
-            max-width: 500px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            position: relative;
-            max-height: 95vh;
-            overflow-y: auto;
-            backdrop-filter: blur(2px); /* کاهش شدید blur */
-            box-shadow: 
-                0 0 0 1px rgba(255, 255, 255, 0.3),
-                0 0 60px rgba(255, 255, 255, 0.2);
-        }
-
-        .game-container::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, 
-                rgba(255, 255, 255, 0.4) 0%, 
-                rgba(255, 255, 255, 0.3) 25%, 
-                rgba(255, 255, 255, 0.2) 50%, 
-                rgba(255, 255, 255, 0.3) 75%, 
-                rgba(255, 255, 255, 0.4) 100%);
-            border-radius: 22px;
-            z-index: -1;
-            animation: borderGlow 4s ease-in-out infinite;
-        }
-
-        .corner-decoration {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            pointer-events: none;
-        }
-
-        .corner-tl {
-            top: 10px;
-            left: 10px;
-            border-top: 2px solid rgba(255, 255, 255, 0.8);
-            border-left: 2px solid rgba(255, 255, 255, 0.8);
-            border-top-left-radius: 15px;
-        }
-
-        .corner-tr {
-            top: 10px;
-            right: 10px;
-            border-top: 2px solid rgba(255, 255, 255, 0.8);
-            border-right: 2px solid rgba(255, 255, 255, 0.8);
-            border-top-right-radius: 15px;
-        }
-
-        .corner-bl {
-            bottom: 10px;
-            left: 10px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.8);
-            border-left: 2px solid rgba(255, 255, 255, 0.8);
-            border-bottom-left-radius: 15px;
-        }
-
-        .corner-br {
-            bottom: 10px;
-            right: 10px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.8);
-            border-right: 2px solid rgba(255, 255, 255, 0.8);
-            border-bottom-right-radius: 15px;
-        }
-
-        @keyframes borderGlow {
-            0%, 100% {
-                opacity: 0.9;
-            }
-            50% {
-                opacity: 1;
-            }
-        }
-
-        .welcome-screen {
-            position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3); /* شفافیت بسیار کم */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            border-radius: 20px;
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
             padding: 20px;
-            backdrop-filter: blur(1px); /* کاهش شدید blur */
         }
-
-        .welcome-title {
-            font-size: 2rem;
-            color: #ffffff;
+        
+        header {
+            text-align: center;
+            padding: 20px 0;
             margin-bottom: 20px;
-            text-align: center;
-            font-weight: 300;
-            text-shadow: 
-                0 0 20px rgba(255, 255, 255, 1),
-                0 0 30px rgba(255, 255, 255, 0.8),
-                2px 2px 4px rgba(0, 0, 0, 0.8);
         }
-
-        .welcome-input {
-            width: 80%;
-            max-width: 300px;
-            padding: 12px;
-            font-size: 1.1rem;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.15);
-            color: #ffffff;
-            text-align: center;
-            margin-bottom: 20px;
-            backdrop-filter: blur(1px);
-        }
-
-        .welcome-input::placeholder {
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .start-btn {
-            padding: 12px 25px;
-            font-size: 1.1rem;
-            background: rgba(255, 255, 255, 0.25);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            backdrop-filter: blur(1px);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-        }
-
-        .start-btn:active {
-            transform: scale(0.95);
-        }
-
-        .leaderboard-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            border-radius: 6px;
-            padding: 8px 12px;
-            color: #ffffff;
-            cursor: pointer;
-            font-size: 0.8rem;
-            backdrop-filter: blur(1px);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-        }
-
-        .menu-btn {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            border-radius: 6px;
-            width: 35px;
-            height: 35px;
-            color: #ffffff;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.2rem;
-            backdrop-filter: blur(1px);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-        }
-
-        .menu-content {
-            position: absolute;
-            top: 55px;
-            left: 15px;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 8px;
-            padding: 10px;
-            min-width: 180px;
-            display: none;
-            flex-direction: column;
-            gap: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            z-index: 1000;
-            backdrop-filter: blur(2px);
-        }
-
-        .menu-item {
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 6px;
-            padding: 10px;
-            color: #ffffff;
-            cursor: pointer;
-            font-size: 0.8rem;
-            text-align: center;
-            transition: all 0.2s ease;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-        }
-
-        .menu-item:active {
-            background: rgba(255, 255, 255, 0.25);
-        }
-
+        
         h1 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: #ffffff;
-            font-weight: 300;
-            text-align: center;
-            text-shadow: 
-                0 0 20px rgba(255, 255, 255, 1),
-                0 0 30px rgba(255, 255, 255, 0.8),
-                2px 2px 4px rgba(0, 0, 0, 0.8);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--neon-blue), var(--neon-green));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
         }
-
-        .user-info {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 8px 12px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            font-size: 0.9rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(1px);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-        }
-
-        .username {
-            color: #ffffff;
-            font-weight: 500;
-        }
-
-        .stats-row {
+        
+        .game-info {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(1px);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-        }
-
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            flex: 1;
-        }
-
-        .stat-value {
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: #ffffff;
-            margin-top: 2px;
-            text-shadow: 
-                0 0 15px rgba(255, 255, 255, 1),
-                2px 2px 4px rgba(0, 0, 0, 0.8);
-        }
-
-        .level-info {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 8px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(1px);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-        }
-
-        .level-text {
-            font-size: 0.9rem;
-        }
-
-        .level-value {
-            font-size: 1.2rem;
-            font-weight: 500;
-            color: #ffffff;
-            text-shadow: 
-                0 0 15px rgba(255, 255, 255, 1),
-                2px 2px 4px rgba(0, 0, 0, 0.8);
-        }
-
-        .progress-container {
-            background: rgba(255, 255, 255, 0.1);
-            height: 8px;
-            border-radius: 4px;
-            margin-bottom: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, 
-                rgba(255, 255, 255, 0.9), 
-                rgba(255, 255, 255, 1));
-            width: 0%;
-            transition: width 0.2s ease;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
-        }
-
-        .question-box {
-            background: rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+            background: rgba(26, 26, 46, 0.7);
             padding: 15px;
             border-radius: 10px;
-            margin-bottom: 12px;
-            font-size: 1.2rem;
-            min-height: 70px;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+        }
+        
+        .info-item {
+            text-align: center;
+        }
+        
+        .info-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .info-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        .score {
+            color: var(--neon-yellow);
+        }
+        
+        .level {
+            color: var(--neon-green);
+        }
+        
+        .timer {
+            color: var(--neon-red);
+        }
+        
+        .question-container {
+            background: rgba(26, 26, 46, 0.8);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+        }
+        
+        .question-text {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            text-align: center;
+            line-height: 1.8;
+            min-height: 80px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 500;
-            line-height: 1.4;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(1px);
-            text-shadow: 
-                0 0 15px rgba(255, 255, 255, 1),
-                2px 2px 4px rgba(0, 0, 0, 0.8);
         }
-
-        .timer-box {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 8px;
-            border-radius: 6px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(1px);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-        }
-
-        .timer-value {
-            font-size: 1.2rem;
-            font-weight: 500;
-            color: #ffffff;
-            text-shadow: 
-                0 0 15px rgba(255, 255, 255, 1),
-                2px 2px 4px rgba(0, 0, 0, 0.8);
-        }
-
-        .options-grid {
+        
+        .options-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 15px;
         }
-
-        .option-btn {
-            padding: 12px 6px;
-            font-size: 1rem;
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 8px;
-            color: #ffffff;
+        
+        .option {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.1rem;
             cursor: pointer;
-            font-weight: 500;
-            min-height: 50px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            min-height: 80px;
             display: flex;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(1px);
-            transition: all 0.2s ease;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
         }
-
-        .option-btn:active {
-            transform: scale(0.98);
+        
+        .option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
-
-        .option-btn.correct {
-            background: rgba(0, 255, 0, 0.3);
-            border-color: rgba(0, 255, 0, 0.8);
-            box-shadow: 0 0 25px rgba(0, 255, 0, 0.9);
+        
+        .option.correct {
+            background: var(--correct-color);
+            color: #000;
+            box-shadow: 0 0 20px var(--correct-color);
+            transform: scale(1.02);
         }
-
-        .option-btn.wrong {
-            background: rgba(255, 0, 0, 0.3);
-            border-color: rgba(255, 0, 0, 0.8);
-            box-shadow: 0 0 25px rgba(255, 0, 0, 0.9);
+        
+        .option.incorrect {
+            background: var(--incorrect-color);
+            color: #fff;
+            box-shadow: 0 0 20px var(--incorrect-color);
+            transform: scale(1.02);
         }
-
-        .feedback {
-            margin-top: 8px;
-            font-size: 1rem;
-            min-height: 30px;
-            font-weight: 500;
-            padding: 8px;
-            border-radius: 6px;
-            backdrop-filter: blur(1px);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-        }
-
-        .feedback.correct {
-            color: #00ff00;
-            background: rgba(0, 255, 0, 0.15);
-            border: 1px solid rgba(0, 255, 0, 0.6);
-            text-shadow: 
-                0 0 20px rgba(0, 255, 0, 1),
-                2px 2px 4px rgba(0, 0, 0, 0.8);
-        }
-
-        .feedback.incorrect {
-            color: #ff0000;
-            background: rgba(255, 0, 0, 0.15);
-            border: 1px solid rgba(255, 0, 0, 0.6);
-            text-shadow: 
-                0 0 20px rgba(255, 0, 0, 1),
-                2px 2px 4px rgba(0, 0, 0, 0.8);
-        }
-
-        .blocks-container {
-            display: flex;
-            justify-content: center;
-            gap: 5px;
-            margin-top: 12px;
-            padding: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            min-height: 45px;
-            align-items: center;
-            flex-wrap: wrap;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(1px);
-        }
-
-        .block {
-            width: 30px;
-            height: 30px;
-            background: rgba(255, 255, 255, 0.25);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 500;
-            color: #ffffff;
-            font-size: 0.7rem;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-        }
-
-        .block.active {
-            background: rgba(255, 255, 255, 0.4);
-            border-color: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
-        }
-
-        .block.exploded {
-            animation: explode 0.3s ease-out forwards;
-        }
-
-        .reward-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4); /* شفافیت کم */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            border-radius: 20px;
-            display: none;
-            padding: 20px;
-            backdrop-filter: blur(2px);
-        }
-
-        .level-up-content, .leaderboard-content {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 20px;
-            border-radius: 12px;
+        
+        .auto-timer {
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            width: 90%;
-            max-width: 350px;
-            backdrop-filter: blur(2px);
-            box-shadow: 0 0 50px rgba(255, 255, 255, 0.4);
-        }
-
-        .level-up-animation {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            animation: celebrate 2s ease-in-out infinite;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 1);
-        }
-
-        @keyframes celebrate {
-            0%, 100% {
-                transform: scale(1) rotate(0deg);
-            }
-            25% {
-                transform: scale(1.2) rotate(10deg);
-            }
-            50% {
-                transform: scale(1.3) rotate(-10deg);
-            }
-            75% {
-                transform: scale(1.2) rotate(5deg);
-            }
-        }
-
-        .leaderboard-title {
-            font-size: 1.5rem;
-            color: #ffffff;
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: 300;
-            text-shadow: 
-                0 0 20px rgba(255, 255, 255, 1),
-                2px 2px 4px rgba(0, 0, 0, 0.8);
-        }
-
-        .leaderboard-list {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 15px 0;
-            max-height: 250px;
-            overflow-y: auto;
-        }
-
-        .leaderboard-item {
-            background: rgba(255, 255, 255, 0.1);
+            margin: 15px 0;
+            font-size: 1.1rem;
+            color: var(--neon-blue);
+            background: rgba(26, 26, 46, 0.7);
             padding: 10px;
-            margin-bottom: 6px;
-            border-radius: 6px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(1px);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
         }
-
-        .leaderboard-rank {
-            background: rgba(255, 255, 255, 0.6);
-            color: #000000;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 500;
-            font-size: 0.8rem;
-            text-shadow: none;
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
-
-        .leaderboard-user {
-            flex: 1;
-            text-align: right;
-            padding: 0 8px;
-            font-weight: 500;
-            font-size: 0.9rem;
+        
+        .pulse {
+            animation: pulse 1.5s infinite;
         }
-
-        .leaderboard-score {
-            color: #ffffff;
-            font-weight: 500;
-            font-size: 0.9rem;
-            text-shadow: 
-                0 0 15px rgba(255, 255, 255, 1),
-                2px 2px 4px rgba(0, 0, 0, 0.8);
-        }
-
-        .reward-title {
-            font-size: 1.5rem;
-            color: #ffffff;
-            margin-bottom: 12px;
-            text-align: center;
-            font-weight: 300;
-            text-shadow: 
-                0 0 20px rgba(255, 255, 255, 1),
-                2px 2px 4px rgba(0, 0, 0, 0.8);
-        }
-
-        .reward-desc {
-            font-size: 1rem;
-            margin-bottom: 15px;
-            text-align: center;
-            line-height: 1.4;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-        }
-
-        .continue-btn {
-            padding: 10px 20px;
-            font-size: 1rem;
-            background: rgba(255, 255, 255, 0.2);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-            backdrop-filter: blur(1px);
-            transition: all 0.2s ease;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-        }
-
-        .continue-btn:active {
-            transform: scale(0.95);
-        }
-
-        @keyframes explode {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: scale(1.3);
-                opacity: 0.7;
-            }
-            100% {
-                transform: scale(0);
-                opacity: 0;
-            }
-        }
-
-        /* استایل برای موبایل */
-        @media (max-width: 480px) {
-            .game-container {
-                padding: 15px;
-                max-height: 90vh;
+        
+        @media (max-width: 600px) {
+            .options-container {
+                grid-template-columns: 1fr;
             }
             
             h1 {
-                font-size: 1.3rem;
+                font-size: 1.8rem;
             }
             
-            .welcome-title {
-                font-size: 1.5rem;
+            .question-text {
+                font-size: 1.2rem;
             }
             
-            .question-box {
-                font-size: 1.1rem;
-                padding: 12px;
-                min-height: 60px;
-            }
-            
-            .option-btn {
-                font-size: 0.9rem;
-                padding: 10px 4px;
-                min-height: 45px;
-            }
-            
-            .block {
-                width: 25px;
-                height: 25px;
-                font-size: 0.6rem;
+            .option {
+                padding: 15px;
+                min-height: 70px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="game-container">
-        <!-- تزئینات گوشه‌ها -->
-        <div class="corner-decoration corner-tl"></div>
-        <div class="corner-decoration corner-tr"></div>
-        <div class="corner-decoration corner-bl"></div>
-        <div class="corner-decoration corner-br"></div>
-
-        <!-- صفحه خوش آمدگویی -->
-        <div class="welcome-screen" id="welcomeScreen">
-            <div class="welcome-title">بازی ریاضی پیشرفته</div>
-            <input type="text" class="welcome-input" id="usernameInput" placeholder="نام کاربری خود را وارد کنید" maxlength="15">
-            <button class="start-btn" id="startBtn">شروع بازی</button>
-        </div>
-
-        <button class="menu-btn" id="menuToggle">☰</button>
-        <button class="leaderboard-btn" id="leaderboardToggle">🏆 رکوردها</button>
+    <div id="particles-js"></div>
+    
+    <div class="container">
+        <header>
+            <h1>Math Mastermind: Quantum Challenge</h1>
+        </header>
         
-        <div class="menu-content" id="menuContent">
-            <button class="menu-item" id="divisionMode">سوال تقسیم</button>
-            <button class="menu-item" id="multiplicationMode">سوال ضرب</button>
-            <button class="menu-item" id="powerMode">سوال توان</button>
-            <button class="menu-item" onclick="window.open('m.html', '_blank')">حمایت مالی</button>
-        </div>
-        
-        <h1>بازی ریاضی پیشرفته</h1>
-        
-        <div class="user-info">
-            <span>کاربر:</span>
-            <span class="username" id="usernameDisplay">...</span>
-        </div>
-        
-        <div class="stats-row">
-            <div class="stat-item">
-                <span>امتیاز</span>
-                <span class="stat-value" id="scoreValue">0</span>
+        <div class="game-info">
+            <div class="info-item">
+                <div class="info-label">امتیاز</div>
+                <div class="info-value score" id="score">0</div>
             </div>
-            <div class="stat-item">
-                <span>سوال</span>
-                <span class="stat-value" id="questionNumber">1</span>
+            <div class="info-item">
+                <div class="info-label">مرحله</div>
+                <div class="info-value level" id="level">1</div>
             </div>
-            <div class="stat-item">
-                <span>رکورد</span>
-                <span class="stat-value" id="highScore">0</span>
+            <div class="info-item">
+                <div class="info-label">زمان باقی‌مانده</div>
+                <div class="info-value timer" id="auto-timer">20</div>
             </div>
         </div>
         
-        <div class="level-info">
-            <div class="level-text">مرحله:</div>
-            <div class="level-value" id="levelValue">1</div>
+        <div class="auto-timer">
+            <div id="timer-text">سوال بعدی در <span id="countdown">20</span> ثانیه</div>
         </div>
         
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
-        
-        <div class="question-box">
-            <div id="questionText">...</div>
-        </div>
-        
-        <div class="timer-box">
-            <div class="timer-value" id="timerValue">20</div>
-            <span>ثانیه</span>
-        </div>
-        
-        <div class="options-grid">
-            <button class="option-btn" id="option1"></button>
-            <button class="option-btn" id="option2"></button>
-            <button class="option-btn" id="option3"></button>
-            <button class="option-btn" id="option4"></button>
-        </div>
-        
-        <div class="feedback" id="feedback"></div>
-        
-        <div class="blocks-container" id="blocksContainer">
-            <!-- بلوک‌ها اینجا ساخته می‌شوند -->
-        </div>
-        
-        <div class="reward-screen" id="rewardScreen">
-            <div class="reward-title" id="rewardTitle">تبریک!</div>
-            <div class="reward-desc" id="rewardDesc"></div>
-            <button class="continue-btn" id="continueBtn">ادامه بازی</button>
-        </div>
-
-        <div class="reward-screen" id="levelUpScreen" style="display: none;">
-            <div class="level-up-content">
-                <div class="level-up-animation">🎉</div>
-                <div class="reward-title">تبریک! شما مرحله بعد رفتید</div>
-                <div class="reward-desc">شما ۲۰ سوال را درست پاسخ دادید!</div>
-                <button class="continue-btn" id="levelUpContinue">ادامه بازی</button>
-            </div>
-        </div>
-
-        <div class="reward-screen" id="leaderboardScreen" style="display: none;">
-            <div class="leaderboard-content">
-                <div class="leaderboard-title">🏆 جدول رکوردها</div>
-                <ul class="leaderboard-list" id="leaderboardList">
-                    <!-- رکوردها اینجا نمایش داده می‌شوند -->
-                </ul>
-                <button class="continue-btn" id="closeLeaderboard">بستن</button>
+        <div class="question-container">
+            <div class="question-text" id="question-text">سوال در حال بارگذاری...</div>
+            <div class="options-container">
+                <div class="option" data-option="1">
+                    <span id="option-1-text">گزینه ۱</span>
+                </div>
+                <div class="option" data-option="2">
+                    <span id="option-2-text">گزینه ۲</span>
+                </div>
+                <div class="option" data-option="3">
+                    <span id="option-3-text">گزینه ۳</span>
+                </div>
+                <div class="option" data-option="4">
+                    <span id="option-4-text">گزینه ۴</span>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- صداهای سفارشی -->
-    <audio id="correctSound" preload="auto">
-        <source src="m1.wav" type="audio/mpeg">
-    </audio>
-    
-    <audio id="wrongSound" preload="auto">
-        <source src="m1.mp3" type="audio/mpeg">
-    </audio>
-    
-    <audio id="levelUpSound" preload="auto">
-        <source src="mn1.mp3.m4a" type="audio/mpeg">
-    </audio>
-    
-    <audio id="explosionSound" preload="auto">
-        <source src="mb.mp3" type="audio/mpeg">
-    </audio>
+    <!-- عناصر صوتی -->
+    <audio id="correct-sound" src="m1.mp3" preload="auto"></audio>
+    <audio id="incorrect-sound" src="mb.mp3" preload="auto"></audio>
 
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // وضعیت بازی
-        const gameState = {
-            score: 0,
-            correctAnswers: 0,
-            wrongAnswers: 0,
-            totalQuestions: 0,
-            level: 1,
-            correctInLevel: 0,
-            currentAnswer: 0,
-            questionNumber: 1,
-            timer: 20,
-            timerInterval: null,
-            autoNextTimeout: null,
-            highScore: 0,
-            questionMode: 'mixed',
-            consecutiveCorrect: 0,
-            totalBlocksExploded: 0,
-            username: '',
-            lastQuestionHash: ''
-        };
-
-        // توابع ساده و بهینه برای تولید سوال
-        const questionGenerators = {
-            division: (level) => {
-                const divisor = Math.floor(Math.random() * 30) + 10;
-                const quotient = Math.floor(Math.random() * 500) + 100;
-                const dividend = divisor * quotient;
-                return {
-                    question: `${dividend} ÷ ${divisor} = ?`,
-                    answer: quotient,
-                    hash: `div_${dividend}_${divisor}`
-                };
-            },
-            multiplication: (level) => {
-                const num1 = Math.floor(Math.random() * 100) + 20;
-                const num2 = Math.floor(Math.random() * 100) + 20;
-                const num3 = Math.floor(Math.random() * 10) + 5;
-                return {
-                    question: `${num1} × ${num2} × ${num3} = ?`,
-                    answer: num1 * num2 * num3,
-                    hash: `mul_${num1}_${num2}_${num3}`
-                };
-            },
-            power: (level) => {
-                const base = Math.floor(Math.random() * 15) + 5;
-                const multiplier = Math.floor(Math.random() * 50) + 10;
-                return {
-                    question: `${base}² × ${multiplier} = ?`,
-                    answer: (base * base) * multiplier,
-                    hash: `pow_${base}_${multiplier}`
-                };
-            },
-            mixed1: (level) => {
-                const r1 = Math.floor(Math.random() * 100) + 20;
-                const r2 = Math.floor(Math.random() * 100) + 20;
-                const r3 = Math.floor(Math.random() * 50) + 10;
-                const r4 = Math.floor(Math.random() * 50) + 10;
-                return {
-                    question: `${r1} × ${r2} + ${r3} × ${r4} = ?`,
-                    answer: (r1 * r2) + (r3 * r4),
-                    hash: `mix1_${r1}_${r2}_${r3}_${r4}`
-                };
-            },
-            mixed2: (level) => {
-                const r1 = Math.floor(Math.random() * 100) + 20;
-                const r2 = Math.floor(Math.random() * 100) + 20;
-                const r3 = Math.floor(Math.random() * 50) + 10;
-                const r4 = Math.floor(Math.random() * 50) + 10;
-                return {
-                    question: `(${r1} + ${r2}) × (${r3} - ${r4}) = ?`,
-                    answer: (r1 + r2) * (r3 - r4),
-                    hash: `mix2_${r1}_${r2}_${r3}_${r4}`
-                };
-            }
-        };
-
-        const generatorKeys = Object.keys(questionGenerators);
-
-        // بارگذاری وضعیت بازی
-        function loadGameState() {
-            try {
-                const savedState = localStorage.getItem('mathGameFullState');
-                if (savedState) {
-                    const parsedState = JSON.parse(savedState);
-                    Object.assign(gameState, parsedState);
-                    
-                    if (gameState.username) {
-                        document.getElementById('welcomeScreen').style.display = 'none';
-                        document.getElementById('usernameDisplay').textContent = gameState.username;
-                    }
+        // تنظیمات ذرات پس‌زمینه
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: "#00f3ff" },
+                shape: { type: "circle" },
+                opacity: { value: 0.3, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#00f3ff",
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
                 }
-            } catch (e) {
-                console.log('خطا در بارگذاری وضعیت بازی');
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                }
             }
-        }
+        });
 
-        // ذخیره وضعیت بازی
-        function saveGameState() {
-            try {
-                localStorage.setItem('mathGameFullState', JSON.stringify(gameState));
-            } catch (e) {
-                console.log('خطا در ذخیره وضعیت بازی');
-            }
-        }
+        // متغیرهای بازی
+        let score = 0;
+        let level = 1;
+        let autoTimer = 20;
+        let currentQuestion = {};
+        let selectedOption = null;
+        let autoTimerInterval;
+        let questionsAnswered = 0;
+        let isAnswered = false;
+        let usedQuestions = new Set();
 
-        // مدیریت جدول رکوردها
-        function getLeaderboard() {
-            try {
-                const leaderboard = localStorage.getItem('mathGameLeaderboard');
-                return leaderboard ? JSON.parse(leaderboard) : [];
-            } catch (e) {
-                return [];
-            }
-        }
+        // عناصر DOM
+        const scoreElement = document.getElementById('score');
+        const levelElement = document.getElementById('level');
+        const autoTimerElement = document.getElementById('auto-timer');
+        const countdownElement = document.getElementById('countdown');
+        const questionTextElement = document.getElementById('question-text');
+        const option1Element = document.getElementById('option-1-text');
+        const option2Element = document.getElementById('option-2-text');
+        const option3Element = document.getElementById('option-3-text');
+        const option4Element = document.getElementById('option-4-text');
+        const optionElements = document.querySelectorAll('.option');
+        const correctSound = document.getElementById('correct-sound');
+        const incorrectSound = document.getElementById('incorrect-sound');
 
-        function saveLeaderboard(leaderboard) {
-            try {
-                localStorage.setItem('mathGameLeaderboard', JSON.stringify(leaderboard));
-            } catch (e) {
-                console.log('خطا در ذخیره رکوردها');
-            }
-        }
-
-        function updateLeaderboard() {
-            const leaderboard = getLeaderboard();
-            const userEntry = {
-                username: gameState.username,
-                score: gameState.totalBlocksExploded,
-                date: new Date().toLocaleDateString('fa-IR')
-            };
-
-            const existingIndex = leaderboard.findIndex(entry => entry.username === gameState.username);
+        // تابع تولید سوالات ریاضی پیشرفته
+        function generateMathQuestion() {
+            const questionTypes = [
+                generateLogQuestion,
+                generateAlgebraQuestion,
+                generateProbabilityQuestion,
+                generateTrigonometryQuestion,
+                generateExponentQuestion,
+                generateIntegralQuestion,
+                generateMatrixQuestion,
+                generateComplexQuestion
+            ];
             
-            if (existingIndex !== -1) {
-                leaderboard[existingIndex] = userEntry;
-            } else {
-                leaderboard.push(userEntry);
-            }
-
-            leaderboard.sort((a, b) => b.score - a.score);
-            if (leaderboard.length > 10) leaderboard.splice(10);
-            saveLeaderboard(leaderboard);
-        }
-
-        function displayLeaderboard() {
-            const leaderboard = getLeaderboard();
-            const leaderboardList = document.getElementById('leaderboardList');
-            leaderboardList.innerHTML = '';
-
-            if (leaderboard.length === 0) {
-                leaderboardList.innerHTML = '<div style="text-align: center; padding: 15px; color: rgba(255,255,255,0.9)">هنوز رکوردی ثبت نشده است!</div>';
-                return;
-            }
-
-            leaderboard.forEach((entry, index) => {
-                const li = document.createElement('li');
-                li.className = 'leaderboard-item';
-                li.innerHTML = `
-                    <div class="leaderboard-rank">${index + 1}</div>
-                    <div class="leaderboard-user">${entry.username}</div>
-                    <div class="leaderboard-score">${entry.score} بلوک</div>
-                `;
-                leaderboardList.appendChild(li);
-            });
-        }
-
-        // تولید سوال غیر تکراری
-        function generateQuestion() {
-            let questionData;
+            let newQuestion;
             let attempts = 0;
             
+            // جلوگیری از سوال تکراری
             do {
-                let generatorKey;
-                if (gameState.questionMode === 'division') {
-                    generatorKey = 'division';
-                } else if (gameState.questionMode === 'multiplication') {
-                    generatorKey = 'multiplication';
-                } else if (gameState.questionMode === 'power') {
-                    generatorKey = 'power';
-                } else {
-                    generatorKey = generatorKeys[Math.floor(Math.random() * generatorKeys.length)];
-                }
-                
-                questionData = questionGenerators[generatorKey](gameState.level);
+                const randomType = Math.floor(Math.random() * questionTypes.length);
+                newQuestion = questionTypes[randomType]();
                 attempts++;
                 
-                if (attempts > 10) break;
-            } while (questionData.hash === gameState.lastQuestionHash);
-
-            gameState.lastQuestionHash = questionData.hash;
-            gameState.currentAnswer = questionData.answer;
+                // اگر بعد از 10 بار نتوانستیم سوال جدید تولید کنیم، از شرط خارج می‌شویم
+                if (attempts > 10) {
+                    usedQuestions.clear();
+                    break;
+                }
+            } while (usedQuestions.has(newQuestion.question));
             
-            document.getElementById('questionText').textContent = questionData.question;
-            generateOptions(questionData.answer);
-            enableOptions();
-            document.getElementById('feedback').textContent = '';
-            document.getElementById('feedback').className = 'feedback';
-            startTimer();
-            updateProgressBar();
-            updateBlocksUI();
+            usedQuestions.add(newQuestion.question);
+            return newQuestion;
+        }
+
+        // تولید سوال لگاریتم
+        function generateLogQuestion() {
+            const base = Math.floor(Math.random() * 3) + 2;
+            const value = Math.pow(base, Math.floor(Math.random() * 3) + 2);
+            const extra = Math.floor(Math.random() * 10) + 5;
+            
+            const question = `حاصل عبارت log${base}(${value}) + ${extra} کدام است؟`;
+            const correct = Math.log(value) / Math.log(base) + extra;
+            
+            const options = generateOptions(correct, 5);
+            
+            return {
+                question: question,
+                options: options,
+                correct: options.indexOf(correct.toString()) + 1,
+                explanation: `log${base}(${value}) = ${Math.log(value) / Math.log(base)}, ${Math.log(value) / Math.log(base)} + ${extra} = ${correct}`
+            };
+        }
+
+        // تولید سوال جبر
+        function generateAlgebraQuestion() {
+            const x = Math.floor(Math.random() * 5) + 2;
+            const a = Math.floor(Math.random() * 5) + 1;
+            const b = Math.floor(Math.random() * 5) + 1;
+            
+            const question = `اگر x = ${x} باشد، حاصل (${a}x² - ${b}) / (x - 1) کدام است؟`;
+            const correct = (a * x * x - b) / (x - 1);
+            
+            const options = generateOptions(correct, 3);
+            
+            return {
+                question: question,
+                options: options,
+                correct: options.indexOf(correct.toString()) + 1,
+                explanation: `(${a}*${x}² - ${b}) / (${x} - 1) = (${a*x*x} - ${b}) / ${x-1} = ${a*x*x - b} / ${x-1} = ${correct}`
+            };
+        }
+
+        // تولید سوال احتمال
+        function generateProbabilityQuestion() {
+            const total = Math.floor(Math.random() * 6) + 5;
+            const favorable = Math.floor(Math.random() * (total - 2)) + 2;
+            
+            const question = `در یک مجموعه شامل ${total} عدد، اگر یک عدد به تصادف انتخاب شود، احتمال بخش‌پذیر بودن آن بر ${favorable} چقدر است؟`;
+            const correct = Math.floor(total / favorable) / total * 100;
+            
+            const options = generateOptions(correct, 10, true);
+            
+            return {
+                question: question,
+                options: options,
+                correct: options.indexOf(correct.toString() + "%") + 1,
+                explanation: `اعداد بخش‌پذیر بر ${favorable} در مجموعه: ${Math.floor(total/favorable)} عدد, احتمال: ${Math.floor(total/favorable)}/${total} = ${correct}%`
+            };
+        }
+
+        // تولید سوال مثلثات
+        function generateTrigonometryQuestion() {
+            const angle = [30, 45, 60][Math.floor(Math.random() * 3)];
+            const hypotenuse = Math.floor(Math.random() * 5) * 5 + 10;
+            
+            let correct, sideType;
+            if (angle === 30) {
+                correct = hypotenuse * 0.5;
+                sideType = "ضلع مقابل";
+            } else if (angle === 45) {
+                correct = hypotenuse * Math.sqrt(2) / 2;
+                sideType = "هر یک از اضلاع";
+            } else {
+                correct = hypotenuse * Math.sqrt(3) / 2;
+                sideType = "ضلع مجاور";
+            }
+            
+            const question = `در یک مثلث قائم‌الزاویه، اگر وتر ${hypotenuse} و یکی از زاویه‌ها ${angle} درجه باشد، طول ${sideType} چقدر است؟`;
+            
+            const options = generateOptions(correct, 2);
+            
+            return {
+                question: question,
+                options: options,
+                correct: options.indexOf(correct.toString()) + 1,
+                explanation: `مقدار مثلثاتی زاویه ${angle} درجه: ${sideType === "ضلع مقابل" ? "سینوس" : sideType === "ضلع مجاور" ? "کسینوس" : "سینوس/کسینوس"} = ${correct/hypotenuse}`
+            };
+        }
+
+        // تولید سوال توان
+        function generateExponentQuestion() {
+            const a = Math.floor(Math.random() * 3) + 2;
+            const b = Math.floor(Math.random() * 3) + 2;
+            const c = Math.floor(Math.random() * 3) + 2;
+            
+            const question = `حاصل عبارت ${a}² × ${b}³ ÷ ${c}² کدام است؟`;
+            const correct = (a*a * b*b*b) / (c*c);
+            
+            const options = generateOptions(correct, 5);
+            
+            return {
+                question: question,
+                options: options,
+                correct: options.indexOf(correct.toString()) + 1,
+                explanation: `${a}² = ${a*a}, ${b}³ = ${b*b*b}, ${a*a} × ${b*b*b} = ${a*a*b*b*b}, ${a*a*b*b*b} ÷ ${c*c} = ${correct}`
+            };
+        }
+
+        // تولید سوال انتگرال
+        function generateIntegralQuestion() {
+            const a = Math.floor(Math.random() * 3) + 1;
+            const from = Math.floor(Math.random() * 3);
+            const to = Math.floor(Math.random() * 3) + 3;
+            
+            const question = `حاصل انتگرال ∫(${a}x)dx از ${from} تا ${to} کدام است؟`;
+            const correct = 0.5 * a * (to*to - from*from);
+            
+            const options = generateOptions(correct, 2);
+            
+            return {
+                question: question,
+                options: options,
+                correct: options.indexOf(correct.toString()) + 1,
+                explanation: `پادمشتق ${a}x برابر ${a/2}x² است. مقدار در ${to}: ${0.5*a*to*to}, مقدار در ${from}: ${0.5*a*from*from}, حاصل: ${0.5*a*to*to} - ${0.5*a*from*from} = ${correct}`
+            };
+        }
+
+        // تولید سوال ماتریس
+        function generateMatrixQuestion() {
+            const a = Math.floor(Math.random() * 3) + 1;
+            const b = Math.floor(Math.random() * 3) + 1;
+            const c = Math.floor(Math.random() * 3) + 1;
+            const d = Math.floor(Math.random() * 3) + 1;
+            
+            const question = `اگر ماتریس A = [[${a},${b}],[${c},${d}]] باشد، دترمینان آن چقدر است؟`;
+            const correct = a*d - b*c;
+            
+            const options = generateOptions(correct, 2);
+            
+            return {
+                question: question,
+                options: options,
+                correct: options.indexOf(correct.toString()) + 1,
+                explanation: `دترمینان ماتریس 2x2: (${a}×${d}) - (${b}×${c}) = ${a*d} - ${b*c} = ${correct}`
+            };
+        }
+
+        // تولید سوال ترکیبی پیچیده
+        function generateComplexQuestion() {
+            const a = Math.floor(Math.random() * 3) + 2;
+            const b = Math.floor(Math.random() * 3) + 2;
+            const c = Math.floor(Math.random() * 3) + 1;
+            
+            const question = `حاصل عبارت (${a}² + ${b}²) × √${c*9} کدام است؟`;
+            const correct = (a*a + b*b) * 3 * Math.sqrt(c);
+            
+            const options = generateOptions(correct, 5);
+            
+            return {
+                question: question,
+                options: options,
+                correct: options.indexOf(correct.toString()) + 1,
+                explanation: `${a}² = ${a*a}, ${b}² = ${b*b}, ${a*a} + ${b*b} = ${a*a+b*b}, √${c*9} = 3√${c}, ${a*a+b*b} × 3√${c} = ${correct}`
+            };
         }
 
         // تولید گزینه‌ها
-        function generateOptions(correctAnswer) {
-            const options = [correctAnswer];
+        function generateOptions(correct, range, isPercentage = false) {
+            const options = [];
+            const correctIndex = Math.floor(Math.random() * 4);
             
-            while (options.length < 4) {
-                let wrongOption;
-                const variance = Math.max(10, Math.floor(correctAnswer * 0.2));
-                
-                if (Math.random() > 0.5) {
-                    wrongOption = correctAnswer + (Math.random() > 0.5 ? variance : -variance);
+            for (let i = 0; i < 4; i++) {
+                if (i === correctIndex) {
+                    options.push(isPercentage ? correct.toString() + "%" : correct.toString());
                 } else {
-                    wrongOption = correctAnswer * (Math.random() > 0.5 ? 1.1 : 0.9);
-                }
-                
-                wrongOption = Math.round(wrongOption);
-                wrongOption = Math.max(1, wrongOption);
-                
-                if (!options.includes(wrongOption)) {
-                    options.push(wrongOption);
+                    let wrongValue;
+                    do {
+                        wrongValue = correct + (Math.floor(Math.random() * range * 2) - range);
+                        if (wrongValue === correct) wrongValue += 1;
+                    } while (options.includes(isPercentage ? wrongValue.toString() + "%" : wrongValue.toString()));
+                    
+                    options.push(isPercentage ? wrongValue.toString() + "%" : wrongValue.toString());
                 }
             }
             
-            for (let i = options.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [options[i], options[j]] = [options[j], options[i]];
-            }
-            
-            document.getElementById('option1').textContent = options[0];
-            document.getElementById('option2').textContent = options[1];
-            document.getElementById('option3').textContent = options[2];
-            document.getElementById('option4').textContent = options[3];
+            return options;
         }
 
-        // تایمر
-        function startTimer() {
-            clearInterval(gameState.timerInterval);
-            clearTimeout(gameState.autoNextTimeout);
+        // شروع بازی
+        function initGame() {
+            score = 0;
+            level = 1;
+            questionsAnswered = 0;
+            usedQuestions.clear();
+            updateUI();
+            loadQuestion();
+            startAutoTimer();
+        }
+
+        // بارگذاری سوال جدید
+        function loadQuestion() {
+            // تولید سوال جدید
+            currentQuestion = generateMathQuestion();
             
-            gameState.timer = 20;
-            document.getElementById('timerValue').textContent = gameState.timer;
+            // نمایش سوال و گزینه‌ها
+            questionTextElement.textContent = currentQuestion.question;
+            option1Element.textContent = currentQuestion.options[0];
+            option2Element.textContent = currentQuestion.options[1];
+            option3Element.textContent = currentQuestion.options[2];
+            option4Element.textContent = currentQuestion.options[3];
             
-            gameState.timerInterval = setInterval(() => {
-                gameState.timer--;
-                document.getElementById('timerValue').textContent = gameState.timer;
-                
-                if (gameState.timer <= 0) {
-                    clearInterval(gameState.timerInterval);
-                    handleTimeOut();
-                }
-            }, 1000);
+            // ریست کردن انتخاب‌ها و رنگ‌ها
+            selectedOption = null;
+            isAnswered = false;
+            optionElements.forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+                option.style.background = 'rgba(255, 255, 255, 0.9)';
+                option.style.color = '#333';
+            });
+            
+            // ریست تایمر خودکار
+            resetAutoTimer();
         }
 
         // به‌روزرسانی UI
         function updateUI() {
-            document.getElementById('scoreValue').textContent = gameState.score;
-            document.getElementById('questionNumber').textContent = gameState.questionNumber;
-            document.getElementById('highScore').textContent = gameState.highScore;
-            document.getElementById('levelValue').textContent = gameState.level;
-            
-            if (gameState.score > gameState.highScore) {
-                gameState.highScore = gameState.score;
-            }
-            
-            saveGameState();
+            scoreElement.textContent = score;
+            levelElement.textContent = level;
+            autoTimerElement.textContent = autoTimer;
+            countdownElement.textContent = autoTimer;
         }
 
-        // به‌روزرسانی بلوک‌ها
-        function updateBlocksUI() {
-            const blocksContainer = document.getElementById('blocksContainer');
-            blocksContainer.innerHTML = '';
-            
-            for (let i = 0; i < gameState.consecutiveCorrect; i++) {
-                const block = document.createElement('div');
-                block.className = 'block active';
-                block.textContent = i + 1;
-                blocksContainer.appendChild(block);
-            }
-        }
-
-        function updateProgressBar() {
-            const progress = (gameState.correctInLevel / 20) * 100;
-            document.getElementById('progressBar').style.width = `${progress}%`;
-        }
-
-        // پخش صدا
-        function playSound(soundType) {
-            try {
-                const sound = document.getElementById(soundType + 'Sound');
-                if (sound) {
-                    sound.currentTime = 0;
-                    sound.play().catch(() => {});
+        // شروع تایمر خودکار
+        function startAutoTimer() {
+            clearInterval(autoTimerInterval);
+            autoTimerInterval = setInterval(() => {
+                autoTimer--;
+                autoTimerElement.textContent = autoTimer;
+                countdownElement.textContent = autoTimer;
+                
+                if (autoTimer <= 0) {
+                    clearInterval(autoTimerInterval);
+                    nextQuestion();
                 }
-            } catch (e) {
-                // ignore errors
-            }
+            }, 1000);
         }
 
-        // انفجار بلوک‌ها
-        function explodeBlocks() {
-            playSound('explosion');
+        // ریست تایمر خودکار
+        function resetAutoTimer() {
+            autoTimer = 20;
+            autoTimerElement.textContent = autoTimer;
+            countdownElement.textContent = autoTimer;
+        }
+
+        // رفتن به سوال بعدی
+        function nextQuestion() {
+            questionsAnswered++;
             
-            const blocks = document.querySelectorAll('.block');
-            blocks.forEach(block => {
-                block.classList.remove('active');
-                block.classList.add('exploded');
-            });
+            // بررسی ارتقاء سطح
+            if (questionsAnswered % 5 === 0) {
+                level++;
+            }
             
-            gameState.totalBlocksExploded += 5;
-            gameState.score += 50;
-            updateLeaderboard();
-            
-            setTimeout(() => {
-                gameState.consecutiveCorrect = 0;
-                updateBlocksUI();
-                updateUI();
-            }, 300);
+            updateUI();
+            loadQuestion();
+            startAutoTimer();
         }
 
         // بررسی پاسخ
-        function checkAnswer(selectedOption) {
-            clearInterval(gameState.timerInterval);
-            clearTimeout(gameState.autoNextTimeout);
+        function checkAnswer(selected) {
+            if (isAnswered) return;
             
-            const userAnswer = parseInt(selectedOption.textContent);
-            gameState.totalQuestions++;
+            isAnswered = true;
+            const isCorrect = parseInt(selected.dataset.option) === currentQuestion.correct;
             
-            disableOptions();
-            
-            if (userAnswer === gameState.currentAnswer) {
-                handleCorrectAnswer(selectedOption);
-            } else {
-                handleWrongAnswer(selectedOption);
-            }
-            
-            updateUI();
-            
-            gameState.autoNextTimeout = setTimeout(() => {
-                nextQuestion();
-            }, 1500);
-        }
-
-        function handleCorrectAnswer(selectedOption) {
-            gameState.score += 10;
-            gameState.correctAnswers++;
-            gameState.correctInLevel++;
-            gameState.consecutiveCorrect++;
-            
-            selectedOption.classList.add('correct');
-            
-            if (gameState.consecutiveCorrect >= 5) {
-                document.getElementById('feedback').textContent = 'آفرین! +۱۰ امتیاز +۵۰ امتیاز بلوک!';
-                explodeBlocks();
-            } else {
-                document.getElementById('feedback').textContent = 'آفرین! +۱۰ امتیاز';
-            }
-            
-            document.getElementById('feedback').className = 'feedback correct';
-            playSound('correct');
-            
-            if (gameState.correctInLevel >= 20) {
-                showLevelUpScreen();
-            }
-            
-            updateBlocksUI();
-        }
-
-        function handleWrongAnswer(selectedOption) {
-            gameState.wrongAnswers++;
-            gameState.correctInLevel = 0;
-            
-            selectedOption.classList.add('wrong');
-            
-            const options = document.querySelectorAll('.option-btn');
-            options.forEach(option => {
-                if (parseInt(option.textContent) === gameState.currentAnswer) {
+            // نمایش پاسخ صحیح و ناصحیح
+            optionElements.forEach(option => {
+                if (parseInt(option.dataset.option) === currentQuestion.correct) {
                     option.classList.add('correct');
+                } else if (option === selected && !isCorrect) {
+                    option.classList.add('incorrect');
                 }
             });
             
-            document.getElementById('feedback').textContent = `پاسخ: ${gameState.currentAnswer}`;
-            document.getElementById('feedback').className = 'feedback incorrect';
-            playSound('wrong');
-            updateProgressBar();
-        }
-
-        function showLevelUpScreen() {
-            document.getElementById('levelUpScreen').style.display = 'flex';
-            playSound('levelUp');
-        }
-
-        function handleTimeOut() {
-            gameState.wrongAnswers++;
-            gameState.correctInLevel = 0;
-            
-            const options = document.querySelectorAll('.option-btn');
-            options.forEach(option => {
-                if (parseInt(option.textContent) === gameState.currentAnswer) {
-                    option.classList.add('correct');
-                }
-            });
-            
-            document.getElementById('feedback').textContent = 'زمان تمام شد!';
-            document.getElementById('feedback').className = 'feedback incorrect';
-            disableOptions();
-            playSound('wrong');
-            updateProgressBar();
-            updateUI();
-            
-            gameState.autoNextTimeout = setTimeout(() => {
-                nextQuestion();
-            }, 1500);
-        }
-
-        function nextQuestion() {
-            gameState.questionNumber++;
-            generateQuestion();
-        }
-
-        function levelUp() {
-            gameState.level++;
-            gameState.correctInLevel = 0;
-            
-            document.getElementById('rewardTitle').textContent = `مرحله ${gameState.level}`;
-            document.getElementById('rewardDesc').textContent = 'سوالات سخت‌تر شدند!';
-            document.getElementById('rewardScreen').style.display = 'flex';
-            
-            playSound('levelUp');
-            updateProgressBar();
-            
-            setTimeout(() => {
-                document.getElementById('rewardScreen').style.display = 'none';
-                nextQuestion();
-            }, 2000);
-        }
-
-        function enableOptions() {
-            const options = document.querySelectorAll('.option-btn');
-            options.forEach(option => {
-                option.disabled = false;
-                option.classList.remove('correct', 'wrong');
-            });
-        }
-
-        function disableOptions() {
-            const options = document.querySelectorAll('.option-btn');
-            options.forEach(option => {
-                option.disabled = true;
-            });
-        }
-
-        // راه‌اندازی بازی
-        document.addEventListener('DOMContentLoaded', function() {
-            loadGameState();
-            updateUI();
-            updateProgressBar();
-            updateBlocksUI();
-            
-            if (gameState.username) {
-                generateQuestion();
+            // پخش صدا
+            if (isCorrect) {
+                correctSound.play();
+                score += level * 10;
+            } else {
+                incorrectSound.play();
             }
-
-            // مدیریت منو
-            document.getElementById('menuToggle').addEventListener('click', function() {
-                const menuContent = document.getElementById('menuContent');
-                menuContent.style.display = menuContent.style.display === 'flex' ? 'none' : 'flex';
-            });
-
-            // بستن منو با کلیک خارج
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.menu-content') && !e.target.closest('.menu-btn')) {
-                    document.getElementById('menuContent').style.display = 'none';
-                }
-            });
-
-            // شروع بازی
-            document.getElementById('startBtn').addEventListener('click', function() {
-                const username = document.getElementById('usernameInput').value.trim();
-                if (username) {
-                    gameState.username = username;
-                    document.getElementById('welcomeScreen').style.display = 'none';
-                    document.getElementById('usernameDisplay').textContent = username;
-                    saveGameState();
-                    generateQuestion();
-                }
-            });
-
-            document.getElementById('usernameInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    document.getElementById('startBtn').click();
-                }
-            });
-
-            // جدول رکوردها
-            document.getElementById('leaderboardToggle').addEventListener('click', function() {
-                displayLeaderboard();
-                document.getElementById('leaderboardScreen').style.display = 'flex';
-            });
-
-            document.getElementById('closeLeaderboard').addEventListener('click', function() {
-                document.getElementById('leaderboardScreen').style.display = 'none';
-            });
             
-            // تغییر حالت سوالات
-            document.getElementById('divisionMode').addEventListener('click', function() {
-                gameState.questionMode = 'division';
-                saveGameState();
-                nextQuestion();
-                document.getElementById('menuContent').style.display = 'none';
-            });
+            updateUI();
             
-            document.getElementById('multiplicationMode').addEventListener('click', function() {
-                gameState.questionMode = 'multiplication';
-                saveGameState();
-                nextQuestion();
-                document.getElementById('menuContent').style.display = 'none';
-            });
-            
-            document.getElementById('powerMode').addEventListener('click', function() {
-                gameState.questionMode = 'power';
-                saveGameState();
-                nextQuestion();
-                document.getElementById('menuContent').style.display = 'none';
-            });
-            
-            // رویدادهای دکمه‌ها
-            document.getElementById('option1').addEventListener('click', () => checkAnswer(document.getElementById('option1')));
-            document.getElementById('option2').addEventListener('click', () => checkAnswer(document.getElementById('option2')));
-            document.getElementById('option3').addEventListener('click', () => checkAnswer(document.getElementById('option3')));
-            document.getElementById('option4').addEventListener('click', () => checkAnswer(document.getElementById('option4')));
-            
-            document.getElementById('continueBtn').addEventListener('click', function() {
-                document.getElementById('rewardScreen').style.display = 'none';
-                nextQuestion();
-            });
-            
-            document.getElementById('levelUpContinue').addEventListener('click', function() {
-                document.getElementById('levelUpScreen').style.display = 'none';
-                levelUp();
+            // رفتن به سوال بعدی پس از 2 ثانیه
+            clearInterval(autoTimerInterval);
+            setTimeout(nextQuestion, 2000);
+        }
+
+        // مدیریت رویدادها
+        optionElements.forEach(option => {
+            option.addEventListener('click', () => {
+                if (isAnswered) return;
+                checkAnswer(option);
             });
         });
+
+        // شروع بازی
+        initGame();
     </script>
 </body>
 </html>
