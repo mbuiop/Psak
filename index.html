@@ -13,7 +13,7 @@
         }
 
         body {
-            background: #000000 url('m1.webp') no-repeat center center fixed;
+            background: #000000 url('m.jpg') no-repeat center center fixed;
             background-size: cover;
             min-height: 100vh;
             display: flex;
@@ -27,8 +27,8 @@
             height: 100%;
         }
 
-        /* لایه overlay برای خوانایی بهتر متن روی عکس */
-        body::before {
+        /* حذف overlay برای نمایش کامل عکس */
+        /* body::before {
             content: '';
             position: fixed;
             top: 0;
@@ -37,21 +37,21 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.7);
             z-index: -1;
-        }
+        } */
 
         .game-container {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.4); /* شفافیت کمتر برای نمایش بهتر عکس */
             border-radius: 20px;
             padding: 20px;
             width: 100%;
             max-width: 500px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             position: relative;
             max-height: 95vh;
             overflow-y: auto;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(5px); /* کاهش blur برای نمایش بهتر عکس */
             box-shadow: 
-                0 0 0 1px rgba(255, 255, 255, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.2),
                 0 0 50px rgba(255, 255, 255, 0.1);
         }
 
@@ -63,11 +63,11 @@
             right: -2px;
             bottom: -2px;
             background: linear-gradient(45deg, 
-                rgba(255, 255, 255, 0.2) 0%, 
-                rgba(255, 255, 255, 0.1) 25%, 
-                rgba(255, 255, 255, 0.05) 50%, 
-                rgba(255, 255, 255, 0.1) 75%, 
-                rgba(255, 255, 255, 0.2) 100%);
+                rgba(255, 255, 255, 0.3) 0%, 
+                rgba(255, 255, 255, 0.2) 25%, 
+                rgba(255, 255, 255, 0.1) 50%, 
+                rgba(255, 255, 255, 0.2) 75%, 
+                rgba(255, 255, 255, 0.3) 100%);
             border-radius: 22px;
             z-index: -1;
             animation: borderGlow 4s ease-in-out infinite;
@@ -83,38 +83,38 @@
         .corner-tl {
             top: 10px;
             left: 10px;
-            border-top: 2px solid rgba(255, 255, 255, 0.5);
-            border-left: 2px solid rgba(255, 255, 255, 0.5);
+            border-top: 2px solid rgba(255, 255, 255, 0.6);
+            border-left: 2px solid rgba(255, 255, 255, 0.6);
             border-top-left-radius: 15px;
         }
 
         .corner-tr {
             top: 10px;
             right: 10px;
-            border-top: 2px solid rgba(255, 255, 255, 0.5);
-            border-right: 2px solid rgba(255, 255, 255, 0.5);
+            border-top: 2px solid rgba(255, 255, 255, 0.6);
+            border-right: 2px solid rgba(255, 255, 255, 0.6);
             border-top-right-radius: 15px;
         }
 
         .corner-bl {
             bottom: 10px;
             left: 10px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
-            border-left: 2px solid rgba(255, 255, 255, 0.5);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.6);
+            border-left: 2px solid rgba(255, 255, 255, 0.6);
             border-bottom-left-radius: 15px;
         }
 
         .corner-br {
             bottom: 10px;
             right: 10px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
-            border-right: 2px solid rgba(255, 255, 255, 0.5);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.6);
+            border-right: 2px solid rgba(255, 255, 255, 0.6);
             border-bottom-right-radius: 15px;
         }
 
         @keyframes borderGlow {
             0%, 100% {
-                opacity: 0.7;
+                opacity: 0.8;
             }
             50% {
                 opacity: 1;
@@ -127,7 +127,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.6); /* شفافیت کمتر */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -135,7 +135,7 @@
             z-index: 1000;
             border-radius: 20px;
             padding: 20px;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(3px); /* کاهش blur */
         }
 
         .welcome-title {
@@ -144,7 +144,7 @@
             margin-bottom: 20px;
             text-align: center;
             font-weight: 300;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
         }
 
         .welcome-input {
@@ -152,30 +152,30 @@
             max-width: 300px;
             padding: 12px;
             font-size: 1.1rem;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 8px;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.2);
             color: #ffffff;
             text-align: center;
             margin-bottom: 20px;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(3px);
         }
 
         .welcome-input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.8);
         }
 
         .start-btn {
             padding: 12px 25px;
             font-size: 1.1rem;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.3);
             color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 8px;
             cursor: pointer;
             font-weight: 500;
             transition: all 0.2s ease;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(3px);
         }
 
         .start-btn:active {
@@ -186,22 +186,22 @@
             position: absolute;
             top: 15px;
             right: 15px;
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 6px;
             padding: 8px 12px;
             color: #ffffff;
             cursor: pointer;
             font-size: 0.8rem;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(3px);
         }
 
         .menu-btn {
             position: absolute;
             top: 15px;
             left: 15px;
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 6px;
             width: 35px;
             height: 35px;
@@ -211,28 +211,28 @@
             justify-content: center;
             align-items: center;
             font-size: 1.2rem;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(3px);
         }
 
         .menu-content {
             position: absolute;
             top: 55px;
             left: 15px;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.7);
             border-radius: 8px;
             padding: 10px;
             min-width: 180px;
             display: none;
             flex-direction: column;
             gap: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             z-index: 1000;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(5px);
         }
 
         .menu-item {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 6px;
             padding: 10px;
             color: #ffffff;
@@ -243,7 +243,7 @@
         }
 
         .menu-item:active {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.25);
         }
 
         h1 {
@@ -252,11 +252,11 @@
             color: #ffffff;
             font-weight: 300;
             text-align: center;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
         }
 
         .user-info {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             padding: 8px 12px;
             border-radius: 8px;
             margin-bottom: 12px;
@@ -265,8 +265,8 @@
             justify-content: center;
             align-items: center;
             gap: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(3px);
         }
 
         .username {
@@ -278,12 +278,12 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 12px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             padding: 10px;
             border-radius: 8px;
             font-size: 0.8rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(3px);
         }
 
         .stat-item {
@@ -298,19 +298,19 @@
             font-weight: 500;
             color: #ffffff;
             margin-top: 2px;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
         }
 
         .level-info {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             padding: 8px;
             border-radius: 8px;
             margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(3px);
         }
 
         .level-text {
@@ -321,28 +321,28 @@
             font-size: 1.2rem;
             font-weight: 500;
             color: #ffffff;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
         }
 
         .progress-container {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             height: 8px;
             border-radius: 4px;
             margin-bottom: 12px;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.9));
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 1));
             width: 0%;
             transition: width 0.2s ease;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
         }
 
         .question-box {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             padding: 15px;
             border-radius: 10px;
             margin-bottom: 12px;
@@ -353,13 +353,13 @@
             justify-content: center;
             font-weight: 500;
             line-height: 1.4;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(3px);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
         }
 
         .timer-box {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             padding: 8px;
             border-radius: 6px;
             margin-bottom: 12px;
@@ -367,15 +367,15 @@
             justify-content: center;
             align-items: center;
             gap: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(3px);
         }
 
         .timer-value {
             font-size: 1.2rem;
             font-weight: 500;
             color: #ffffff;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
         }
 
         .options-grid {
@@ -388,8 +388,8 @@
         .option-btn {
             padding: 12px 6px;
             font-size: 1rem;
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 8px;
             color: #ffffff;
             cursor: pointer;
@@ -398,7 +398,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(3px);
             transition: all 0.2s ease;
         }
 
@@ -407,15 +407,15 @@
         }
 
         .option-btn.correct {
-            background: rgba(0, 255, 0, 0.3);
-            border-color: rgba(0, 255, 0, 0.6);
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+            background: rgba(0, 255, 0, 0.4);
+            border-color: rgba(0, 255, 0, 0.7);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
         }
 
         .option-btn.wrong {
-            background: rgba(255, 0, 0, 0.3);
-            border-color: rgba(255, 0, 0, 0.6);
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+            background: rgba(255, 0, 0, 0.4);
+            border-color: rgba(255, 0, 0, 0.7);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
         }
 
         .feedback {
@@ -425,21 +425,21 @@
             font-weight: 500;
             padding: 8px;
             border-radius: 6px;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(3px);
         }
 
         .feedback.correct {
             color: #00ff00;
-            background: rgba(0, 255, 0, 0.15);
-            border: 1px solid rgba(0, 255, 0, 0.4);
-            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            background: rgba(0, 255, 0, 0.2);
+            border: 1px solid rgba(0, 255, 0, 0.5);
+            text-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
         }
 
         .feedback.incorrect {
             color: #ff0000;
-            background: rgba(255, 0, 0, 0.15);
-            border: 1px solid rgba(255, 0, 0, 0.4);
-            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid rgba(255, 0, 0, 0.5);
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
         }
 
         .blocks-container {
@@ -448,19 +448,19 @@
             gap: 5px;
             margin-top: 12px;
             padding: 8px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 8px;
             min-height: 45px;
             align-items: center;
             flex-wrap: wrap;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(3px);
         }
 
         .block {
             width: 30px;
             height: 30px;
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.3);
             border-radius: 6px;
             display: flex;
             align-items: center;
@@ -468,14 +468,14 @@
             font-weight: 500;
             color: #ffffff;
             font-size: 0.7rem;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
         }
 
         .block.active {
-            background: rgba(255, 255, 255, 0.4);
-            border-color: rgba(255, 255, 255, 0.6);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.5);
+            border-color: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
         }
 
         .block.exploded {
@@ -488,7 +488,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(0, 0, 0, 0.8); /* شفافیت کمتر */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -497,19 +497,19 @@
             border-radius: 20px;
             display: none;
             padding: 20px;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(5px);
         }
 
         .level-up-content, .leaderboard-content {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.2);
             padding: 20px;
             border-radius: 12px;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             width: 90%;
             max-width: 350px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
         }
 
         .level-up-animation {
@@ -539,7 +539,7 @@
             margin-bottom: 15px;
             text-align: center;
             font-weight: 300;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
         }
 
         .leaderboard-list {
@@ -551,19 +551,19 @@
         }
 
         .leaderboard-item {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             padding: 10px;
             margin-bottom: 6px;
             border-radius: 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(3px);
         }
 
         .leaderboard-rank {
-            background: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.5);
             color: #000000;
             width: 22px;
             height: 22px;
@@ -587,7 +587,7 @@
             color: #ffffff;
             font-weight: 500;
             font-size: 0.9rem;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
         }
 
         .reward-title {
@@ -596,7 +596,7 @@
             margin-bottom: 12px;
             text-align: center;
             font-weight: 300;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
         }
 
         .reward-desc {
@@ -609,13 +609,13 @@
         .continue-btn {
             padding: 10px 20px;
             font-size: 1rem;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.25);
             color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 6px;
             cursor: pointer;
             font-weight: 500;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(3px);
             transition: all 0.2s ease;
         }
 
@@ -945,7 +945,7 @@
             leaderboardList.innerHTML = '';
 
             if (leaderboard.length === 0) {
-                leaderboardList.innerHTML = '<div style="text-align: center; padding: 15px; color: rgba(255,255,255,0.6)">هنوز رکوردی ثبت نشده است!</div>';
+                leaderboardList.innerHTML = '<div style="text-align: center; padding: 15px; color: rgba(255,255,255,0.8)">هنوز رکوردی ثبت نشده است!</div>';
                 return;
             }
 
