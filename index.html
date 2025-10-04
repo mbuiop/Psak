@@ -340,7 +340,7 @@
             height: 100%;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(3, 1fr);
+            grid-template-rows: repeat(5, 1fr);
             gap: 15px;
             place-items: center;
         }
@@ -426,7 +426,7 @@
             flex-shrink: 0;
             position: relative;
             min-height: 100px;
-            margin-bottom: 25px; /* افزایش فاصله از پایین به 25px */
+            margin-bottom: 25px;
             margin-top: auto;
         }
 
@@ -595,7 +595,7 @@
             .weapon-bar {
                 padding: 10px;
                 min-height: 90px;
-                margin-bottom: 20px; /* فاصله بیشتر در موبایل */
+                margin-bottom: 20px;
             }
             
             .side-menu {
@@ -756,16 +756,16 @@
             isPowerActive: false,
             currentWeapon: 1,
             weapons: {
-                1: { name: "تفنگ معمولی", power: 1, price: 10000000, owned: true, clusterSize: 1, sound: "mb1.mp3" },
-                2: { name: "تفنگ سریع", power: 2, price: 25000000, owned: false, clusterSize: 3, sound: "mb2.mp3" },
-                3: { name: "مسلسل سبک", power: 3, price: 50000000, owned: false, clusterSize: 3, sound: "mb3.mp3" },
-                4: { name: "شاتگان", power: 5, price: 75000000, owned: false, clusterSize: 5, sound: "mb4.mp3" },
-                5: { name: "نارنجک انداز", power: 8, price: 100000000, owned: false, clusterSize: 5, sound: "mb5.mp3" },
-                6: { name: "راکت انداز", power: 12, price: 150000000, owned: false, clusterSize: 7, sound: "mb6.mp3" },
-                7: { name: "لیزر", power: 15, price: 200000000, owned: false, clusterSize: 7, sound: "mb7.mp3" },
-                8: { name: "پلاسما گان", power: 20, price: 300000000, owned: false, clusterSize: 9, sound: "mb8.mp3" },
-                9: { name: "اسلحه کوانتومی", power: 30, price: 500000000, owned: false, clusterSize: 9, sound: "mb9.mp3" },
-                10: { name: "اسلحه افسانه‌ای", power: 50, price: 1000000000, owned: false, clusterSize: 11, sound: "mb10.mp3" }
+                1: { name: "تفنگ معمولی", power: 1, price: 10000000, owned: true, clusterSize: 1, sound: "m.mp3" },
+                2: { name: "تفنگ سریع", power: 2, price: 25000000, owned: false, clusterSize: 3, sound: "m.mp3" },
+                3: { name: "مسلسل سبک", power: 3, price: 50000000, owned: false, clusterSize: 3, sound: "m.mp3" },
+                4: { name: "شاتگان", power: 5, price: 75000000, owned: false, clusterSize: 5, sound: "m.mp3" },
+                5: { name: "نارنجک انداز", power: 8, price: 100000000, owned: false, clusterSize: 5, sound: "m.mp3" },
+                6: { name: "راکت انداز", power: 12, price: 150000000, owned: false, clusterSize: 7, sound: "m.mp3" },
+                7: { name: "لیزر", power: 15, price: 200000000, owned: false, clusterSize: 7, sound: "m.mp3" },
+                8: { name: "پلاسما گان", power: 20, price: 300000000, owned: false, clusterSize: 9, sound: "m.mp3" },
+                9: { name: "اسلحه کوانتومی", power: 30, price: 500000000, owned: false, clusterSize: 9, sound: "m.mp3" },
+                10: { name: "اسلحه افسانه‌ای", power: 50, price: 1000000000, owned: false, clusterSize: 11, sound: "m.mp3" }
             },
             bulletPower: 1,
             holdingSquares: new Map(),
@@ -776,27 +776,27 @@
 
         // تنظیمات مراحل - اعداد در هر مرحله افزایش می‌یابند
         const stageSettings = [
-            { time: 1800, squares: 9, baseNumber: 100, multiplier: 1 },
-            { time: 1800, squares: 9, baseNumber: 200, multiplier: 1.2 },
-            { time: 1800, squares: 9, baseNumber: 300, multiplier: 1.4 },
-            { time: 1800, squares: 9, baseNumber: 400, multiplier: 1.6 },
-            { time: 1800, squares: 9, baseNumber: 500, multiplier: 1.8 },
-            { time: 1800, squares: 9, baseNumber: 600, multiplier: 2.0 },
-            { time: 1800, squares: 9, baseNumber: 700, multiplier: 2.2 },
-            { time: 1800, squares: 9, baseNumber: 800, multiplier: 2.4 },
-            { time: 1800, squares: 9, baseNumber: 900, multiplier: 2.6 },
-            { time: 1800, squares: 9, baseNumber: 1000, multiplier: 2.8 },
-            { time: 1800, squares: 9, baseNumber: 1200, multiplier: 3.0 },
-            { time: 1800, squares: 9, baseNumber: 1400, multiplier: 3.2 },
-            { time: 1800, squares: 9, baseNumber: 1600, multiplier: 3.4 },
-            { time: 1800, squares: 9, baseNumber: 1800, multiplier: 3.6 },
-            { time: 1800, squares: 9, baseNumber: 2000, multiplier: 3.8 },
-            { time: 1800, squares: 9, baseNumber: 2500, multiplier: 4.0 },
-            { time: 1800, squares: 9, baseNumber: 3000, multiplier: 4.2 },
-            { time: 1800, squares: 9, baseNumber: 3500, multiplier: 4.4 },
-            { time: 1800, squares: 9, baseNumber: 4000, multiplier: 4.6 },
-            { time: 1800, squares: 9, baseNumber: 4500, multiplier: 4.8 },
-            { time: 1800, squares: 9, baseNumber: 5000, multiplier: 5.0 }
+            { time: 1800, squares: 15, baseNumber: 100, multiplier: 1 },
+            { time: 1800, squares: 15, baseNumber: 200, multiplier: 1.2 },
+            { time: 1800, squares: 15, baseNumber: 300, multiplier: 1.4 },
+            { time: 1800, squares: 15, baseNumber: 400, multiplier: 1.6 },
+            { time: 1800, squares: 15, baseNumber: 500, multiplier: 1.8 },
+            { time: 1800, squares: 15, baseNumber: 600, multiplier: 2.0 },
+            { time: 1800, squares: 15, baseNumber: 700, multiplier: 2.2 },
+            { time: 1800, squares: 15, baseNumber: 800, multiplier: 2.4 },
+            { time: 1800, squares: 15, baseNumber: 900, multiplier: 2.6 },
+            { time: 1800, squares: 15, baseNumber: 1000, multiplier: 2.8 },
+            { time: 1800, squares: 15, baseNumber: 1200, multiplier: 3.0 },
+            { time: 1800, squares: 15, baseNumber: 1400, multiplier: 3.2 },
+            { time: 1800, squares: 15, baseNumber: 1600, multiplier: 3.4 },
+            { time: 1800, squares: 15, baseNumber: 1800, multiplier: 3.6 },
+            { time: 1800, squares: 15, baseNumber: 2000, multiplier: 3.8 },
+            { time: 1800, squares: 15, baseNumber: 2500, multiplier: 4.0 },
+            { time: 1800, squares: 15, baseNumber: 3000, multiplier: 4.2 },
+            { time: 1800, squares: 15, baseNumber: 3500, multiplier: 4.4 },
+            { time: 1800, squares: 15, baseNumber: 4000, multiplier: 4.6 },
+            { time: 1800, squares: 15, baseNumber: 4500, multiplier: 4.8 },
+            { time: 1800, squares: 15, baseNumber: 5000, multiplier: 5.0 }
         ];
 
         // کپی آدرس کیف پول
@@ -872,13 +872,12 @@
             gameState.gunSound = new Audio();
             gameState.gunSound.preload = 'auto';
             gameState.gunSound.volume = 0.6;
+            gameState.gunSound.src = "m.mp3";
         }
 
         // پخش صدای تیربار
         function playGunSound() {
             if (gameState.gunSound && gameState.isSoundPlaying) {
-                const weapon = gameState.weapons[gameState.currentWeapon];
-                gameState.gunSound.src = weapon.sound;
                 gameState.gunSound.currentTime = 0;
                 gameState.gunSound.play().catch(e => {});
             }
@@ -887,11 +886,16 @@
         // شروع پخش صدا
         function startGunSound() {
             gameState.isSoundPlaying = true;
+            playGunSound();
         }
 
         // توقف پخش صدا
         function stopGunSound() {
             gameState.isSoundPlaying = false;
+            if (gameState.gunSound) {
+                gameState.gunSound.pause();
+                gameState.gunSound.currentTime = 0;
+            }
         }
 
         // ذخیره بازی
@@ -969,16 +973,16 @@
                 isPowerActive: false,
                 currentWeapon: 1,
                 weapons: {
-                    1: { name: "تفنگ معمولی", power: 1, price: 10000000, owned: true, clusterSize: 1, sound: "mb1.mp3" },
-                    2: { name: "تفنگ سریع", power: 2, price: 25000000, owned: false, clusterSize: 3, sound: "mb2.mp3" },
-                    3: { name: "مسلسل سبک", power: 3, price: 50000000, owned: false, clusterSize: 3, sound: "mb3.mp3" },
-                    4: { name: "شاتگان", power: 5, price: 75000000, owned: false, clusterSize: 5, sound: "mb4.mp3" },
-                    5: { name: "نارنجک انداز", power: 8, price: 100000000, owned: false, clusterSize: 5, sound: "mb5.mp3" },
-                    6: { name: "راکت انداز", power: 12, price: 150000000, owned: false, clusterSize: 7, sound: "mb6.mp3" },
-                    7: { name: "لیزر", power: 15, price: 200000000, owned: false, clusterSize: 7, sound: "mb7.mp3" },
-                    8: { name: "پلاسما گان", power: 20, price: 300000000, owned: false, clusterSize: 9, sound: "mb8.mp3" },
-                    9: { name: "اسلحه کوانتومی", power: 30, price: 500000000, owned: false, clusterSize: 9, sound: "mb9.mp3" },
-                    10: { name: "اسلحه افسانه‌ای", power: 50, price: 1000000000, owned: false, clusterSize: 11, sound: "mb10.mp3" }
+                    1: { name: "تفنگ معمولی", power: 1, price: 10000000, owned: true, clusterSize: 1, sound: "m.mp3" },
+                    2: { name: "تفنگ سریع", power: 2, price: 25000000, owned: false, clusterSize: 3, sound: "m.mp3" },
+                    3: { name: "مسلسل سبک", power: 3, price: 50000000, owned: false, clusterSize: 3, sound: "m.mp3" },
+                    4: { name: "شاتگان", power: 5, price: 75000000, owned: false, clusterSize: 5, sound: "m.mp3" },
+                    5: { name: "نارنجک انداز", power: 8, price: 100000000, owned: false, clusterSize: 5, sound: "m.mp3" },
+                    6: { name: "راکت انداز", power: 12, price: 150000000, owned: false, clusterSize: 7, sound: "m.mp3" },
+                    7: { name: "لیزر", power: 15, price: 200000000, owned: false, clusterSize: 7, sound: "m.mp3" },
+                    8: { name: "پلاسما گان", power: 20, price: 300000000, owned: false, clusterSize: 9, sound: "m.mp3" },
+                    9: { name: "اسلحه کوانتومی", power: 30, price: 500000000, owned: false, clusterSize: 9, sound: "m.mp3" },
+                    10: { name: "اسلحه افسانه‌ای", power: 50, price: 1000000000, owned: false, clusterSize: 11, sound: "m.mp3" }
                 },
                 bulletPower: 1,
                 holdingSquares: new Map(),
@@ -1011,14 +1015,14 @@
             saveGame();
         }
 
-        // ایجاد مربع‌ها در وسط صفحه - 3x3
+        // ایجاد مربع‌ها در وسط صفحه - 5x3
         function createSquares() {
             squaresContainer.innerHTML = '';
             gameState.squares = [];
             const settings = stageSettings[Math.min(gameState.currentStage - 1, stageSettings.length - 1)];
             
-            // ایجاد ۹ مربع در ۳ ردیف ۳ تایی
-            for (let i = 0; i < 9; i++) {
+            // ایجاد ۱۵ مربع در ۵ ردیف ۳ تایی
+            for (let i = 0; i < 15; i++) {
                 createSquare(settings, i);
             }
         }
@@ -1035,7 +1039,7 @@
             // ساختار مربع با تصویر و شماره
             const squareImage = document.createElement('div');
             squareImage.className = 'square-image';
-            const imageNumber = (index % 3) + 1;
+            const imageNumber = (index % 15) + 11; // استفاده از تصاویر m11.jpg تا m15.jpg
             squareImage.style.backgroundImage = `url('m${imageNumber}.jpg')`;
             
             const squareNumber = document.createElement('div');
