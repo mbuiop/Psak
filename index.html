@@ -9,15 +9,19 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Tahoma', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             touch-action: manipulation;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background: linear-gradient(135deg, #0c2461, #1e3799, #4a69bd);
             color: white;
             min-height: 100vh;
             overflow: hidden;
+            position: relative;
+            padding-bottom: env(safe-area-inset-bottom);
         }
 
         .container {
@@ -29,6 +33,52 @@
             flex-direction: column;
         }
 
+        /* نوار بالایی با دکمه‌ها */
+        .top-nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 8px 5px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 10px;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 5px;
+        }
+
+        .nav-btn:active {
+            transform: scale(0.95);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-img {
+            width: 30px;
+            height: 30px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 3px;
+        }
+
+        .nav-text {
+            font-size: 0.7em;
+            color: #ffeb3b;
+            text-align: center;
+        }
+
         /* هدر بازی */
         .header {
             display: flex;
@@ -37,10 +87,9 @@
             background: rgba(0, 0, 0, 0.7);
             padding: 12px 15px;
             border-radius: 12px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             flex-shrink: 0;
-            position: relative;
         }
 
         .menu-btn {
@@ -54,7 +103,7 @@
         }
 
         .timer {
-            font-size: 1.8em;
+            font-size: 1.6em;
             font-weight: bold;
             color: #ffeb3b;
         }
@@ -69,8 +118,45 @@
         }
 
         .score {
-            font-size: 1.6em;
+            font-size: 1.5em;
             color: #2196f3;
+        }
+
+        /* پیام مرحله */
+        .stage-complete {
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #4caf50, #45a049);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.5em;
+            font-weight: bold;
+            z-index: 3000;
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.5);
+            text-align: center;
+            animation: stageComplete 3s ease-in-out forwards;
+        }
+
+        @keyframes stageComplete {
+            0% { 
+                opacity: 0; 
+                transform: translateX(-50%) translateY(-20px);
+            }
+            20% { 
+                opacity: 1; 
+                transform: translateX(-50%) translateY(0);
+            }
+            80% { 
+                opacity: 1; 
+                transform: translateX(-50%) translateY(0);
+            }
+            100% { 
+                opacity: 0; 
+                transform: translateX(-50%) translateY(-20px);
+            }
         }
 
         /* منوی کشویی */
@@ -172,16 +258,77 @@
             cursor: not-allowed;
         }
 
+        .wallet-address {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.8em;
+            word-break: break-all;
+            text-align: center;
+            border: 1px solid #ffeb3b;
+            cursor: pointer;
+        }
+
+        .wallet-address code {
+            color: #ffeb3b;
+            font-weight: bold;
+        }
+
+        .copy-notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: #4caf50;
+            padding: 10px 20px;
+            border-radius: 5px;
+            z-index: 3000;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* سکه‌های متحرک */
+        .coin {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(circle at 30% 30%, #ffd700, #ff9800);
+            border-radius: 50%;
+            z-index: 1500;
+            pointer-events: none;
+            box-shadow: 0 0 15px #ffd700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            color: #8b6914;
+            font-weight: bold;
+            animation: coinFloat 1.5s ease-out forwards;
+        }
+
+        @keyframes coinFloat {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(0.5);
+                opacity: 0;
+            }
+        }
+
         /* بورد بازی */
         .game-board {
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.7);
             border-radius: 15px;
             padding: 15px;
             flex: 1;
             position: relative;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
             overflow: hidden;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -191,28 +338,29 @@
             position: relative;
             width: 100%;
             height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 15px;
+            place-items: center;
         }
 
         .square {
             position: relative;
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: all 0.2s ease;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
             user-select: none;
             touch-action: none;
             overflow: hidden;
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
         .square:active {
@@ -220,13 +368,25 @@
         }
 
         .square.holding {
-            box-shadow: 0 0 20px #ffeb3b;
+            box-shadow: 0 0 15px #ffeb3b;
             border: 2px solid #ffeb3b;
+        }
+
+        .square.targeted {
+            box-shadow: 0 0 20px #ff0000;
+            border: 2px solid #ff0000;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
         .square-image {
             width: 100%;
-            height: 80%;
+            height: 70%;
             background-size: cover;
             background-position: center;
             display: flex;
@@ -236,13 +396,13 @@
 
         .square-number {
             width: 100%;
-            height: 20%;
+            height: 30%;
             background: rgba(0, 0, 0, 0.7);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 1.2em;
+            font-size: 1em;
             color: #ffeb3b;
         }
 
@@ -256,22 +416,23 @@
             100% { transform: scale(0); opacity: 0; }
         }
 
-        /* نوار تیربار */
+        /* نوار تیربار - در موقعیت مناسب و کمی پایین‌تر */
         .weapon-bar {
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(0, 0, 0, 0.9);
             padding: 12px;
             border-radius: 15px;
             text-align: center;
             box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
             flex-shrink: 0;
             position: relative;
-            min-height: 110px;
-            margin-bottom: 10px;
+            min-height: 100px;
+            margin-bottom: 25px; /* افزایش فاصله از پایین به 25px */
+            margin-top: auto;
         }
 
         .weapon-area {
             width: 100%;
-            height: 70px;
+            height: 60px;
             background: linear-gradient(45deg, #2c3e50, #4a6491);
             border-radius: 10px;
             position: relative;
@@ -282,7 +443,7 @@
 
         .weapon-area.active {
             border-color: #e74c3c;
-            box-shadow: 0 0 20px #e74c3c;
+            box-shadow: 0 0 15px #e74c3c;
         }
 
         .weapon-info {
@@ -293,12 +454,12 @@
         }
 
         .bullets {
-            font-size: 1.1em;
+            font-size: 1em;
             color: #e74c3c;
         }
 
         .reload-time {
-            font-size: 1em;
+            font-size: 0.9em;
             color: #f39c12;
         }
 
@@ -310,7 +471,7 @@
             background: linear-gradient(to top, #ffeb3b, #ff9800);
             border-radius: 3px;
             pointer-events: none;
-            box-shadow: 0 0 15px #ff9800;
+            box-shadow: 0 0 10px #ff9800;
             z-index: 1000;
         }
 
@@ -318,10 +479,10 @@
         .gun {
             position: absolute;
             bottom: 8px;
-            width: 60px;
-            height: 30px;
+            width: 50px;
+            height: 25px;
             background: linear-gradient(45deg, #7f8c8d, #95a5a6);
-            border-radius: 6px;
+            border-radius: 5px;
             transition: left 0.01s linear;
             z-index: 100;
             border: 2px solid #34495e;
@@ -330,11 +491,11 @@
         .gun::after {
             content: '';
             position: absolute;
-            top: -15px;
+            top: -12px;
             left: 50%;
             transform: translateX(-50%);
-            width: 4px;
-            height: 20px;
+            width: 3px;
+            height: 15px;
             background: #2c3e50;
             border-radius: 2px;
         }
@@ -342,34 +503,28 @@
         /* قدرت شناور */
         .power-up {
             position: absolute;
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             background: linear-gradient(45deg, #00bcd4, #0097a7);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 0.9em;
+            font-size: 0.8em;
             color: white;
-            box-shadow: 0 4px 15px rgba(0, 188, 212, 0.6);
+            box-shadow: 0 4px 10px rgba(0, 188, 212, 0.6);
             animation: float 3s ease-in-out infinite;
             cursor: pointer;
             z-index: 500;
             text-align: center;
             line-height: 1.2;
             padding: 5px;
-            transition: all 0.2s ease;
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .power-up.boost {
-            background: linear-gradient(45deg, #ff5722, #d84315);
-            box-shadow: 0 4px 15px rgba(255, 87, 34, 0.6);
+            50% { transform: translateY(-8px); }
         }
 
         /* منو */
@@ -391,31 +546,24 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-        }
-
-        /* انیمیشن‌ها */
-        @keyframes shoot {
-            0% { 
-                transform: translateY(0) scale(1);
-                opacity: 1; 
-            }
-            100% { 
-                transform: translateY(-100vh) scale(0.3);
-                opacity: 0; 
-            }
-        }
-
-        .shoot-effect {
-            animation: shoot 0.5s linear forwards;
-        }
-
         /* رسپانسیو برای موبایل */
         @media (max-width: 768px) {
             .container {
-                padding: 8px;
+                padding: 5px;
+            }
+            
+            .top-nav {
+                padding: 5px 3px;
+            }
+            
+            .nav-btn {
+                width: 55px;
+                height: 55px;
+            }
+            
+            .nav-img {
+                width: 25px;
+                height: 25px;
             }
             
             .header {
@@ -423,7 +571,7 @@
             }
             
             .timer {
-                font-size: 1.5em;
+                font-size: 1.4em;
             }
             
             .score {
@@ -432,32 +580,52 @@
             
             .game-board {
                 padding: 10px;
-                margin-bottom: 10px;
+                margin-bottom: 8px;
+            }
+            
+            .squares-container {
+                gap: 10px;
+            }
+            
+            .square {
+                width: 70px;
+                height: 70px;
             }
             
             .weapon-bar {
                 padding: 10px;
-                min-height: 100px;
-                margin-bottom: 5px;
+                min-height: 90px;
+                margin-bottom: 20px; /* فاصله بیشتر در موبایل */
             }
             
-            .squares-container {
-                gap: 15px;
-            }
-            
-            .square {
-                width: 80px;
-                height: 80px;
-            }
-
-            .power-up {
-                width: 40px;
-                height: 40px;
-                font-size: 0.8em;
-            }
-
             .side-menu {
                 width: 300px;
+            }
+            
+            .stage-complete {
+                font-size: 1.3em;
+                padding: 12px 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .square {
+                width: 65px;
+                height: 65px;
+            }
+            
+            .nav-btn {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .nav-img {
+                width: 22px;
+                height: 22px;
+            }
+            
+            .nav-text {
+                font-size: 0.6em;
             }
         }
     </style>
@@ -478,17 +646,40 @@
             <h3>📋 راهنما</h3>
             <div style="color: #ccc; line-height: 1.6; font-size: 0.95em;">
                 <p>🎯 <strong>هدف بازی:</strong> مربع‌ها را با کلیک یا نگه داشتن نابود کن!</p>
-                <p>🔫 <strong>تیربار:</strong> از مرحله ۵ فعال می‌شود</p>
+                <p>🔫 <strong>تیربار:</strong> از مرحله ۵ فعال می‌شود - تیرهای بی‌نهایت!</p>
                 <p>👆 <strong>نگه دارید:</strong> روی مربع‌ها نگه دارید تا سریع‌تر نابود شوند</p>
                 <p>💎 <strong>قدرت‌ها:</strong> از بالا می‌آیند - جمع‌آوری کن!</p>
                 <p>💰 <strong>سکه‌ها:</strong> با نابود کردن مربع‌ها کسب کن</p>
                 <p>🛒 <strong>فروشگاه:</strong> اسلحه‌های قدرتمند بخر</p>
-                <p>⚡ <strong>قدرت اسلحه:</strong> هر اسلحه قدرت تخریب متفاوتی دارد</p>
+                <br>
+                <p style="text-align: center; color: #ffeb3b; margin-top: 15px;">
+                    <strong>حمایت مالی داوطلبانه</strong><br>
+                    <small>TRC20: TV61aTh98MGqmteYzda5AaBzdXgGqreG6A</small>
+                </p>
+                <div class="wallet-address" onclick="copyWalletAddress()">
+                    <code>TV61aTh98MGqmteYzda5AaBzdXgGqreG6A</code>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="container">
+        <!-- نوار بالایی با دکمه‌ها -->
+        <div class="top-nav">
+            <button class="nav-btn" onclick="window.location.href='m1.html'">
+                <img src="my.jpg" alt="اطلاعیه مدیریت" class="nav-img">
+                <div class="nav-text">اطلاعیه مدیریت</div>
+            </button>
+            <button class="nav-btn" onclick="window.location.href='m2.html'">
+                <img src="my1.jpg" alt="بازی کلیکی" class="nav-img">
+                <div class="nav-text">بازی کلیکی</div>
+            </button>
+            <button class="nav-btn" onclick="window.location.href='m3.html'">
+                <img src="my.jpg" alt="بازی ریاضی" class="nav-img">
+                <div class="nav-text">بازی ریاضی</div>
+            </button>
+        </div>
+
         <!-- منوی اصلی -->
         <div class="menu" id="menuScreen">
             <h1 style="font-size: 2.5em; margin-bottom: 25px; text-shadow: 0 4px 8px rgba(0,0,0,0.5);">🎯 شکار مربع‌ها</h1>
@@ -520,7 +711,7 @@
                 <div class="gun" id="gun"></div>
                 <div class="weapon-area" id="weaponArea"></div>
                 <div class="weapon-info">
-                    <div class="bullets" id="bulletsCount">۵۰۰ تیر</div>
+                    <div class="bullets" id="bulletsCount">بی‌نهایت تیر</div>
                     <div class="reload-time" id="reloadTime">آماده</div>
                 </div>
             </div>
@@ -552,68 +743,155 @@
             squares: [],
             gameInterval: null,
             isWeaponActive: false,
-            bullets: 500,
             isReloading: false,
-            reloadTime: 0,
             gunPosition: 50,
             isShooting: false,
             shootInterval: null,
             gunSound: null,
             lastGunMoveTime: 0,
             activeBullets: [],
-            autoReloadInterval: null,
             powerUps: [],
             currentPower: 1,
             powerTimer: 0,
             isPowerActive: false,
             currentWeapon: 1,
             weapons: {
-                1: { name: "تفنگ معمولی", power: 1, price: 0, owned: true, bullets: 500 },
-                2: { name: "تفنگ سریع", power: 2, price: 10000, owned: false, bullets: 600 },
-                3: { name: "مسلسل سبک", power: 3, price: 25000, owned: false, bullets: 700 },
-                4: { name: "شاتگان", power: 5, price: 50000, owned: false, bullets: 400 },
-                5: { name: "نارنجک انداز", power: 8, price: 100000, owned: false, bullets: 300 },
-                6: { name: "راکت انداز", power: 12, price: 250000, owned: false, bullets: 200 },
-                7: { name: "لیزر", power: 15, price: 500000, owned: false, bullets: 150 },
-                8: { name: "پلاسما گان", power: 20, price: 750000, owned: false, bullets: 100 },
-                9: { name: "اسلحه کوانتومی", power: 30, price: 1000000, owned: false, bullets: 80 },
-                10: { name: "اسلحه افسانه‌ای", power: 50, price: 2000000, owned: false, bullets: 50 }
+                1: { name: "تفنگ معمولی", power: 1, price: 10000000, owned: true, clusterSize: 1, sound: "mb1.mp3" },
+                2: { name: "تفنگ سریع", power: 2, price: 25000000, owned: false, clusterSize: 3, sound: "mb2.mp3" },
+                3: { name: "مسلسل سبک", power: 3, price: 50000000, owned: false, clusterSize: 3, sound: "mb3.mp3" },
+                4: { name: "شاتگان", power: 5, price: 75000000, owned: false, clusterSize: 5, sound: "mb4.mp3" },
+                5: { name: "نارنجک انداز", power: 8, price: 100000000, owned: false, clusterSize: 5, sound: "mb5.mp3" },
+                6: { name: "راکت انداز", power: 12, price: 150000000, owned: false, clusterSize: 7, sound: "mb6.mp3" },
+                7: { name: "لیزر", power: 15, price: 200000000, owned: false, clusterSize: 7, sound: "mb7.mp3" },
+                8: { name: "پلاسما گان", power: 20, price: 300000000, owned: false, clusterSize: 9, sound: "mb8.mp3" },
+                9: { name: "اسلحه کوانتومی", power: 30, price: 500000000, owned: false, clusterSize: 9, sound: "mb9.mp3" },
+                10: { name: "اسلحه افسانه‌ای", power: 50, price: 1000000000, owned: false, clusterSize: 11, sound: "mb10.mp3" }
             },
             bulletPower: 1,
-            holdingSquares: new Map(), // برای مدیریت مربع‌های در حال نگه‌داشته شدن
-            holdInterval: null
+            holdingSquares: new Map(),
+            holdInterval: null,
+            isSoundPlaying: false,
+            clickPower: 1
         };
 
-        // تنظیمات مراحل
+        // تنظیمات مراحل - اعداد در هر مرحله افزایش می‌یابند
         const stageSettings = [
-            { time: 1800, squares: 10, maxNumber: 100, squareSize: 100 },
-            { time: 1800, squares: 10, maxNumber: 200, squareSize: 100 },
-            { time: 1800, squares: 10, maxNumber: 300, squareSize: 100 },
-            { time: 1800, squares: 10, maxNumber: 400, squareSize: 100 },
-            { time: 1800, squares: 10, maxNumber: 500, squareSize: 100 },
-            { time: 1800, squares: 10, maxNumber: 600, squareSize: 100 },
-            { time: 1800, squares: 10, maxNumber: 700, squareSize: 100 },
-            { time: 1800, squares: 10, maxNumber: 800, squareSize: 100 },
-            { time: 1800, squares: 10, maxNumber: 900, squareSize: 100 },
-            { time: 1800, squares: 10, maxNumber: 1000, squareSize: 100 },
-            { time: 1800, squares: 10, maxNumber: 1500, squareSize: 100 },
-            { time: 1800, squares: 10, maxNumber: 2000, squareSize: 100 },
-            { time: 1800, squares: 10, maxNumber: 2500, squareSize: 100 },
-            { time: 1800, squares: 10, maxNumber: 3000, squareSize: 100 },
-            { time: 1800, squares: 10, maxNumber: 4000, squareSize: 100 },
-            { time: 1800, squares: 10, maxNumber: 5000, squareSize: 100 },
-            { time: 1800, squares: 10, maxNumber: 6000, squareSize: 100 },
-            { time: 1800, squares: 10, maxNumber: 7000, squareSize: 100 },
-            { time: 1800, squares: 10, maxNumber: 8000, squareSize: 100 },
-            { time: 1800, squares: 10, maxNumber: 9000, squareSize: 100 },
-            { time: 1800, squares: 10, maxNumber: 10000, squareSize: 100 }
+            { time: 1800, squares: 9, baseNumber: 100, multiplier: 1 },
+            { time: 1800, squares: 9, baseNumber: 200, multiplier: 1.2 },
+            { time: 1800, squares: 9, baseNumber: 300, multiplier: 1.4 },
+            { time: 1800, squares: 9, baseNumber: 400, multiplier: 1.6 },
+            { time: 1800, squares: 9, baseNumber: 500, multiplier: 1.8 },
+            { time: 1800, squares: 9, baseNumber: 600, multiplier: 2.0 },
+            { time: 1800, squares: 9, baseNumber: 700, multiplier: 2.2 },
+            { time: 1800, squares: 9, baseNumber: 800, multiplier: 2.4 },
+            { time: 1800, squares: 9, baseNumber: 900, multiplier: 2.6 },
+            { time: 1800, squares: 9, baseNumber: 1000, multiplier: 2.8 },
+            { time: 1800, squares: 9, baseNumber: 1200, multiplier: 3.0 },
+            { time: 1800, squares: 9, baseNumber: 1400, multiplier: 3.2 },
+            { time: 1800, squares: 9, baseNumber: 1600, multiplier: 3.4 },
+            { time: 1800, squares: 9, baseNumber: 1800, multiplier: 3.6 },
+            { time: 1800, squares: 9, baseNumber: 2000, multiplier: 3.8 },
+            { time: 1800, squares: 9, baseNumber: 2500, multiplier: 4.0 },
+            { time: 1800, squares: 9, baseNumber: 3000, multiplier: 4.2 },
+            { time: 1800, squares: 9, baseNumber: 3500, multiplier: 4.4 },
+            { time: 1800, squares: 9, baseNumber: 4000, multiplier: 4.6 },
+            { time: 1800, squares: 9, baseNumber: 4500, multiplier: 4.8 },
+            { time: 1800, squares: 9, baseNumber: 5000, multiplier: 5.0 }
         ];
+
+        // کپی آدرس کیف پول
+        function copyWalletAddress() {
+            const walletAddress = "TV61aTh98MGqmteYzda5AaBzdXgGqreG6A";
+            
+            // روش جایگزین برای کپی کردن
+            const textArea = document.createElement("textarea");
+            textArea.value = walletAddress;
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showCopyNotification("آدرس کیف پول کپی شد!");
+                }
+            } catch (err) {
+                showCopyNotification("خطا در کپی آدرس! لطفا دستی کپی کنید.");
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        // نمایش اعلان کپی
+        function showCopyNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'copy-notification';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 2000);
+        }
+
+        // نمایش پیام مرحله کامل
+        function showStageComplete() {
+            const message = document.createElement('div');
+            message.className = 'stage-complete';
+            message.textContent = 'آفرین! به مرحله بعد رفتید';
+            document.body.appendChild(message);
+            
+            setTimeout(() => {
+                if (message.parentNode) {
+                    message.remove();
+                }
+            }, 3000);
+        }
+
+        // ایجاد سکه متحرک
+        function createCoin(x, y, value) {
+            const coin = document.createElement('div');
+            coin.className = 'coin';
+            coin.textContent = '💸';
+            coin.style.left = x + 'px';
+            coin.style.top = y + 'px';
+            
+            document.body.appendChild(coin);
+            
+            // حذف سکه پس از انیمیشن
+            setTimeout(() => {
+                if (coin.parentNode) {
+                    coin.remove();
+                }
+            }, 1500);
+        }
 
         // ایجاد المان صدا
         function createGunSound() {
-            gameState.gunSound = new Audio('m.mp3');
+            gameState.gunSound = new Audio();
             gameState.gunSound.preload = 'auto';
             gameState.gunSound.volume = 0.6;
+        }
+
+        // پخش صدای تیربار
+        function playGunSound() {
+            if (gameState.gunSound && gameState.isSoundPlaying) {
+                const weapon = gameState.weapons[gameState.currentWeapon];
+                gameState.gunSound.src = weapon.sound;
+                gameState.gunSound.currentTime = 0;
+                gameState.gunSound.play().catch(e => {});
+            }
+        }
+
+        // شروع پخش صدا
+        function startGunSound() {
+            gameState.isSoundPlaying = true;
+        }
+
+        // توقف پخش صدا
+        function stopGunSound() {
+            gameState.isSoundPlaying = false;
         }
 
         // ذخیره بازی
@@ -623,10 +901,10 @@
                 score: gameState.score,
                 coins: gameState.coins,
                 timeLeft: gameState.timeLeft,
-                bullets: gameState.bullets,
                 currentWeapon: gameState.currentWeapon,
                 weapons: gameState.weapons,
-                bulletPower: gameState.bulletPower
+                bulletPower: gameState.bulletPower,
+                clickPower: gameState.clickPower
             };
             localStorage.setItem('squareHunterSave', JSON.stringify(saveData));
         }
@@ -641,9 +919,9 @@
                     gameState.score = saveData.score || 0;
                     gameState.coins = saveData.coins || 0;
                     gameState.timeLeft = saveData.timeLeft || stageSettings[0].time;
-                    gameState.bullets = saveData.bullets || 500;
                     gameState.currentWeapon = saveData.currentWeapon || 1;
                     gameState.bulletPower = saveData.bulletPower || 1;
+                    gameState.clickPower = saveData.clickPower || 1;
                     if (saveData.weapons) {
                         gameState.weapons = { ...gameState.weapons, ...saveData.weapons };
                     }
@@ -678,36 +956,35 @@
                 squares: [],
                 gameInterval: null,
                 isWeaponActive: false,
-                bullets: 500,
                 isReloading: false,
-                reloadTime: 0,
                 gunPosition: 50,
                 isShooting: false,
                 shootInterval: null,
                 gunSound: gameState.gunSound,
                 lastGunMoveTime: 0,
                 activeBullets: [],
-                autoReloadInterval: null,
                 powerUps: [],
                 currentPower: 1,
                 powerTimer: 0,
                 isPowerActive: false,
                 currentWeapon: 1,
                 weapons: {
-                    1: { name: "تفنگ معمولی", power: 1, price: 0, owned: true, bullets: 500 },
-                    2: { name: "تفنگ سریع", power: 2, price: 10000, owned: false, bullets: 600 },
-                    3: { name: "مسلسل سبک", power: 3, price: 25000, owned: false, bullets: 700 },
-                    4: { name: "شاتگان", power: 5, price: 50000, owned: false, bullets: 400 },
-                    5: { name: "نارنجک انداز", power: 8, price: 100000, owned: false, bullets: 300 },
-                    6: { name: "راکت انداز", power: 12, price: 250000, owned: false, bullets: 200 },
-                    7: { name: "لیزر", power: 15, price: 500000, owned: false, bullets: 150 },
-                    8: { name: "پلاسما گان", power: 20, price: 750000, owned: false, bullets: 100 },
-                    9: { name: "اسلحه کوانتومی", power: 30, price: 1000000, owned: false, bullets: 80 },
-                    10: { name: "اسلحه افسانه‌ای", power: 50, price: 2000000, owned: false, bullets: 50 }
+                    1: { name: "تفنگ معمولی", power: 1, price: 10000000, owned: true, clusterSize: 1, sound: "mb1.mp3" },
+                    2: { name: "تفنگ سریع", power: 2, price: 25000000, owned: false, clusterSize: 3, sound: "mb2.mp3" },
+                    3: { name: "مسلسل سبک", power: 3, price: 50000000, owned: false, clusterSize: 3, sound: "mb3.mp3" },
+                    4: { name: "شاتگان", power: 5, price: 75000000, owned: false, clusterSize: 5, sound: "mb4.mp3" },
+                    5: { name: "نارنجک انداز", power: 8, price: 100000000, owned: false, clusterSize: 5, sound: "mb5.mp3" },
+                    6: { name: "راکت انداز", power: 12, price: 150000000, owned: false, clusterSize: 7, sound: "mb6.mp3" },
+                    7: { name: "لیزر", power: 15, price: 200000000, owned: false, clusterSize: 7, sound: "mb7.mp3" },
+                    8: { name: "پلاسما گان", power: 20, price: 300000000, owned: false, clusterSize: 9, sound: "mb8.mp3" },
+                    9: { name: "اسلحه کوانتومی", power: 30, price: 500000000, owned: false, clusterSize: 9, sound: "mb9.mp3" },
+                    10: { name: "اسلحه افسانه‌ای", power: 50, price: 1000000000, owned: false, clusterSize: 11, sound: "mb10.mp3" }
                 },
                 bulletPower: 1,
                 holdingSquares: new Map(),
-                holdInterval: null
+                holdInterval: null,
+                isSoundPlaying: false,
+                clickPower: 1
             };
             updateUI();
             updateGunPosition();
@@ -723,14 +1000,9 @@
                 weaponBar.style.display = 'block';
                 gameState.isWeaponActive = true;
                 setupWeapon();
-                startAutoReload();
-                startPowerUpSpawn();
             } else {
                 weaponBar.style.display = 'none';
                 gameState.isWeaponActive = false;
-                if (gameState.autoReloadInterval) {
-                    clearInterval(gameState.autoReloadInterval);
-                }
             }
 
             createSquares();
@@ -739,13 +1011,14 @@
             saveGame();
         }
 
-        // ایجاد مربع‌ها در وسط صفحه
+        // ایجاد مربع‌ها در وسط صفحه - 3x3
         function createSquares() {
             squaresContainer.innerHTML = '';
             gameState.squares = [];
             const settings = stageSettings[Math.min(gameState.currentStage - 1, stageSettings.length - 1)];
             
-            for (let i = 0; i < 10; i++) {
+            // ایجاد ۹ مربع در ۳ ردیف ۳ تایی
+            for (let i = 0; i < 9; i++) {
                 createSquare(settings, i);
             }
         }
@@ -754,26 +1027,23 @@
             const square = document.createElement('div');
             square.className = 'square';
             
-            const number = Math.floor(Math.random() * settings.maxNumber) + 1;
+            // عدد اولیه مربع - با توجه به مرحله و ضریب افزایش می‌یابد
+            const baseNumber = Math.floor(settings.baseNumber * settings.multiplier) + Math.floor(Math.random() * 100);
+            square.dataset.number = baseNumber;
+            square.dataset.initialNumber = baseNumber;
             
-            square.style.width = '100px';
-            square.style.height = '100px';
-            
-            // ساختار مربع با تصویر و شماره - استفاده از m1.jpg تا m10.jpg
+            // ساختار مربع با تصویر و شماره
             const squareImage = document.createElement('div');
             squareImage.className = 'square-image';
-            const imageNumber = (index % 10) + 1;
+            const imageNumber = (index % 3) + 1;
             squareImage.style.backgroundImage = `url('m${imageNumber}.jpg')`;
             
             const squareNumber = document.createElement('div');
             squareNumber.className = 'square-number';
-            squareNumber.textContent = number.toLocaleString();
+            squareNumber.textContent = baseNumber.toLocaleString();
             
             square.appendChild(squareImage);
             square.appendChild(squareNumber);
-            
-            square.dataset.number = number;
-            square.dataset.initialNumber = number;
             
             // رویدادهای کلیک و نگه‌داشتن
             setupSquareInteractions(square);
@@ -781,13 +1051,12 @@
             squaresContainer.appendChild(square);
             gameState.squares.push({
                 element: square,
-                number: number
+                number: baseNumber
             });
         }
 
         // تنظیم رویدادهای مربع برای کلیک و نگه‌داشتن
         function setupSquareInteractions(square) {
-            let holdTimer = null;
             let isHolding = false;
 
             const startHold = (e) => {
@@ -797,7 +1066,6 @@
                 isHolding = true;
                 square.classList.add('holding');
                 
-                // اضافه کردن به لیست مربع‌های در حال نگه‌داشته شدن
                 gameState.holdingSquares.set(square, {
                     startTime: Date.now(),
                     lastProcessTime: Date.now()
@@ -812,7 +1080,6 @@
                 square.classList.remove('holding');
                 gameState.holdingSquares.delete(square);
                 
-                // اگر نگه‌داشتن کوتاه بود، یک بار کلیک انجام بده
                 if (Date.now() - (gameState.holdingSquares.get(square)?.startTime || Date.now()) < 300) {
                     handleSquareClick(square);
                 }
@@ -838,216 +1105,419 @@
             gameState.holdInterval = setInterval(() => {
                 const now = Date.now();
                 gameState.holdingSquares.forEach((data, square) => {
-                    if (now - data.lastProcessTime >= 100) { // هر 100 میلی‌ثانیه
-                        handleSquareHold(square);
+                    if (now - data.lastProcessTime >= 100) {
                         data.lastProcessTime = now;
+                        handleSquareHold(square);
                     }
                 });
-            }, 50); // بررسی هر 50 میلی‌ثانیه
+            }, 50);
         }
 
-        // پردازش نگه‌داشتن مربع
+        // مدیریت نگه‌داشتن مربع
         function handleSquareHold(square) {
-            const weaponPower = gameState.weapons[gameState.currentWeapon].power;
-            const totalPower = weaponPower * (gameState.isPowerActive ? gameState.currentPower : 1);
+            const currentNumber = parseInt(square.dataset.number);
+            const damage = gameState.clickPower * 2;
             
-            let currentNumber = parseInt(square.dataset.number);
-            currentNumber -= totalPower;
+            // ایجاد سکه هنگام نگه‌داشتن
+            const rect = square.getBoundingClientRect();
+            const coinValue = Math.floor(damage / 10) + 1;
+            createCoin(rect.left + rect.width / 2, rect.top + rect.height / 2, coinValue);
             
-            if (currentNumber <= 0) {
+            if (currentNumber <= damage) {
                 destroySquare(square);
-                gameState.holdingSquares.delete(square);
             } else {
-                square.dataset.number = currentNumber;
-                square.querySelector('.square-number').textContent = currentNumber.toLocaleString();
+                const newNumber = currentNumber - damage;
+                square.dataset.number = newNumber;
+                square.querySelector('.square-number').textContent = newNumber.toLocaleString();
+                
+                square.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    square.style.transform = 'scale(1)';
+                }, 100);
             }
-            
-            updateUI();
-            saveGame();
         }
 
-        // کلیک روی مربع
+        // مدیریت کلیک روی مربع
         function handleSquareClick(square) {
-            const weaponPower = gameState.weapons[gameState.currentWeapon].power;
-            const totalPower = weaponPower * (gameState.isPowerActive ? gameState.currentPower : 1);
+            const currentNumber = parseInt(square.dataset.number);
             
-            let currentNumber = parseInt(square.dataset.number);
-            currentNumber -= totalPower;
+            // کاهش ۱۰ واحد از عدد مربع
+            const newNumber = currentNumber - 10;
             
-            if (currentNumber <= 0) {
+            // ایجاد سکه هنگام کلیک
+            const rect = square.getBoundingClientRect();
+            createCoin(rect.left + rect.width / 2, rect.top + rect.height / 2, 1);
+            
+            if (newNumber <= 0) {
                 destroySquare(square);
             } else {
-                square.dataset.number = currentNumber;
-                square.querySelector('.square-number').textContent = currentNumber.toLocaleString();
+                square.dataset.number = newNumber;
+                square.querySelector('.square-number').textContent = newNumber.toLocaleString();
+                
+                // افزایش قدرت کلیک
+                gameState.clickPower += 0.1;
+                
+                square.classList.add('clicked');
+                setTimeout(() => {
+                    square.classList.remove('clicked');
+                }, 300);
             }
             
             updateUI();
             saveGame();
         }
 
-        // تخریب مربع
+        // نابود کردن مربع
         function destroySquare(square) {
-            square.classList.add('clicked');
             const initialNumber = parseInt(square.dataset.initialNumber);
-            gameState.score += initialNumber;
-            gameState.coins += Math.floor(initialNumber / 10);
+            
+            // وقتی مربع نابود می‌شود، عدد اولیه آن دو برابر می‌شود
+            const newInitialNumber = initialNumber * 2;
+            const points = Math.floor(newInitialNumber / 10) + 1;
+            
+            gameState.score += points;
+            gameState.coins += points;
+            
+            // ایجاد سکه بیشتر هنگام نابودی مربع
+            const rect = square.getBoundingClientRect();
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    createCoin(
+                        rect.left + Math.random() * rect.width,
+                        rect.top + Math.random() * rect.height,
+                        points
+                    );
+                }, i * 200);
+            }
+            
+            square.classList.add('clicked');
             
             setTimeout(() => {
                 if (square.parentNode) {
                     square.remove();
                 }
-                // حذف از لیست نگه‌داشته شدن
-                gameState.holdingSquares.delete(square);
-                checkStageComplete();
+                
+                checkStageCompletion();
+                
+                updateUI();
+                saveGame();
             }, 300);
         }
 
-        // ایجاد قدرت شناور
-        function createPowerUp() {
-            const powerUp = document.createElement('div');
-            powerUp.className = 'power-up';
-            
-            // قدرت تصادفی بین ۵ تا ۱۵
-            const powerValue = Math.floor(Math.random() * 11) + 5;
-            powerUp.textContent = `+${powerValue}`;
-            powerUp.dataset.power = powerValue;
-            
-            // موقعیت تصادفی در بالای صفحه
-            const maxX = window.innerWidth - 60;
-            const x = Math.floor(Math.random() * maxX) + 30;
-            powerUp.style.left = x + 'px';
-            powerUp.style.top = '50px';
-            
-            // اضافه کردن انیمیشن سقوط
-            const fallAnimation = `fall${Date.now()}`;
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes ${fallAnimation} {
-                    0% { top: 50px; }
-                    100% { top: calc(100vh - 200px); }
-                }
-            `;
-            document.head.appendChild(style);
-            
-            powerUp.style.animation = `float 3s ease-in-out infinite, ${fallAnimation} 8s linear forwards`;
-            
-            // کلیک روی قدرت
-            const handlePowerClick = (e) => {
-                e.preventDefault();
-                collectPowerUp(powerUp, powerValue);
-            };
-            
-            powerUp.addEventListener('click', handlePowerClick);
-            powerUp.addEventListener('touchstart', handlePowerClick);
-            
-            document.body.appendChild(powerUp);
-            
-            // ذخیره قدرت
-            const powerObj = {
-                element: powerUp,
-                power: powerValue,
-                startTime: Date.now(),
-                styleElement: style,
-                animationName: fallAnimation
-            };
-            gameState.powerUps.push(powerObj);
-            
-            // حذف خودکار پس از ۸ ثانیه
-            setTimeout(() => {
-                if (powerUp.parentNode) {
-                    powerUp.remove();
-                }
-                if (style.parentNode) {
-                    style.remove();
-                }
-                const index = gameState.powerUps.indexOf(powerObj);
-                if (index > -1) {
-                    gameState.powerUps.splice(index, 1);
-                }
-            }, 8000);
+        // بررسی پایان مرحله
+        function checkStageCompletion() {
+            const remainingSquares = document.querySelectorAll('.square').length;
+            if (remainingSquares === 0) {
+                completeStage();
+            }
         }
 
-        // جمع‌آوری قدرت
-        function collectPowerUp(powerUp, powerValue) {
-            // فعال کردن قدرت گلوله‌ها
-            gameState.bulletPower = powerValue;
-            gameState.isPowerActive = true;
-            gameState.powerTimer = 30; // 30 ثانیه
+        // تکمیل مرحله
+        function completeStage() {
+            clearInterval(gameState.gameInterval);
             
-            // جلوه بصری
-            powerUp.classList.add('boost');
-            powerUp.textContent = `فعال! +${powerValue}`;
-            powerUp.style.animation = 'none';
-            powerUp.style.transform = 'scale(1.2)';
+            const stageBonus = gameState.currentStage * 100;
+            gameState.coins += stageBonus;
             
-            // به‌روزرسانی UI
-            updateUI();
+            // نمایش پیام مرحله کامل
+            showStageComplete();
             
-            // حذف قدرت پس از ۱ ثانیه
+            gameState.currentStage++;
+            
             setTimeout(() => {
-                if (powerUp.parentNode) {
-                    powerUp.remove();
-                }
-                const index = gameState.powerUps.findIndex(p => p.element === powerUp);
-                if (index > -1) {
-                    if (gameState.powerUps[index].styleElement.parentNode) {
-                        gameState.powerUps[index].styleElement.remove();
-                    }
-                    gameState.powerUps.splice(index, 1);
-                }
-            }, 1000);
-            
-            // شروع تایمر قدرت
-            startPowerTimer();
+                startStage();
+            }, 1500);
         }
 
-        // تایمر قدرت
-        function startPowerTimer() {
-            const powerInterval = setInterval(() => {
-                gameState.powerTimer--;
+        // شروع تایمر
+        function startTimer() {
+            clearInterval(gameState.gameInterval);
+            
+            gameState.gameInterval = setInterval(() => {
+                gameState.timeLeft--;
                 
-                if (gameState.powerTimer <= 0) {
-                    clearInterval(powerInterval);
-                    gameState.bulletPower = 1;
-                    gameState.isPowerActive = false;
-                    updateUI();
+                if (gameState.timeLeft <= 0) {
+                    endGame();
+                    return;
                 }
+                
+                updateTimer();
+                saveGame();
             }, 1000);
         }
 
-        // شروع ایجاد قدرت‌های شناور
-        function startPowerUpSpawn() {
-            setInterval(() => {
-                if (gameState.powerUps.length < 3) {
-                    createPowerUp();
+        // به‌روزرسانی تایمر
+        function updateTimer() {
+            const minutes = Math.floor(gameState.timeLeft / 60);
+            const seconds = gameState.timeLeft % 60;
+            timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        }
+
+        // پایان بازی
+        function endGame() {
+            clearInterval(gameState.gameInterval);
+            alert(`زمان شما به پایان رسید!\nامتیاز نهایی: ${gameState.score.toLocaleString()}\nمرحله: ${gameState.currentStage}`);
+            resetGame();
+            menuScreen.style.display = 'block';
+            gameScreen.style.display = 'none';
+        }
+
+        // به‌روزرسانی UI
+        function updateUI() {
+            stageNumberElement.textContent = gameState.currentStage.toLocaleString();
+            scoreElement.textContent = `${gameState.score.toLocaleString()} | ${gameState.coins.toLocaleString()} سکه`;
+            updateTimer();
+            
+            if (gameState.isWeaponActive) {
+                reloadTimeElement.textContent = `قدرت کلیک: ${gameState.clickPower.toFixed(1)}x`;
+            }
+        }
+
+        // تنظیم تیربار
+        function setupWeapon() {
+            weaponArea.addEventListener('mousedown', startShooting);
+            weaponArea.addEventListener('touchstart', startShooting);
+            
+            document.addEventListener('mouseup', stopShooting);
+            document.addEventListener('touchend', stopShooting);
+            
+            document.addEventListener('mousemove', moveGun);
+            document.addEventListener('touchmove', moveGun);
+            
+            createGunSound();
+        }
+
+        // شروع تیراندازی
+        function startShooting(e) {
+            e.preventDefault();
+            if (gameState.isReloading || !gameState.isWeaponActive) return;
+            
+            gameState.isShooting = true;
+            weaponArea.classList.add('active');
+            
+            startGunSound();
+            
+            gameState.shootInterval = setInterval(shoot, 100);
+            shoot();
+        }
+
+        // توقف تیراندازی
+        function stopShooting(e) {
+            if (!gameState.isShooting) return;
+            
+            gameState.isShooting = false;
+            weaponArea.classList.remove('active');
+            
+            stopGunSound();
+            
+            clearInterval(gameState.shootInterval);
+        }
+
+        // تیراندازی
+        function shoot() {
+            if (!gameState.isShooting || gameState.isReloading) return;
+            
+            playGunSound();
+            
+            const weapon = gameState.weapons[gameState.currentWeapon];
+            const clusterSize = weapon.clusterSize;
+            
+            if (clusterSize > 1) {
+                createBulletCluster(clusterSize);
+            } else {
+                createBullet();
+            }
+            
+            bulletsCountElement.textContent = "بی‌نهایت تیر";
+        }
+
+        // ایجاد یک گلوله
+        function createBullet() {
+            const bullet = document.createElement('div');
+            bullet.className = 'bullet shoot-effect';
+            
+            const gunRect = gun.getBoundingClientRect();
+            const weaponAreaRect = weaponArea.getBoundingClientRect();
+            
+            bullet.style.left = (gunRect.left + gunRect.width / 2 - 3) + 'px';
+            bullet.style.top = (weaponAreaRect.top + 5) + 'px';
+            
+            document.body.appendChild(bullet);
+            gameState.activeBullets.push(bullet);
+            
+            moveBullet(bullet);
+            
+            setTimeout(() => {
+                if (bullet.parentNode) {
+                    bullet.remove();
                 }
-            }, 10000);
+                const index = gameState.activeBullets.indexOf(bullet);
+                if (index > -1) {
+                    gameState.activeBullets.splice(index, 1);
+                }
+            }, 2000);
+        }
+
+        // ایجاد خوشه گلوله
+        function createBulletCluster(clusterSize) {
+            const gunRect = gun.getBoundingClientRect();
+            const weaponAreaRect = weaponArea.getBoundingClientRect();
+            
+            for (let i = 0; i < clusterSize; i++) {
+                setTimeout(() => {
+                    const bullet = document.createElement('div');
+                    bullet.className = 'bullet cluster-shoot-effect';
+                    
+                    const spreadX = (Math.random() - 0.5) * 40;
+                    bullet.style.left = (gunRect.left + gunRect.width / 2 - 3 + spreadX) + 'px';
+                    bullet.style.top = (weaponAreaRect.top + 5) + 'px';
+                    
+                    document.body.appendChild(bullet);
+                    gameState.activeBullets.push(bullet);
+                    
+                    moveBullet(bullet);
+                    
+                    setTimeout(() => {
+                        if (bullet.parentNode) {
+                            bullet.remove();
+                        }
+                        const index = gameState.activeBullets.indexOf(bullet);
+                        if (index > -1) {
+                            gameState.activeBullets.splice(index, 1);
+                        }
+                    }, 2000);
+                }, i * 30);
+            }
+        }
+
+        // حرکت گلوله و بررسی برخورد
+        function moveBullet(bullet) {
+            const bulletSpeed = 15;
+            let bulletY = parseFloat(bullet.style.top);
+            
+            const moveInterval = setInterval(() => {
+                if (!bullet.parentNode) {
+                    clearInterval(moveInterval);
+                    return;
+                }
+                
+                bulletY -= bulletSpeed;
+                bullet.style.top = bulletY + 'px';
+                
+                if (bulletY < -50) {
+                    clearInterval(moveInterval);
+                    if (bullet.parentNode) {
+                        bullet.remove();
+                    }
+                    const index = gameState.activeBullets.indexOf(bullet);
+                    if (index > -1) {
+                        gameState.activeBullets.splice(index, 1);
+                    }
+                    return;
+                }
+                
+                checkBulletCollision(bullet);
+            }, 16);
+        }
+
+        // بررسی برخورد گلوله با مربع‌ها
+        function checkBulletCollision(bullet) {
+            const bulletRect = bullet.getBoundingClientRect();
+            
+            gameState.squares.forEach(squareData => {
+                const square = squareData.element;
+                if (!square.parentNode) return;
+                
+                const squareRect = square.getBoundingClientRect();
+                
+                if (
+                    bulletRect.left < squareRect.right &&
+                    bulletRect.right > squareRect.left &&
+                    bulletRect.top < squareRect.bottom &&
+                    bulletRect.bottom > squareRect.top
+                ) {
+                    const currentNumber = parseInt(square.dataset.number);
+                    const damage = gameState.bulletPower * gameState.weapons[gameState.currentWeapon].power;
+                    
+                    // ایجاد سکه هنگام برخورد گلوله
+                    createCoin(bulletRect.left, bulletRect.top, Math.floor(damage / 5) + 1);
+                    
+                    if (currentNumber <= damage) {
+                        destroySquare(square);
+                    } else {
+                        const newNumber = currentNumber - damage;
+                        square.dataset.number = newNumber;
+                        square.querySelector('.square-number').textContent = newNumber.toLocaleString();
+                        
+                        square.classList.add('targeted');
+                        setTimeout(() => {
+                            square.classList.remove('targeted');
+                        }, 200);
+                    }
+                    
+                    if (bullet.parentNode) {
+                        bullet.remove();
+                    }
+                    const index = gameState.activeBullets.indexOf(bullet);
+                    if (index > -1) {
+                        gameState.activeBullets.splice(index, 1);
+                    }
+                    
+                    return;
+                }
+            });
+        }
+
+        // حرکت تفنگ
+        function moveGun(e) {
+            e.preventDefault();
+            
+            const now = Date.now();
+            if (now - gameState.lastGunMoveTime < 16) return;
+            gameState.lastGunMoveTime = now;
+            
+            let clientX;
+            if (e.type === 'mousemove') {
+                clientX = e.clientX;
+            } else if (e.type === 'touchmove') {
+                clientX = e.touches[0].clientX;
+            }
+            
+            if (clientX !== undefined) {
+                const weaponAreaRect = weaponArea.getBoundingClientRect();
+                const relativeX = clientX - weaponAreaRect.left;
+                const percentage = Math.max(0, Math.min(100, (relativeX / weaponAreaRect.width) * 100));
+                
+                gameState.gunPosition = percentage;
+                updateGunPosition();
+            }
+        }
+
+        // به‌روزرسانی موقعیت تفنگ
+        function updateGunPosition() {
+            gun.style.left = `calc(${gameState.gunPosition}% - 25px)`;
         }
 
         // به‌روزرسانی لیست اسلحه‌ها
         function updateWeaponsList() {
             weaponsList.innerHTML = '';
             
-            for (const [id, weapon] of Object.entries(gameState.weapons)) {
+            Object.keys(gameState.weapons).forEach(weaponId => {
+                const weapon = gameState.weapons[weaponId];
                 const weaponItem = document.createElement('div');
-                weaponItem.className = `weapon-item ${parseInt(id) === gameState.currentWeapon ? 'selected' : ''}`;
+                weaponItem.className = `weapon-item ${parseInt(weaponId) === gameState.currentWeapon ? 'selected' : ''} ${weapon.owned ? 'owned' : ''}`;
                 
                 weaponItem.innerHTML = `
                     <div class="weapon-name">${weapon.name}</div>
-                    <div class="weapon-stats">قدرت: ${weapon.power} | گلوله: ${weapon.bullets}</div>
+                    <div class="weapon-stats">قدرت: ${weapon.power}x | خوشه: ${weapon.clusterSize} تیر</div>
                     <div class="weapon-price">${weapon.price.toLocaleString()} سکه</div>
-                    ${!weapon.owned ? 
-                        `<button class="buy-btn" onclick="buyWeapon(${id})" ${gameState.coins < weapon.price ? 'disabled' : ''}>
-                            خرید
-                        </button>` :
-                        `<button class="buy-btn" onclick="selectWeapon(${id})" ${parseInt(id) === gameState.currentWeapon ? 'disabled' : ''}>
-                            ${parseInt(id) === gameState.currentWeapon ? 'فعال' : 'انتخاب'}
-                        </button>`
-                    }
+                    ${!weapon.owned ? `<button class="buy-btn" onclick="buyWeapon(${weaponId})" ${gameState.coins < weapon.price ? 'disabled' : ''}>خرید</button>` : ''}
+                    ${weapon.owned && parseInt(weaponId) !== gameState.currentWeapon ? `<button class="buy-btn" onclick="equipWeapon(${weaponId})">انتخاب</button>` : ''}
+                    ${parseInt(weaponId) === gameState.currentWeapon ? '<div style="color: #4caf50; margin-top: 5px;">✓ انتخاب شده</div>' : ''}
                 `;
                 
                 weaponsList.appendChild(weaponItem);
-            }
+            });
         }
 
         // خرید اسلحه
@@ -1058,299 +1528,34 @@
                 gameState.coins -= weapon.price;
                 weapon.owned = true;
                 gameState.currentWeapon = parseInt(weaponId);
-                gameState.bullets = weapon.bullets;
-                
-                updateUI();
                 updateWeaponsList();
                 saveGame();
-                
-                alert(`🎉 اسلحه ${weapon.name} با موفقیت خریداری شد!`);
+                showCopyNotification(`اسلحه ${weapon.name} خریداری شد!`);
+            } else {
+                showCopyNotification("سکه کافی ندارید!");
             }
         }
 
         // انتخاب اسلحه
-        function selectWeapon(weaponId) {
+        function equipWeapon(weaponId) {
             gameState.currentWeapon = parseInt(weaponId);
-            const weapon = gameState.weapons[weaponId];
-            gameState.bullets = weapon.bullets;
-            
-            updateUI();
             updateWeaponsList();
             saveGame();
+            showCopyNotification(`اسلحه ${gameState.weapons[weaponId].name} انتخاب شد!`);
         }
 
-        // مدیریت منو
+        // باز و بسته کردن منو
         function toggleMenu() {
             sideMenu.classList.toggle('active');
-            updateWeaponsList();
         }
 
         function closeMenu() {
             sideMenu.classList.remove('active');
         }
 
-        // تنظیمات تیربار - کاملاً بهینه‌شده
-        function setupWeapon() {
-            let isDragging = false;
-            
-            const handleMove = (clientX) => {
-                const rect = weaponArea.getBoundingClientRect();
-                const relativeX = ((clientX - rect.left) / rect.width) * 100;
-                gameState.gunPosition = Math.max(5, Math.min(95, relativeX));
-                updateGunPosition();
-            };
-
-            // رویدادهای موس
-            weaponArea.addEventListener('mousedown', (e) => {
-                isDragging = true;
-                handleMove(e.clientX);
-            });
-
-            document.addEventListener('mousemove', (e) => {
-                if (isDragging) {
-                    handleMove(e.clientX);
-                }
-            });
-
-            document.addEventListener('mouseup', () => {
-                isDragging = false;
-            });
-
-            // رویدادهای لمسی - کاملاً بهینه‌شده
-            weaponArea.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                isDragging = true;
-                if (e.touches.length > 0) {
-                    handleMove(e.touches[0].clientX);
-                }
-            }, { passive: false });
-
-            document.addEventListener('touchmove', (e) => {
-                if (isDragging && e.touches.length > 0) {
-                    e.preventDefault();
-                    handleMove(e.touches[0].clientX);
-                }
-            }, { passive: false });
-
-            document.addEventListener('touchend', () => {
-                isDragging = false;
-            });
-
-            // شلیک
-            weaponArea.addEventListener('mousedown', handleWeaponStart);
-            weaponArea.addEventListener('touchstart', handleWeaponStart, { passive: false });
-            document.addEventListener('mouseup', handleWeaponEnd);
-            document.addEventListener('touchend', handleWeaponEnd);
-        }
-
-        function updateGunPosition() {
-            gun.style.left = `calc(${gameState.gunPosition}% - 30px)`;
-        }
-
-        function handleWeaponStart(e) {
-            if (!gameState.isWeaponActive || gameState.isReloading || gameState.bullets <= 0) return;
-            if (e.type === 'touchstart') e.preventDefault();
-            
-            weaponArea.classList.add('active');
-            startShooting();
-        }
-
-        function handleWeaponEnd() {
-            weaponArea.classList.remove('active');
-            stopShooting();
-        }
-
-        function startShooting() {
-            if (gameState.isShooting) return;
-            gameState.isShooting = true;
-            gameState.shootInterval = setInterval(shootBullet, 100);
-        }
-
-        function stopShooting() {
-            gameState.isShooting = false;
-            if (gameState.shootInterval) {
-                clearInterval(gameState.shootInterval);
-                gameState.shootInterval = null;
-            }
-        }
-
-        // شروع ریلود خودکار
-        function startAutoReload() {
-            if (gameState.autoReloadInterval) {
-                clearInterval(gameState.autoReloadInterval);
-            }
-            
-            gameState.autoReloadInterval = setInterval(() => {
-                const currentWeapon = gameState.weapons[gameState.currentWeapon];
-                if (gameState.bullets < currentWeapon.bullets) {
-                    gameState.bullets = currentWeapon.bullets;
-                    gameState.isReloading = false;
-                    updateUI();
-                    saveGame();
-                }
-            }, 60000);
-        }
-
-        // شلیک گلوله به سمت بالا
-        function shootBullet() {
-            if (!gameState.isShooting || gameState.bullets <= 0 || gameState.isReloading) {
-                stopShooting();
-                return;
-            }
-
-            gameState.bullets--;
-
-            // ایجاد گلوله
-            const bullet = document.createElement('div');
-            bullet.className = 'bullet shoot-effect';
-            
-            const gunRect = gun.getBoundingClientRect();
-            const startX = gunRect.left + gunRect.width / 2 - 3;
-            const startY = gunRect.top;
-            
-            bullet.style.left = startX + 'px';
-            bullet.style.top = startY + 'px';
-            document.body.appendChild(bullet);
-
-            // قدرت گلوله فقط از bulletPower استفاده می‌کند (مستقل از اسلحه)
-            const bulletObj = {
-                element: bullet,
-                x: startX,
-                y: startY,
-                startTime: Date.now(),
-                power: gameState.bulletPower // فقط از قدرت شناور استفاده می‌کند
-            };
-            gameState.activeBullets.push(bulletObj);
-
-            checkBulletCollision(bulletObj);
-            updateUI();
-            playGunSound();
-
-            setTimeout(() => {
-                if (bullet.parentNode) bullet.remove();
-                const index = gameState.activeBullets.indexOf(bulletObj);
-                if (index > -1) gameState.activeBullets.splice(index, 1);
-            }, 500);
-        }
-
-        // بررسی برخورد گلوله با مربع
-        function checkBulletCollision(bulletObj) {
-            const checkInterval = setInterval(() => {
-                if (!bulletObj.element.parentNode) {
-                    clearInterval(checkInterval);
-                    return;
-                }
-
-                const bulletRect = bulletObj.element.getBoundingClientRect();
-                const bulletX = bulletRect.left + bulletRect.width / 2;
-                const bulletY = bulletRect.top + bulletRect.height / 2;
-                
-                for (let i = 0; i < gameState.squares.length; i++) {
-                    const squareObj = gameState.squares[i];
-                    const square = squareObj.element;
-                    
-                    if (!square.parentNode) continue;
-                    
-                    const rect = square.getBoundingClientRect();
-                    
-                    if (bulletX >= rect.left && bulletX <= rect.right &&
-                        bulletY >= rect.top && bulletY <= rect.bottom) {
-                        
-                        let currentNumber = parseInt(square.dataset.number);
-                        currentNumber -= bulletObj.power; // فقط از قدرت گلوله استفاده می‌کند
-                        
-                        if (currentNumber <= 0) {
-                            destroySquare(square);
-                        } else {
-                            square.dataset.number = currentNumber;
-                            square.querySelector('.square-number').textContent = currentNumber.toLocaleString();
-                        }
-                        
-                        updateUI();
-                        saveGame();
-                        
-                        if (bulletObj.element.parentNode) bulletObj.element.remove();
-                        const index = gameState.activeBullets.indexOf(bulletObj);
-                        if (index > -1) gameState.activeBullets.splice(index, 1);
-                        
-                        clearInterval(checkInterval);
-                        break;
-                    }
-                }
-
-                if (Date.now() - bulletObj.startTime > 2000) {
-                    clearInterval(checkInterval);
-                }
-            }, 16);
-        }
-
-        // پخش صدای تیربار
-        function playGunSound() {
-            if (gameState.gunSound) {
-                gameState.gunSound.currentTime = 0;
-                gameState.gunSound.play().catch(e => {});
-            }
-        }
-
-        // بررسی اتمام مرحله
-        function checkStageComplete() {
-            const remainingSquares = document.querySelectorAll('.square').length;
-            if (remainingSquares === 0) {
-                gameState.currentStage++;
-                saveGame();
-                startStage();
-            }
-        }
-
-        // تایمر
-        function startTimer() {
-            clearInterval(gameState.gameInterval);
-            gameState.gameInterval = setInterval(() => {
-                gameState.timeLeft--;
-                updateUI();
-                
-                if (gameState.timeLeft <= 0) {
-                    gameState.timeLeft = stageSettings[Math.min(gameState.currentStage - 1, stageSettings.length - 1)].time;
-                    updateUI();
-                }
-            }, 1000);
-        }
-
-        // به‌روزرسانی UI
-        function updateUI() {
-            const minutes = Math.floor(gameState.timeLeft / 60);
-            const seconds = gameState.timeLeft % 60;
-            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            
-            stageNumberElement.textContent = gameState.currentStage;
-            scoreElement.textContent = `${gameState.score.toLocaleString()} | ${gameState.coins.toLocaleString()} سکه`;
-            
-            if (gameState.isWeaponActive) {
-                const currentWeapon = gameState.weapons[gameState.currentWeapon];
-                bulletsCountElement.textContent = `${gameState.bullets}/${currentWeapon.bullets} تیر`;
-                
-                if (gameState.isPowerActive) {
-                    reloadTimeElement.textContent = `قدرت گلوله: +${gameState.bulletPower} (${gameState.powerTimer}ثانیه)`;
-                    reloadTimeElement.style.color = '#00bcd4';
-                } else {
-                    reloadTimeElement.textContent = `${currentWeapon.name}`;
-                    reloadTimeElement.style.color = '#2ecc71';
-                }
-            }
-        }
-
-        // پایان بازی
-        function endGame() {
-            alert(`بازی پایان یافت!\nامتیاز نهایی: ${gameState.score}\nسکه‌ها: ${gameState.coins}\nمرحله رسیده: ${gameState.currentStage}`);
-            localStorage.removeItem('squareHunterSave');
-            menuScreen.style.display = 'block';
-            gameScreen.style.display = 'none';
-        }
-
-        // مقداردهی اولیه
+        // بارگذاری اولیه
         window.onload = function() {
-            createGunSound();
-            console.log('بازی آماده است!');
+            updateWeaponsList();
         };
     </script>
 </body>
