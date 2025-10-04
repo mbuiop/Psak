@@ -331,33 +331,6 @@
             margin-bottom: 5px;
         }
         
-        /* Music Indicator */
-        .music-indicator {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .music-indicator.playing .music-pulse {
-            animation: pulse 1s infinite;
-        }
-        
-        .music-pulse {
-            width: 10px;
-            height: 10px;
-            background: #6366f1;
-            border-radius: 50%;
-        }
-        
         /* Modal Styles */
         .modal {
             display: none;
@@ -439,65 +412,6 @@
         
         .close-modal:hover {
             background: rgba(255, 255, 255, 0.1);
-        }
-        
-        /* Music Player Styles */
-        .music-player {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 20px;
-            width: 100%;
-            max-width: 300px;
-        }
-        
-        .music-controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .music-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            transition: all 0.3s;
-        }
-        
-        .music-btn:hover {
-            background: rgba(99, 102, 241, 0.3);
-        }
-        
-        .song-list {
-            max-height: 200px;
-            overflow-y: auto;
-            margin-top: 15px;
-        }
-        
-        .song-item {
-            padding: 10px;
-            margin: 5px 0;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .song-item:hover {
-            background: rgba(99, 102, 241, 0.2);
-        }
-        
-        .song-item.active {
-            background: rgba(99, 102, 241, 0.4);
         }
         
         /* استایل‌های جدید برای کارت‌ها */
@@ -639,12 +553,6 @@
                 font-size: 0.8rem;
             }
             
-            .music-indicator {
-                top: 10px;
-                left: 10px;
-                font-size: 0.7rem;
-            }
-            
             .cards-grid {
                 grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
                 gap: 15px;
@@ -703,21 +611,10 @@
             from { top: -50px; opacity: 0; }
             to { top: 20px; opacity: 1; }
         }
-        
-        /* Hidden audio element */
-        #background-audio {
-            display: none;
-        }
     </style>
 </head>
 <body>
     <div class="stars" id="stars"></div>
-    
-    <!-- Music Indicator -->
-    <div class="music-indicator" id="music-indicator">
-        <div class="music-pulse"></div>
-        <span id="current-song-name">آهنگ: -</span>
-    </div>
     
     <div class="container">
         <div class="score-display" id="score">۰ AI</div>
@@ -737,18 +634,11 @@
         <div>ماینینگ خودکار: <span id="auto-mining">۰</span> سکه/ثانیه</div>
     </div>
     
-    <!-- Hidden Audio Element for Background Playback -->
-    <audio id="background-audio"></audio>
-    
     <!-- Bottom Navigation -->
     <div class="bottom-nav">
         <div class="nav-item" id="cards-btn">
             <div class="nav-icon">🃏</div>
             <span>کارت</span>
-        </div>
-        <div class="nav-item" id="music-btn">
-            <div class="nav-icon">🎵</div>
-            <span>آهنگ</span>
         </div>
         <div class="nav-item" id="donate-btn">
             <div class="nav-icon">❤️</div>
@@ -800,43 +690,6 @@
         </div>
     </div>
     
-    <!-- Music Modal -->
-    <div class="modal" id="music-modal">
-        <div class="modal-content">
-            <h2>پخش آهنگ</h2>
-            <p>لیست آهنگ‌های موجود:</p>
-            
-            <div class="music-player">
-                <div class="song-list">
-                    <div class="song-item" data-src="m1.mp3" data-name="آهنگ ۱">آهنگ ۱</div>
-                    <div class="song-item" data-src="m2.mp3" data-name="آهنگ ۲">آهنگ ۲</div>
-                    <div class="song-item" data-src="m3.mp3" data-name="آهنگ ۳">آهنگ ۳</div>
-                    <div class="song-item" data-src="m4.mp3" data-name="آهنگ ۴">آهنگ ۴</div>
-                    <div class="song-item" data-src="m5.mp3" data-name="آهنگ ۵">آهنگ ۵</div>
-                    <div class="song-item" data-src="m6.mp3" data-name="آهنگ ۶">آهنگ ۶</div>
-                    <div class="song-item" data-src="m7.mp3" data-name="آهنگ ۷">آهنگ ۷</div>
-                    <div class="song-item" data-src="m8.mp3" data-name="آهنگ ۸">آهنگ ۸</div>
-                    <div class="song-item" data-src="m9.mp3" data-name="آهنگ ۹">آهنگ ۹</div>
-                    <div class="song-item" data-src="m10.mp3" data-name="آهنگ ۱۰">آهنگ ۱۰</div>
-                </div>
-                
-                <div class="music-controls">
-                    <button class="music-btn" id="prev-btn">⮪</button>
-                    <button class="music-btn" id="play-btn">▶️</button>
-                    <button class="music-btn" id="pause-btn">⏸</button>
-                    <button class="music-btn" id="next-btn">⮫</button>
-                    <button class="music-btn" id="stop-btn">⏹</button>
-                </div>
-                
-                <div style="margin-top: 15px; font-size: 0.9rem; color: #aaa;">
-                    آهنگ در پس‌زمینه ادامه می‌یابد
-                </div>
-            </div>
-            
-            <button class="close-modal" id="close-music">بستن</button>
-        </div>
-    </div>
-    
     <!-- Notification -->
     <div class="notification" id="notification">کپی شد!</div>
 
@@ -880,8 +733,6 @@
         const upgradeBtn = document.getElementById('upgrade-btn');
         const clickPowerElement = document.getElementById('click-power');
         const upgradeLevelElement = document.getElementById('upgrade-level');
-        const musicIndicator = document.getElementById('music-indicator');
-        const currentSongName = document.getElementById('current-song-name');
         
         // عناصر جدید برای کارت‌ها
         const cardsModal = document.getElementById('cards-modal');
@@ -899,22 +750,10 @@
         
         // عناصر مودال
         const donateModal = document.getElementById('donate-modal');
-        const musicModal = document.getElementById('music-modal');
         const donateBtn = document.getElementById('donate-btn');
-        const musicBtn = document.getElementById('music-btn');
         const closeDonate = document.getElementById('close-donate');
-        const closeMusic = document.getElementById('close-music');
         const copyWallet = document.getElementById('copy-wallet');
         const walletAddress = document.getElementById('wallet-address');
-        
-        // عناصر پخش آهنگ
-        const backgroundAudio = document.getElementById('background-audio');
-        const playBtn = document.getElementById('play-btn');
-        const pauseBtn = document.getElementById('pause-btn');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const stopBtn = document.getElementById('stop-btn');
-        const songItems = document.querySelectorAll('.song-item');
         
         // داده‌های بازی
         let gameData = {
@@ -937,10 +776,6 @@
             minedCoins: 0,
             lastMiningUpdate: Date.now()
         };
-        
-        // داده‌های پخش آهنگ
-        let currentSongIndex = 0;
-        let isPlaying = false;
         
         // متغیر برای مدیریت کلیک‌های سریع
         let lastClickTime = 0;
@@ -1179,20 +1014,20 @@
             
             // افزایش امتیاز
             gameData.score += gameData.clickPower;
+            
+            // به‌روزرسانی نمایش
             updateScore();
             
             // ایجاد افکت‌ها
             createClickEffect(event.clientX, event.clientY);
-            
-            // ایجاد افکت سکه (همیشه)
             createCoinEffect(event.clientX, event.clientY);
             
-            // ایجاد افکت دلار (تصادفی)
+            // 30% شانس برای ایجاد افکت دلار
             if (Math.random() < 0.3) {
                 createDollarEffect(event.clientX, event.clientY);
             }
             
-            // ایجاد ذرات (تصادفی)
+            // 50% شانس برای ایجاد ذرات
             if (Math.random() < 0.5) {
                 createParticle();
             }
@@ -1207,12 +1042,12 @@
             saveGameData();
         }
         
-        // ارتقای قدرت کلیک
-        function upgradeClickPower() {
+        // مدیریت ارتقا
+        function handleUpgrade() {
             if (gameData.score >= gameData.nextUpgradeCost) {
                 gameData.score -= gameData.nextUpgradeCost;
-                gameData.clickPower += 1;
-                gameData.upgradeLevel += 1;
+                gameData.upgradeLevel++;
+                gameData.clickPower = Math.floor(gameData.clickPower * 1.5);
                 
                 calculateNextUpgradeCost();
                 updateScore();
@@ -1221,175 +1056,97 @@
                 createUpgradeEffect();
                 showNotification('قدرت کلیک ارتقا یافت!');
                 
-                // ذخیره داده‌ها
                 saveGameData();
-            } else {
-                showNotification('سکه کافی ندارید!');
             }
         }
         
-        // به‌روزرسانی ماینینگ خودکار
+        // مدیریت ماینینگ خودکار
         function updateAutoMining() {
-            const now = Date.now();
-            const elapsedSeconds = (now - gameData.lastMiningUpdate) / 1000;
+            const currentTime = Date.now();
             
-            if (gameData.autoMiningRate > 0 && elapsedSeconds > 0) {
-                const mined = gameData.autoMiningRate * elapsedSeconds;
-                gameData.minedCoins += mined;
-                gameData.lastMiningUpdate = now;
+            if (gameData.autoMiningRate > 0 && gameData.miningStartTime > 0) {
+                const elapsedTime = (currentTime - gameData.lastMiningUpdate) / 1000; // به ثانیه
+                const coinsMined = elapsedTime * gameData.autoMiningRate;
+                
+                gameData.minedCoins += coinsMined;
+                gameData.lastMiningUpdate = currentTime;
                 
                 // به‌روزرسانی نمایش
                 minedCoinsElement.textContent = Math.floor(gameData.minedCoins);
                 
                 // به‌روزرسانی نوار پیشرفت
-                const totalTime = 60; // 60 ثانیه برای هر سیکل
-                const elapsedTime = (now - gameData.miningStartTime) / 1000;
-                const progress = (elapsedTime % totalTime) / totalTime * 100;
-                miningProgressElement.style.width = `${progress}%`;
+                const cycleTime = 60; // ثانیه
+                const progress = ((currentTime - gameData.miningStartTime) / 1000) % cycleTime;
+                const progressPercent = (progress / cycleTime) * 100;
+                miningProgressElement.style.width = `${progressPercent}%`;
                 
                 // به‌روزرسانی زمان باقیمانده
-                const remainingTime = Math.ceil(totalTime - (elapsedTime % totalTime));
-                miningTimeElement.textContent = remainingTime;
+                const remainingTime = Math.max(0, cycleTime - progress);
+                miningTimeElement.textContent = Math.ceil(remainingTime);
             }
         }
         
-        // جمع‌آوری سکه‌های استخراج شده
+        // دریافت سکه‌های استخراج شده
         function collectMinedCoins() {
             if (gameData.minedCoins > 0) {
-                const collected = Math.floor(gameData.minedCoins);
-                gameData.score += collected;
+                const coinsToAdd = Math.floor(gameData.minedCoins);
+                gameData.score += coinsToAdd;
                 gameData.minedCoins = 0;
                 
                 updateScore();
-                minedCoinsElement.textContent = '۰';
-                
-                showNotification(`${formatNumber(collected)} سکه دریافت شد!`);
+                minedCoinsElement.textContent = '0';
+                showNotification(`${formatNumber(coinsToAdd)} سکه دریافت شد!`);
                 saveGameData();
             } else {
                 showNotification('سکه‌ای برای دریافت وجود ندارد!');
             }
         }
         
-        // مدیریت پخش آهنگ
-        function playSong(index) {
-            if (index < 0) index = songItems.length - 1;
-            if (index >= songItems.length) index = 0;
-            
-            currentSongIndex = index;
-            const songItem = songItems[currentSongIndex];
-            const songSrc = songItem.getAttribute('data-src');
-            const songName = songItem.getAttribute('data-name');
-            
-            backgroundAudio.src = songSrc;
-            backgroundAudio.play().then(() => {
-                isPlaying = true;
-                musicIndicator.classList.add('playing');
-                currentSongName.textContent = `آهنگ: ${songName}`;
-                
-                // علامت‌گذاری آهنگ فعال
-                songItems.forEach(item => item.classList.remove('active'));
-                songItem.classList.add('active');
-            }).catch(error => {
-                console.error('خطا در پخش آهنگ:', error);
-                showNotification('خطا در پخش آهنگ!');
+        // کپی آدرس کیف پول
+        function copyWalletAddress() {
+            const text = walletAddress.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('آدرس کیف پول کپی شد!');
+            }).catch(err => {
+                console.error('خطا در کپی کردن:', err);
+                showNotification('خطا در کپی کردن آدرس');
             });
         }
         
-        // توقف آهنگ
-        function stopSong() {
-            backgroundAudio.pause();
-            backgroundAudio.currentTime = 0;
-            isPlaying = false;
-            musicIndicator.classList.remove('playing');
-            currentSongName.textContent = 'آهنگ: -';
+        // راه‌اندازی اولیه بازی
+        function initGame() {
+            // بارگذاری داده‌ها
+            loadGameData();
             
-            songItems.forEach(item => item.classList.remove('active'));
-        }
-        
-        // مدیریت رویدادها
-        function setupEventListeners() {
-            // کلیک روی چیپ
+            // ایجاد ستاره‌ها
+            createStars();
+            
+            // تنظیم رویدادها
             aiChip.addEventListener('click', handleChipClick);
+            upgradeBtn.addEventListener('click', handleUpgrade);
             
-            // کلیک روی دکمه ارتقا
-            upgradeBtn.addEventListener('click', upgradeClickPower);
-            
-            // باز کردن مودال کارت‌ها
+            // رویدادهای کارت‌ها
             cardsBtn.addEventListener('click', () => {
-                generateCards();
                 cardsModal.style.display = 'flex';
+                generateCards();
             });
             
-            // بستن مودال کارت‌ها
             closeCards.addEventListener('click', () => {
                 cardsModal.style.display = 'none';
             });
             
-            // باز کردن مودال حمایت
+            // رویدادهای حمایت مالی
             donateBtn.addEventListener('click', () => {
                 donateModal.style.display = 'flex';
             });
             
-            // بستن مودال حمایت
             closeDonate.addEventListener('click', () => {
                 donateModal.style.display = 'none';
             });
             
-            // کپی آدرس کیف پول
-            copyWallet.addEventListener('click', () => {
-                navigator.clipboard.writeText(walletAddress.textContent).then(() => {
-                    showNotification('آدرس کیف پول کپی شد!');
-                }).catch(err => {
-                    console.error('خطا در کپی آدرس:', err);
-                    showNotification('خطا در کپی آدرس!');
-                });
-            });
+            copyWallet.addEventListener('click', copyWalletAddress);
             
-            // باز کردن مودال آهنگ
-            musicBtn.addEventListener('click', () => {
-                musicModal.style.display = 'flex';
-            });
-            
-            // بستن مودال آهنگ
-            closeMusic.addEventListener('click', () => {
-                musicModal.style.display = 'none';
-            });
-            
-            // کنترل‌های پخش آهنگ
-            playBtn.addEventListener('click', () => {
-                if (backgroundAudio.src) {
-                    backgroundAudio.play();
-                    isPlaying = true;
-                    musicIndicator.classList.add('playing');
-                } else {
-                    playSong(0);
-                }
-            });
-            
-            pauseBtn.addEventListener('click', () => {
-                backgroundAudio.pause();
-                isPlaying = false;
-                musicIndicator.classList.remove('playing');
-            });
-            
-            prevBtn.addEventListener('click', () => {
-                playSong(currentSongIndex - 1);
-            });
-            
-            nextBtn.addEventListener('click', () => {
-                playSong(currentSongIndex + 1);
-            });
-            
-            stopBtn.addEventListener('click', stopSong);
-            
-            // کلیک روی آهنگ‌ها
-            songItems.forEach((item, index) => {
-                item.addEventListener('click', () => {
-                    playSong(index);
-                });
-            });
-            
-            // جمع‌آوری سکه‌های استخراج شده
+            // رویداد دریافت سکه‌های استخراج شده
             collectMiningBtn.addEventListener('click', collectMinedCoins);
             
             // بستن مودال‌ها با کلیک خارج از محتوا
@@ -1400,36 +1157,25 @@
                 if (event.target === donateModal) {
                     donateModal.style.display = 'none';
                 }
-                if (event.target === musicModal) {
-                    musicModal.style.display = 'none';
-                }
             });
-        }
-        
-        // حلقه بازی
-        function gameLoop() {
-            updateAutoMining();
-            requestAnimationFrame(gameLoop);
-        }
-        
-        // مقداردهی اولیه بازی
-        function initGame() {
-            createStars();
-            loadGameData();
+            
+            // به‌روزرسانی اولیه
             updateScore();
             calculateAutoMining();
-            setupEventListeners();
-            gameLoop();
             
-            // شروع ماینینگ اگر کارت ارتقا یافته داریم
-            if (gameData.autoMiningRate > 0 && gameData.miningStartTime === 0) {
-                gameData.miningStartTime = Date.now();
-                gameData.lastMiningUpdate = Date.now();
-            }
+            // حلقه بازی
+            setInterval(() => {
+                updateAutoMining();
+            }, 1000);
+            
+            // ذخیره خودکار هر 30 ثانیه
+            setInterval(() => {
+                saveGameData();
+            }, 30000);
         }
         
         // شروع بازی
-        window.addEventListener('load', initGame);
+        initGame();
     </script>
 </body>
 </html>
