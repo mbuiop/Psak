@@ -58,6 +58,29 @@
             cursor: pointer;
             transition: all 0.3s ease;
             padding: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-btn:hover::before {
+            left: 100%;
+        }
+
+        .nav-btn.active {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+            border: 2px solid #ffd700;
         }
 
         .nav-btn:active {
@@ -77,6 +100,41 @@
             font-size: 0.7em;
             color: #ffeb3b;
             text-align: center;
+        }
+
+        /* لودینگ */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            flex-direction: column;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #ffeb3b;
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+
+        .loading-text {
+            color: #ffeb3b;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         /* هدر بازی */
@@ -657,6 +715,12 @@
     </style>
 </head>
 <body>
+    <!-- لودینگ -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+        <div class="loading-spinner"></div>
+        <div class="loading-text" id="loadingText">در حال بارگذاری...</div>
+    </div>
+
     <!-- منوی کشویی -->
     <div class="side-menu" id="sideMenu">
         <button class="close-menu" onclick="closeMenu()">×</button>
@@ -692,17 +756,17 @@
     <div class="container">
         <!-- نوار بالایی با دکمه‌ها -->
         <div class="top-nav">
-            <button class="nav-btn" onclick="window.location.href='m1.html'">
+            <button class="nav-btn" id="navBtn1" onclick="navigateWithLoading('m1.html', 'navBtn1', 'اطلاعیه مدیریت')">
                 <img src="my.jpg" alt="اطلاعیه مدیریت" class="nav-img">
                 <div class="nav-text">اطلاعیه مدیریت</div>
             </button>
-            <button class="nav-btn" onclick="window.location.href='m2.html'">
+            <button class="nav-btn" id="navBtn2" onclick="navigateWithLoading('m2.html', 'navBtn2', 'بازی کلیکی')">
                 <img src="my1.webp" alt="بازی کلیکی" class="nav-img">
                 <div class="nav-text">بازی کلیکی</div>
             </button>
-            <button class="nav-btn" onclick="window.location.href='MN1.html'">
-                <img src="my2.webp" alt="سیگنال ترید" class="nav-img">
-                <div class="nav-text">سیگنال ترید </div>
+            <button class="nav-btn" id="navBtn3" onclick="navigateWithLoading('m3.html', 'navBtn3', 'بازی ریاضی')">
+                <img src="my2.jpg" alt="بازی ریاضی" class="nav-img">
+                <div class="nav-text">بازی ریاضی</div>
             </button>
         </div>
 
@@ -748,6 +812,8 @@
         const scoreElement = document.getElementById('score');
         const sideMenu = document.getElementById('sideMenu');
         const weaponsList = document.getElementById('weaponsList');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingText = document.getElementById('loadingText');
 
         // متغیرهای بازی
         let gameState = {
@@ -796,6 +862,65 @@
             { time: 1800, squares: 15, baseNumber: 128000, multiplier: 5 }, // مرحله 9: 128000-384000
             { time: 1800, squares: 15, baseNumber: 256000, multiplier: 5.5 } // مرحله 10: 256000-768000
         ];
+
+        // سیستم ذخیره‌سازی پیشرفته
+        function saveGame() {
+            try {
+                const saveData = {
+                    currentStage: gameState.currentStage,
+                    score: gameState.score,
+                    coins: gameState.coins,
+                    timeLeft: gameState.timeLeft,
+                    currentWeapon: gameState.currentWeapon,
+                    weapons: gameState.weapons,
+                    bulletPower: gameState.bulletPower,
+                    lastSpecialSquareTime: gameState.lastSpecialSquareTime,
+                    timestamp: Date.now()
+                };
+                localStorage.setItem('squareHunterSave', JSON.stringify(saveData));
+                console.log('بازی ذخیره شد:', saveData);
+            } catch (e) {
+                console.log('خطا در ذخیره بازی:', e);
+            }
+        }
+
+        // بارگذاری بازی
+        function loadGame() {
+            try {
+                const saved = localStorage.getItem('squareHunterSave');
+                if (saved) {
+                    const saveData = JSON.parse(saved);
+                    
+                    // بررسی تاریخ انقضا (7 روز)
+                    const oneWeek = 7 * 24 * 60 * 60 * 1000;
+                    if (Date.now() - saveData.timestamp < oneWeek) {
+                        gameState.currentStage = saveData.currentStage || 1;
+                        gameState.score = saveData.score || 0;
+                        gameState.coins = saveData.coins || 0;
+                        gameState.timeLeft = saveData.timeLeft || stageSettings[0].time;
+                        gameState.currentWeapon = saveData.currentWeapon || 1;
+                        gameState.bulletPower = saveData.bulletPower || 1;
+                        gameState.lastSpecialSquareTime = saveData.lastSpecialSquareTime || 0;
+                        
+                        if (saveData.weapons) {
+                            gameState.weapons = { ...gameState.weapons, ...saveData.weapons };
+                        }
+                        
+                        console.log('بازی بارگذاری شد:', saveData);
+                        return true;
+                    } else {
+                        console.log('ذخیره بازی منقضی شده است');
+                        localStorage.removeItem('squareHunterSave');
+                    }
+                }
+            } catch (e) {
+                console.log('خطا در بارگذاری ذخیره:', e);
+            }
+            return false;
+        }
+
+        // ذخیره خودکار هر 30 ثانیه
+        setInterval(saveGame, 30000);
 
         // کپی آدرس کیف پول
         function copyWalletAddress() {
@@ -889,7 +1014,7 @@
         // پخش صدای تیربار
         function playGunSound() {
             try {
-                if (gameState.gunSound) {
+                if (gameState.gunSound && gameState.isShooting) {
                     gameState.gunSound.currentTime = 0;
                     gameState.gunSound.play().catch(e => {
                         console.log('خطا در پخش صدا:', e);
@@ -900,14 +1025,32 @@
             }
         }
 
+        // توقف صدای تیربار
+        function stopGunSound() {
+            try {
+                if (gameState.gunSound) {
+                    gameState.gunSound.pause();
+                    gameState.gunSound.currentTime = 0;
+                }
+            } catch (e) {
+                console.log('خطا در توقف صدا:', e);
+            }
+        }
+
         // شروع بازی
         function startGame() {
             try {
+                if (!loadGame()) {
+                    console.log('شروع بازی جدید');
+                }
                 startStage();
                 updateWeaponsList();
                 initWeaponControls();
                 createGunSound();
                 startSpecialSquareTimer();
+                
+                // ذخیره اولیه
+                saveGame();
             } catch (e) {
                 console.log('خطا در شروع بازی:', e);
                 startStage();
@@ -1015,8 +1158,9 @@
                         }, i * 200);
                     }
                     
-                    // به‌روزرسانی UI
+                    // به‌روزرسانی UI و ذخیره
                     updateUI();
+                    saveGame();
                     
                     setTimeout(() => {
                         if (square.parentNode) {
@@ -1061,6 +1205,7 @@
                 
                 if (activeSquares.length === 0) {
                     gameState.currentStage++;
+                    saveGame();
                     showStageComplete();
                     setTimeout(startStage, 2000);
                 }
@@ -1111,6 +1256,7 @@
                 gameState.currentStage = 1;
                 gameState.score = 0;
                 gameState.coins = 0;
+                saveGame();
                 startStage();
                 startSpecialSquareTimer();
             } catch (e) {
@@ -1187,6 +1333,7 @@
                 }, 1000);
                 
                 gameState.lastSpecialSquareTime = Date.now();
+                saveGame();
                 
             } catch (e) {
                 console.log('خطا در ایجاد مربع ویژه:', e);
@@ -1242,6 +1389,7 @@
                 gameState.score += totalPoints;
                 gameState.coins += totalPoints;
                 updateUI();
+                saveGame();
                 
                 // حذف انفجار
                 setTimeout(() => {
@@ -1253,6 +1401,7 @@
                 // رفتن به مرحله بعد
                 setTimeout(() => {
                     gameState.currentStage++;
+                    saveGame();
                     showStageComplete();
                     setTimeout(startStage, 2000);
                 }, 1000);
@@ -1335,6 +1484,7 @@
                 gameState.isShooting = false;
                 weaponArea.classList.remove('active');
                 clearInterval(gameState.shootInterval);
+                stopGunSound();
             } catch (e) {
                 console.log('خطا در توقف تیراندازی:', e);
             }
@@ -1523,6 +1673,7 @@
                     gameState.currentWeapon = parseInt(weaponId);
                     updateWeaponsList();
                     updateUI();
+                    saveGame();
                 }
             } catch (e) {
                 console.log('خطا در خرید اسلحه:', e);
@@ -1534,8 +1685,30 @@
             try {
                 gameState.currentWeapon = parseInt(weaponId);
                 updateWeaponsList();
+                saveGame();
             } catch (e) {
                 console.log('خطا در تجهیز اسلحه:', e);
+            }
+        }
+
+        // ناوبری با لودینگ
+        function navigateWithLoading(url, buttonId, pageName) {
+            try {
+                // فعال کردن دکمه
+                document.getElementById(buttonId).classList.add('active');
+                
+                // نمایش لودینگ
+                loadingText.textContent = `در حال بارگذاری ${pageName}...`;
+                loadingOverlay.style.display = 'flex';
+                
+                // شبیه‌سازی لودینگ 3 ثانیه‌ای
+                setTimeout(() => {
+                    window.location.href = url;
+                }, 3000);
+                
+            } catch (e) {
+                console.log('خطا در ناوبری:', e);
+                window.location.href = url;
             }
         }
 
@@ -1543,10 +1716,15 @@
         window.addEventListener('load', () => {
             try {
                 startGame();
+                console.log('بازی با موفقیت شروع شد');
             } catch (e) {
                 console.log('خطا در لود بازی:', e);
             }
         });
+
+        // ذخیره هنگام بسته شدن صفحه
+        window.addEventListener('beforeunload', saveGame);
+        window.addEventListener('pagehide', saveGame);
 
     </script>
 </body>
