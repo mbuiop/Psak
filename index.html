@@ -361,7 +361,6 @@
             width: 80px;
             height: 80px;
             border: 2px solid rgba(255, 255, 255, 0.2);
-            background: linear-gradient(45deg, #1e3c72, #2a5298);
         }
 
         .square:active {
@@ -385,10 +384,10 @@
             height: 70%;
             background-size: cover;
             background-position: center;
+            background-repeat: no-repeat;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5em;
         }
 
         .square-number {
@@ -767,11 +766,16 @@
             activeBullets: [],
             currentWeapon: 1,
             weapons: {
-                1: { name: "تفنگ معمولی", power: 1, price: 10000000, owned: true, clusterSize: 1 },
-                2: { name: "تفنگ سریع", power: 2, price: 25000000, owned: false, clusterSize: 3 },
-                3: { name: "مسلسل سبک", power: 3, price: 50000000, owned: false, clusterSize: 3 },
-                4: { name: "شاتگان", power: 5, price: 75000000, owned: false, clusterSize: 5 },
-                5: { name: "تخریب کن", power: 8, price: 100000000, owned: false, clusterSize: 5 }
+                1: { name: "تفنگ معمولی", power: 1, price: 10000000, owned: true, clusterSize: 1, sound: "m.mp3" },
+                2: { name: "تفنگ سریع", power: 2, price: 25000000, owned: false, clusterSize: 3, sound: "m.mp3" },
+                3: { name: "مسلسل سبک", power: 3, price: 50000000, owned: false, clusterSize: 3, sound: "m.mp3" },
+                4: { name: "شاتگان", power: 5, price: 75000000, owned: false, clusterSize: 5, sound: "m.mp3" },
+                5: { name: "تخریب کن", power: 8, price: 100000000, owned: false, clusterSize: 5, sound: "m.mp3" },
+                6: { name: "امتیاز گیر", power: 12, price: 150000000, owned: false, clusterSize: 7, sound: "m.mp3" },
+                7: { name: "لیزر", power: 15, price: 200000000, owned: false, clusterSize: 7, sound: "m.mp3" },
+                8: { name: "پلاسما گان", power: 20, price: 300000000, owned: false, clusterSize: 9, sound: "m.mp3" },
+                9: { name: "اسلحه کوانتومی", power: 30, price: 500000000, owned: false, clusterSize: 9, sound: "m.mp3" },
+                10: { name: "اسلحه افسانه‌ای", power: 50, price: 1000000000, owned: false, clusterSize: 11, sound: "m.mp3" }
             },
             bulletPower: 1,
             specialSquare: null,
@@ -779,13 +783,18 @@
             specialSquareInterval: 900000 // 15 دقیقه
         };
 
-        // تنظیمات مراحل
+        // تنظیمات مراحل - اعداد در هر مرحله دو برابر می‌شوند
         const stageSettings = [
-            { time: 1800, squares: 15, baseNumber: 100, multiplier: 1 },
-            { time: 1800, squares: 15, baseNumber: 200, multiplier: 1.2 },
-            { time: 1800, squares: 15, baseNumber: 300, multiplier: 1.4 },
-            { time: 1800, squares: 15, baseNumber: 400, multiplier: 1.6 },
-            { time: 1800, squares: 15, baseNumber: 500, multiplier: 1.8 }
+            { time: 1800, squares: 15, baseNumber: 500, multiplier: 1 },   // مرحله 1: 500-1500
+            { time: 1800, squares: 15, baseNumber: 1000, multiplier: 1.5 }, // مرحله 2: 1000-3000
+            { time: 1800, squares: 15, baseNumber: 2000, multiplier: 2 },   // مرحله 3: 2000-6000
+            { time: 1800, squares: 15, baseNumber: 4000, multiplier: 2.5 }, // مرحله 4: 4000-12000
+            { time: 1800, squares: 15, baseNumber: 8000, multiplier: 3 },   // مرحله 5: 8000-24000
+            { time: 1800, squares: 15, baseNumber: 16000, multiplier: 3.5 }, // مرحله 6: 16000-48000
+            { time: 1800, squares: 15, baseNumber: 32000, multiplier: 4 },  // مرحله 7: 32000-96000
+            { time: 1800, squares: 15, baseNumber: 64000, multiplier: 4.5 }, // مرحله 8: 64000-192000
+            { time: 1800, squares: 15, baseNumber: 128000, multiplier: 5 }, // مرحله 9: 128000-384000
+            { time: 1800, squares: 15, baseNumber: 256000, multiplier: 5.5 } // مرحله 10: 256000-768000
         ];
 
         // کپی آدرس کیف پول
@@ -870,9 +879,8 @@
             try {
                 gameState.gunSound = new Audio();
                 gameState.gunSound.preload = 'auto';
-                gameState.gunSound.volume = 0.3;
-                // استفاده از صدای ساده‌تر
-                gameState.gunSound.src = "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==";
+                gameState.gunSound.volume = 0.7;
+                gameState.gunSound.src = "m.mp3";
             } catch (e) {
                 console.log('خطا در ایجاد صدا:', e);
             }
@@ -883,7 +891,9 @@
             try {
                 if (gameState.gunSound) {
                     gameState.gunSound.currentTime = 0;
-                    gameState.gunSound.play().catch(e => {});
+                    gameState.gunSound.play().catch(e => {
+                        console.log('خطا در پخش صدا:', e);
+                    });
                 }
             } catch (e) {
                 console.log('خطا در پخش صدا:', e);
@@ -939,7 +949,6 @@
                     createSquare(i);
                 }
                 
-                console.log('مربع‌ها ایجاد شدند:', gameState.squares.length);
             } catch (e) {
                 console.log('خطا در ایجاد مربع‌ها:', e);
             }
@@ -953,15 +962,18 @@
                 square.dataset.index = index;
                 
                 const settings = stageSettings[Math.min(gameState.currentStage - 1, stageSettings.length - 1)];
-                const number = Math.floor(Math.random() * settings.baseNumber * settings.multiplier) + 10;
+                // اعداد بزرگ‌تر با ضریب بیشتر
+                const number = Math.floor(settings.baseNumber + Math.random() * settings.baseNumber * settings.multiplier);
                 
                 const squareImage = document.createElement('div');
                 squareImage.className = 'square-image';
-                squareImage.textContent = '🔲';
+                // استفاده از تصاویر m1.jpg تا m15.jpg
+                const imageNumber = (index % 15) + 1;
+                squareImage.style.backgroundImage = `url('m${imageNumber}.jpg')`;
                 
                 const squareNumber = document.createElement('div');
                 squareNumber.className = 'square-number';
-                squareNumber.textContent = number;
+                squareNumber.textContent = number.toLocaleString();
                 squareNumber.dataset.number = number;
                 
                 square.appendChild(squareImage);
@@ -986,14 +998,22 @@
                 if (!square.classList.contains('clicked')) {
                     square.classList.add('clicked');
                     
-                    // محاسبه امتیاز
-                    const points = Math.floor(number / 10) + 1;
+                    // محاسبه امتیاز - امتیاز بیشتر
+                    const points = Math.floor(number / 50) + 100; // حداقل 100 امتیاز
                     gameState.score += points;
                     gameState.coins += points;
                     
-                    // ایجاد سکه
+                    // ایجاد سکه بیشتر
                     const rect = square.getBoundingClientRect();
-                    createCoin(rect.left + rect.width / 2, rect.top + rect.height / 2, points);
+                    for (let i = 0; i < 3; i++) {
+                        setTimeout(() => {
+                            createCoin(
+                                rect.left + Math.random() * rect.width,
+                                rect.top + Math.random() * rect.height,
+                                points
+                            );
+                        }, i * 200);
+                    }
                     
                     // به‌روزرسانی UI
                     updateUI();
@@ -1021,7 +1041,7 @@
                 } else {
                     currentNumber -= damage;
                     numberElement.dataset.number = currentNumber;
-                    numberElement.textContent = currentNumber;
+                    numberElement.textContent = currentNumber.toLocaleString();
                     
                     // انیمیشن ضربه
                     square.style.transform = 'scale(0.95)';
@@ -1038,7 +1058,6 @@
         function checkStageComplete() {
             try {
                 const activeSquares = document.querySelectorAll('.square:not(.clicked)');
-                console.log('مربع‌های باقی‌مانده:', activeSquares.length);
                 
                 if (activeSquares.length === 0) {
                     gameState.currentStage++;
@@ -1130,11 +1149,12 @@
                 squareImage.className = 'square-image';
                 squareImage.textContent = '💎';
                 squareImage.style.fontSize = '2em';
+                squareImage.style.background = 'linear-gradient(45deg, #ff00ff, #00ffff)';
                 
                 const squareNumber = document.createElement('div');
                 squareNumber.className = 'square-number';
-                const specialNumber = gameState.currentStage * 500;
-                squareNumber.textContent = specialNumber;
+                const specialNumber = gameState.currentStage * 10000; // عدد بزرگ‌تر
+                squareNumber.textContent = specialNumber.toLocaleString();
                 squareNumber.dataset.number = specialNumber;
                 
                 specialSquare.appendChild(squareImage);
@@ -1202,7 +1222,7 @@
                 
                 squares.forEach(square => {
                     const number = parseInt(square.querySelector('.square-number').dataset.number);
-                    const points = Math.floor(number / 10) + 1;
+                    const points = Math.floor(number / 50) + 100; // امتیاز بیشتر
                     totalPoints += points;
                     
                     // ایجاد سکه برای هر مربع
@@ -1285,7 +1305,6 @@
                 
                 weaponArea.addEventListener('touchend', stopShooting);
                 
-                console.log('کنترل‌های تیربار فعال شدند');
             } catch (e) {
                 console.log('خطا در کنترل‌های تیربار:', e);
             }
@@ -1362,7 +1381,7 @@
                     x: gunRect.left + gunRect.width / 2 - 4 + spread,
                     y: gunRect.top - 10,
                     speed: 20,
-                    damage: gameState.bulletPower * gameState.weapons[gameState.currentWeapon].power
+                    damage: gameState.bulletPower * gameState.weapons[gameState.currentWeapon].power * 10 // آسیب بیشتر
                 };
                 
                 gameState.activeBullets.push(bulletObj);
@@ -1524,7 +1543,6 @@
         window.addEventListener('load', () => {
             try {
                 startGame();
-                console.log('بازی با موفقیت شروع شد');
             } catch (e) {
                 console.log('خطا در لود بازی:', e);
             }
