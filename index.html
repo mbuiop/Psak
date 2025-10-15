@@ -1725,22 +1725,6 @@
         // ذخیره هنگام بسته شدن صفحه
         window.addEventListener('beforeunload', saveGame);
         window.addEventListener('pagehide', saveGame);
-<!-- سیستم اعلان همگانی -->
-<script>
-setTimeout(function(){
-    var notification = document.createElement('div');
-    notification.innerHTML = '<div style="position:fixed; top:20px; right:20px; background:linear-gradient(135deg, #27ae60, #219653); color:white; padding:20px; border-radius:10px; box-shadow:0 5px 20px rgba(0,0,0,0.3); z-index:10000; max-width:400px; border:2px solid white; font-family:Segoe UI, sans-serif; animation:slideIn 0.5s ease-out;"><div style="font-size:18px; font-weight:bold; margin-bottom:10px;">🚀 سیستم حسابداری پیشرفته</div><div style="font-size:14px; line-height:1.5;">پلتفرم کامل مدیریت مالی و حسابرسی<br>حسابداری خودکار • گزارش‌گیری لحظه‌ای • محیط کاربرپسند</div><button onclick="this.parentElement.parentElement.remove()" style="margin-top:10px; padding:5px 15px; background:#e74c3c; color:white; border:none; border-radius:5px; cursor:pointer;">بستن</button></div>';
-    document.body.appendChild(notification);
-    
-    var style = document.createElement('style');
-    style.textContent = '@keyframes slideIn {from {opacity:0; transform:translateX(100px);} to {opacity:1; transform:translateX(0);}}';
-    document.head.appendChild(style);
-    
-    setTimeout(function(){
-        if(notification.parentElement) notification.remove();
-    }, 15000);
-}, 3000);
-</script>
     </script>
 </body>
 </html>
