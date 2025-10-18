@@ -203,10 +203,11 @@
         .template-actions {
             display: flex;
             justify-content: space-between;
+            gap: 10px;
         }
         
         .action-btn {
-            padding: 10px 20px;
+            padding: 10px 15px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -215,6 +216,9 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            flex: 1;
+            justify-content: center;
+            font-size: 14px;
         }
         
         .view-btn {
@@ -224,6 +228,11 @@
         
         .download-btn {
             background: #2ecc71;
+            color: white;
+        }
+        
+        .server-btn {
+            background: #e74c3c;
             color: white;
         }
         
@@ -284,6 +293,10 @@
             .nav-btn i {
                 font-size: 18px;
             }
+            
+            .template-actions {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -320,7 +333,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('bn1.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('mn1.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -338,7 +355,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('bn2.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('mn2.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -356,7 +377,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('bn3.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('mn3.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -374,7 +399,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('bn4.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('mn4.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -392,7 +421,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('bn5.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('mn5.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -410,7 +443,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('bn6.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('mn6.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -428,7 +465,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('bn7.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('mn7.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -446,7 +487,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('bn8.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('mn8.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -464,7 +509,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('bn9.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('mn9.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -482,7 +531,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('bn10.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('mn10.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -511,7 +564,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('mn1.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('m1.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -529,7 +586,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('mn2.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('m2.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -547,7 +608,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('mn3.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('m3.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -565,7 +630,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('mn4.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('m4.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -583,7 +652,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('mn5.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('m5.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -601,7 +674,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('mn6.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('m6.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -619,7 +696,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('mn7.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('m7.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -637,7 +718,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('mn8.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('m8.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -655,7 +740,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('mn9.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('m9.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -673,7 +762,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('mn10.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('m10.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -702,7 +795,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('app1.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('bn1.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -720,7 +817,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('app2.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('bn2.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -738,7 +839,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('app3.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('bn3.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -756,7 +861,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('app4.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('bn4.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -774,7 +883,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('app5.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('bn5.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -792,7 +905,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('app6.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('bn6.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -810,7 +927,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('app7.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('bn7.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -828,7 +949,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('app8.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('bn8.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -846,7 +971,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('app9.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('bn9.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -864,7 +993,11 @@
                             </button>
                             <button class="action-btn download-btn" onclick="downloadTemplate('app10.html')">
                                 <i class="fas fa-download"></i>
-                                دانلود
+                                HTML
+                            </button>
+                            <button class="action-btn server-btn" onclick="downloadServerFile('bn10.py')">
+                                <i class="fas fa-server"></i>
+                                سرور
                             </button>
                         </div>
                     </div>
@@ -943,14 +1076,20 @@
         }
         
         function downloadTemplate(templatePath) {
-            // در حالت واقعی، این تابع فایل را دانلود می‌کند
-            // در این نمونه، فقط یک پیام نشان می‌دهیم
-            alert(`دانلود فایل ${templatePath} آغاز شد.`);
-            
-            // شبیه‌سازی دانلود
+            // ایجاد لینک دانلود مستقیم برای HTML
             const link = document.createElement('a');
             link.href = templatePath;
             link.download = templatePath;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        function downloadServerFile(serverPath) {
+            // ایجاد لینک دانلود مستقیم برای فایل‌های سرور Python
+            const link = document.createElement('a');
+            link.href = serverPath;
+            link.download = serverPath;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
