@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قالب‌های حرفه‌ای - دانلود رایگان</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px 20px 80px; /* فضای اضافی برای نوار پایین */
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-left: 10px;
+            color: #fdbb2d;
+        }
+        
+        .notification {
+            position: relative;
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .notification:hover {
+            transform: scale(1.2);
+        }
+        
+        .notification::after {
+            content: "";
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 12px;
+            height: 12px;
+            background-color: #ff4757;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(0.8); opacity: 1; }
+            70% { transform: scale(1.5); opacity: 0.7; }
+            100% { transform: scale(0.8); opacity: 1; }
+        }
+        
+        /* نوار ناوبری پایین */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            z-index: 1000;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            min-width: 70px;
+        }
+        
+        .nav-btn.active {
+            background: rgba(253, 187, 45, 0.2);
+            color: #fdbb2d;
+        }
+        
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        .nav-btn i {
+            font-size: 20px;
+        }
+        
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .active-section {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 32px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .section-description {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+            font-size: 18px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .template-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .template-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .template-preview {
+            height: 200px;
+            background: linear-gradient(45deg, #3498db, #9b59b6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .template-info {
+            padding: 20px;
+        }
+        
+        .template-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #fdbb2d;
+        }
+        
+        .template-description {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            height: 120px;
+            overflow-y: auto;
+        }
+        
+        .template-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .action-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .view-btn {
+            background: #3498db;
+            color: white;
+        }
+        
+        .download-btn {
+            background: #2ecc71;
+            color: white;
+        }
+        
+        .action-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+        
+        .support-section {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            margin-top: 40px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .support-section h2 {
+            margin-bottom: 20px;
+            color: #fdbb2d;
+        }
+        
+        .email-link {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        
+        .email-link:hover {
+            color: #fdbb2d;
+            transform: scale(1.05);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 14px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .templates-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-btn {
+                font-size: 12px;
+                min-width: 60px;
+                padding: 8px 10px;
+            }
+            
+            .nav-btn i {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-cube"></i>
+                <span>قالب‌های حرفه‌ای</span>
+            </div>
+            <a href="bn.html" class="notification">
+                <i class="fas fa-bell"></i>
+            </a>
+        </header>
+        
+        <!-- بخش سه بعدی -->
+        <section id="three-d" class="content-section active-section">
+            <h2 class="section-title">قالب‌های سه بعدی</h2>
+            <p class="section-description">
+                طراحی سه بعدی حرفه‌ای با چیدمان صفحه سایت آماده رایگان. ما برنامه نویسی را راحت کردیم، قالب‌های چیدمان آماده را دانلود کنید و روی پروژه خود استفاده کنید.
+            </p>
+            
+            <div class="templates-grid">
+                <!-- 10 قالب سه بعدی -->
+                <div class="template-card">
+                    <div class="template-preview">قالب سه بعدی 1</div>
+                    <div class="template-info">
+                        <h3 class="template-title">قالب سه بعدی مدرن</h3>
+                        <p class="template-description">طراحی سه بعدی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('bn1.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('bn1.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب سه بعدی 2</div>
+                    <div class="template-info">
+                        <h3 class="template-title">طراحی سه بعدی خلاقانه</h3>
+                        <p class="template-description">طراحی سه بعدی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('bn2.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('bn2.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب سه بعدی 3</div>
+                    <div class="template-info">
+                        <h3 class="template-title">قالب سه بعدی شرکتی</h3>
+                        <p class="template-description">طراحی سه بعدی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('bn3.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('bn3.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب سه بعدی 4</div>
+                    <div class="template-info">
+                        <h3 class="template-title">طراحی سه بعدی مینیمال</h3>
+                        <p class="template-description">طراحی سه بعدی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('bn4.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('bn4.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب سه بعدی 5</div>
+                    <div class="template-info">
+                        <h3 class="template-title">قالب سه بعدی محصولات</h3>
+                        <p class="template-description">طراحی سه بعدی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('bn5.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('bn5.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب سه بعدی 6</div>
+                    <div class="template-info">
+                        <h3 class="template-title">طراحی سه بعدی هنری</h3>
+                        <p class="template-description">طراحی سه بعدی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('bn6.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('bn6.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب سه بعدی 7</div>
+                    <div class="template-info">
+                        <h3 class="template-title">قالب سه بعدی آموزشی</h3>
+                        <p class="template-description">طراحی سه بعدی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('bn7.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('bn7.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب سه بعدی 8</div>
+                    <div class="template-info">
+                        <h3 class="template-title">طراحی سه بعدی پزشکی</h3>
+                        <p class="template-description">طراحی سه بعدی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('bn8.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('bn8.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب سه بعدی 9</div>
+                    <div class="template-info">
+                        <h3 class="template-title">قالب سه بعدی رستوران</h3>
+                        <p class="template-description">طراحی سه بعدی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('bn9.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('bn9.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب سه بعدی 10</div>
+                    <div class="template-info">
+                        <h3 class="template-title">طراحی سه بعدی مسافرتی</h3>
+                        <p class="template-description">طراحی سه بعدی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('bn10.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('bn10.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- بخش فروشگاهی -->
+        <section id="shop" class="content-section">
+            <h2 class="section-title">قالب‌های فروشگاهی</h2>
+            <p class="section-description">
+                طراحی فروشگاهی حرفه‌ای با چیدمان صفحه سایت آماده رایگان. ما برنامه نویسی را راحت کردیم، قالب‌های چیدمان آماده را دانلود کنید و روی پروژه خود استفاده کنید.
+            </p>
+            
+            <div class="templates-grid">
+                <!-- 10 قالب فروشگاهی -->
+                <div class="template-card">
+                    <div class="template-preview">قالب فروشگاهی 1</div>
+                    <div class="template-info">
+                        <h3 class="template-title">فروشگاه الکترونیکی</h3>
+                        <p class="template-description">طراحی فروشگاهی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('mn1.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('mn1.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب فروشگاهی 2</div>
+                    <div class="template-info">
+                        <h3 class="template-title">فروشگاه پوشاک</h3>
+                        <p class="template-description">طراحی فروشگاهی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('mn2.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('mn2.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب فروشگاهی 3</div>
+                    <div class="template-info">
+                        <h3 class="template-title">فروشگاه لوازم خانگی</h3>
+                        <p class="template-description">طراحی فروشگاهی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('mn3.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('mn3.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب فروشگاهی 4</div>
+                    <div class="template-info">
+                        <h3 class="template-title">فروشگاه کتاب</h3>
+                        <p class="template-description">طراحی فروشگاهی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('mn4.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('mn4.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب فروشگاهی 5</div>
+                    <div class="template-info">
+                        <h3 class="template-title">فروشگاه ورزشی</h3>
+                        <p class="template-description">طراحی فروشگاهی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('mn5.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('mn5.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب فروشگاهی 6</div>
+                    <div class="template-info">
+                        <h3 class="template-title">فروشگاه اسباب بازی</h3>
+                        <p class="template-description">طراحی فروشگاهی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('mn6.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('mn6.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب فروشگاهی 7</div>
+                    <div class="template-info">
+                        <h3 class="template-title">فروشگاه زیبایی</h3>
+                        <p class="template-description">طراحی فروشگاهی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('mn7.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('mn7.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب فروشگاهی 8</div>
+                    <div class="template-info">
+                        <h3 class="template-title">فروشگاه مواد غذایی</h3>
+                        <p class="template-description">طراحی فروشگاهی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('mn8.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('mn8.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب فروشگاهی 9</div>
+                    <div class="template-info">
+                        <h3 class="template-title">فروشگاه دیجیتال</h3>
+                        <p class="template-description">طراحی فروشگاهی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('mn9.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('mn9.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب فروشگاهی 10</div>
+                    <div class="template-info">
+                        <h3 class="template-title">فروشگاه چند منظوره</h3>
+                        <p class="template-description">طراحی فروشگاهی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('mn10.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('mn10.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- بخش اپلیکیشنی -->
+        <section id="app" class="content-section">
+            <h2 class="section-title">قالب‌های اپلیکیشنی</h2>
+            <p class="section-description">
+                طراحی اپلیکیشنی حرفه‌ای با چیدمان صفحه سایت آماده رایگان. ما برنامه نویسی را راحت کردیم، قالب‌های چیدمان آماده را دانلود کنید و روی پروژه خود استفاده کنید.
+            </p>
+            
+            <div class="templates-grid">
+                <!-- 10 قالب اپلیکیشنی -->
+                <div class="template-card">
+                    <div class="template-preview">قالب اپلیکیشنی 1</div>
+                    <div class="template-info">
+                        <h3 class="template-title">اپلیکیشن خدمات</h3>
+                        <p class="template-description">طراحی اپلیکیشنی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('app1.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('app1.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب اپلیکیشنی 2</div>
+                    <div class="template-info">
+                        <h3 class="template-title">اپلیکیشن شبکه اجتماعی</h3>
+                        <p class="template-description">طراحی اپلیکیشنی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('app2.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('app2.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب اپلیکیشنی 3</div>
+                    <div class="template-info">
+                        <h3 class="template-title">اپلیکیشن آموزشی</h3>
+                        <p class="template-description">طراحی اپلیکیشنی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('app3.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('app3.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب اپلیکیشنی 4</div>
+                    <div class="template-info">
+                        <h3 class="template-title">اپلیکیشن سلامت</h3>
+                        <p class="template-description">طراحی اپلیکیشنی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('app4.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('app4.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب اپلیکیشنی 5</div>
+                    <div class="template-info">
+                        <h3 class="template-title">اپلیکیشن مالی</h3>
+                        <p class="template-description">طراحی اپلیکیشنی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('app5.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('app5.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب اپلیکیشنی 6</div>
+                    <div class="template-info">
+                        <h3 class="template-title">اپلیکیشن مسافرتی</h3>
+                        <p class="template-description">طراحی اپلیکیشنی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('app6.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('app6.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب اپلیکیشنی 7</div>
+                    <div class="template-info">
+                        <h3 class="template-title">اپلیکیشن سرگرمی</h3>
+                        <p class="template-description">طراحی اپلیکیشنی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('app7.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('app7.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب اپلیکیشنی 8</div>
+                    <div class="template-info">
+                        <h3 class="template-title">اپلیکیشن ورزشی</h3>
+                        <p class="template-description">طراحی اپلیکیشنی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('app8.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('app8.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب اپلیکیشنی 9</div>
+                    <div class="template-info">
+                        <h3 class="template-title">اپلیکیشن خرید</h3>
+                        <p class="template-description">طراحی اپلیکیشنی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('app9.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('app9.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-preview">قالب اپلیکیشنی 10</div>
+                    <div class="template-info">
+                        <h3 class="template-title">اپلیکیشن کسب و کار</h3>
+                        <p class="template-description">طراحی اپلیکیشنی حرفه‌ای - چیدمان صفحه سایت آماده - رایگان دانلود کنید</p>
+                        <div class="template-actions">
+                            <button class="action-btn view-btn" onclick="viewTemplate('app10.html')">
+                                <i class="fas fa-eye"></i>
+                                مشاهده
+                            </button>
+                            <button class="action-btn download-btn" onclick="downloadTemplate('app10.html')">
+                                <i class="fas fa-download"></i>
+                                دانلود
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- بخش پشتیبانی -->
+        <section id="support" class="content-section">
+            <div class="support-section">
+                <h2><i class="fas fa-headset"></i> پشتیبانی</h2>
+                <p>برای ارتباط با ما و دریافت پشتیبانی، از طریق ایمیل زیر با ما در تماس باشید:</p>
+                <a href="mailto:milad.yari1377m@gmail.com" class="email-link">
+                    <i class="fas fa-envelope"></i>
+                    milad.yari1377m@gmail.com
+                </a>
+                <p style="margin-top: 20px;">ما در اسرع وقت به درخواست‌های شما پاسخ خواهیم داد.</p>
+            </div>
+        </section>
+        
+        <footer>
+            <p>تمامی حقوق برای وب‌سایت قالب‌های حرفه‌ای محفوظ است © 2023</p>
+        </footer>
+    </div>
+
+    <!-- نوار ناوبری پایین -->
+    <div class="bottom-nav">
+        <button class="nav-btn active" data-section="three-d">
+            <i class="fas fa-cube"></i>
+            سه بعدی
+        </button>
+        <button class="nav-btn" data-section="shop">
+            <i class="fas fa-store"></i>
+            فروشگاهی
+        </button>
+        <button class="nav-btn" data-section="app">
+            <i class="fas fa-mobile-alt"></i>
+            اپلیکیشنی
+        </button>
+        <button class="nav-btn" data-section="support">
+            <i class="fas fa-headset"></i>
+            پشتیبانی
+        </button>
+    </div>
+
+    <script>
+        // تغییر بخش‌های فعال با کلیک روی دکمه‌های ناوبری پایین
+        document.querySelectorAll('.nav-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const targetSection = button.getAttribute('data-section');
+                
+                // حذف کلاس active از تمام دکمه‌ها
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // اضافه کردن کلاس active به دکمه کلیک شده
+                button.classList.add('active');
+                
+                // مخفی کردن تمام بخش‌ها
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.classList.remove('active-section');
+                });
+                
+                // نمایش بخش هدف
+                document.getElementById(targetSection).classList.add('active-section');
+                
+                // اسکرول به بالای صفحه
+                window.scrollTo(0, 0);
+            });
+        });
+        
+        // توابع مشاهده و دانلود
+        function viewTemplate(templatePath) {
+            window.open(templatePath, '_blank');
+        }
+        
+        function downloadTemplate(templatePath) {
+            // در حالت واقعی، این تابع فایل را دانلود می‌کند
+            // در این نمونه، فقط یک پیام نشان می‌دهیم
+            alert(`دانلود فایل ${templatePath} آغاز شد.`);
+            
+            // شبیه‌سازی دانلود
+            const link = document.createElement('a');
+            link.href = templatePath;
+            link.download = templatePath;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
