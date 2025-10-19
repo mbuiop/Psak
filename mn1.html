@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اپلیکیشن آماده</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazir', 'Tahoma', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e8ba3 100%);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        /* هدر */
+        .header {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .menu-icon {
+            font-size: 32px;
+            cursor: pointer;
+            color: #1e3c72;
+            transition: transform 0.3s;
+        }
+
+        .menu-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .notification-icon {
+            font-size: 32px;
+            cursor: pointer;
+            color: #1e3c72;
+            text-decoration: none;
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .notification-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .notification-icon::after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 10px;
+            height: 10px;
+            background: #ff4757;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        /* منوی کشویی */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            width: 320px;
+            height: 100%;
+            background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+            box-shadow: -5px 0 25px rgba(0,0,0,0.3);
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .sidebar-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px 25px;
+            font-size: 22px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 15px 0;
+        }
+
+        .sidebar-menu li {
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .sidebar-menu a {
+            display: block;
+            padding: 18px 25px;
+            color: #2c3e50;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .sidebar-menu a:hover {
+            background: linear-gradient(90deg, #e8f4f8 0%, transparent 100%);
+            color: #1e3c72;
+            padding-right: 35px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            z-index: 999;
+            backdrop-filter: blur(3px);
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* متن متحرک */
+        .marquee-container {
+            background: linear-gradient(90deg, #ffd89b 0%, #19547b 100%);
+            padding: 15px 0;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .marquee {
+            display: inline-block;
+            white-space: nowrap;
+            animation: scroll 20s linear infinite;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* بخش قالب‌ها */
+        .templates-container {
+            padding: 25px 15px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .templates-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .templates-container::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .templates-container::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+        }
+
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            min-width: 1000px;
+        }
+
+        .template-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .template-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+        }
+
+        .template-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: block;
+        }
+
+        .template-info {
+            padding: 20px;
+            background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+        }
+
+        .template-info h3 {
+            color: #1e3c72;
+            margin-bottom: 12px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .template-info p {
+            color: #6c757d;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        /* دکمه تماس */
+        .contact-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #25d366 0%, #20bd5f 100%);
+            color: white;
+            text-align: center;
+            padding: 14px;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+        }
+
+        .contact-link:hover {
+            background: linear-gradient(135deg, #20bd5f 0%, #1da851 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+        }
+
+        .contact-link:active {
+            transform: translateY(0);
+        }
+
+        /* نوار پایین */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-item {
+            text-align: center;
+            color: #6c757d;
+            text-decoration: none;
+            flex: 1;
+            padding: 8px;
+            transition: all 0.3s;
+            border-radius: 12px;
+            margin: 0 5px;
+        }
+
+        .nav-item:hover {
+            background: rgba(30, 60, 114, 0.1);
+            color: #1e3c72;
+            transform: translateY(-3px);
+        }
+
+        .nav-item .icon {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .nav-item .label {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .templates-grid {
+                grid-template-columns: repeat(2, 1fr);
+                min-width: auto;
+                gap: 15px;
+            }
+
+            .template-image {
+                height: 220px;
+            }
+
+            .marquee {
+                font-size: 16px;
+            }
+
+            .header {
+                padding: 15px 20px;
+            }
+
+            .template-info {
+                padding: 15px;
+            }
+
+            .template-info h3 {
+                font-size: 16px;
+            }
+
+            .template-info p {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-item .label {
+                font-size: 11px;
+            }
+
+            .nav-item .icon {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- هدر -->
+    <div class="header">
+        <div class="menu-icon" onclick="toggleSidebar()">☰</div>
+        <a href=".html" class="notification-icon">🔔</a>
+    </div>
+
+    <!-- منوی کشویی -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">منو</div>
+        <ul class="sidebar-menu">
+            <li><a href="m.html">📱 قالب</a></li>
+            <li><a href="m.html">🎨 قالب</a></li>
+            <li><a href="m.html">⚡ قالب</a></li>
+            <li><a href="m.html">🌟 قالب</a></li>
+            <li><a href="m.html">❓ راهنمایی</a></li>
+            <li><a href="m.html">📮 تلگرام</a></li>
+            <li><a href="m.html">📷 اینستاگرام</a></li>
+        </ul>
+    </div>
+
+    <!-- پوشش تیره -->
+    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+    <!-- متن متحرک -->
+    <div class="marquee-container">
+        <div class="marquee">✨ به اپلیکیشن آماده خوش آمدید ✨</div>
+    </div>
+
+    <!-- قالب‌ها -->
+    <div class="templates-container">
+        <div class="templates-grid">
+            <!-- قالب 1 -->
+            <div class="template-card">
+                <img src="m.jpg" alt="قالب 1" class="template-image">
+                <div class="template-info">
+                    <h3>نمونه قالب 1</h3>
+                    <p>این یک نمونه قالب آماده و زیبا برای استفاده در پروژه‌های شما می‌باشد. طراحی مدرن و کاربرپسند.</p>
+                    <a href="tel:09877" class="contact-link">
+                        <span>📞</span>
+                        <span>تماس: 09877</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- قالب 2 -->
+            <div class="template-card">
+                <img src="m.jpg" alt="قالب 2" class="template-image">
+                <div class="template-info">
+                    <h3>نمونه قالب 2</h3>
+                    <p>این یک نمونه قالب آماده و زیبا برای استفاده در پروژه‌های شما می‌باشد. طراحی مدرن و کاربرپسند.</p>
+                    <a href="tel:09877" class="contact-link">
+                        <span>📞</span>
+                        <span>تماس: 09877</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- قالب 3 -->
+            <div class="template-card">
+                <img src="m.jpg" alt="قالب 3" class="template-image">
+                <div class="template-info">
+                    <h3>نمونه قالب 3</h3>
+                    <p>این یک نمونه قالب آماده و زیبا برای استفاده در پروژه‌های شما می‌باشد. طراحی مدرن و کاربرپسند.</p>
+                    <a href="tel:09877" class="contact-link">
+                        <span>📞</span>
+                        <span>تماس: 09877</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- قالب 4 -->
+            <div class="template-card">
+                <img src="m.jpg" alt="قالب 4" class="template-image">
+                <div class="template-info">
+                    <h3>نمونه قالب 4</h3>
+                    <p>این یک نمونه قالب آماده و زیبا برای استفاده در پروژه‌های شما می‌باشد. طراحی مدرن و کاربرپسند.</p>
+                    <a href="tel:09877" class="contact-link">
+                        <span>📞</span>
+                        <span>تماس: 09877</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- قالب 5 -->
+            <div class="template-card">
+                <img src="m.jpg" alt="قالب 5" class="template-image">
+                <div class="template-info">
+                    <h3>نمونه قالب 5</h3>
+                    <p>این یک نمونه قالب آماده و زیبا برای استفاده در پروژه‌های شما می‌باشد. طراحی مدرن و کاربرپسند.</p>
+                    <a href="tel:09877" class="contact-link">
+                        <span>📞</span>
+                        <span>تماس: 09877</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- قالب 6 -->
+            <div class="template-card">
+                <img src="m.jpg" alt="قالب 6" class="template-image">
+                <div class="template-info">
+                    <h3>نمونه قالب 6</h3>
+                    <p>این یک نمونه قالب آماده و زیبا برای استفاده در پروژه‌های شما می‌باشد. طراحی مدرن و کاربرپسند.</p>
+                    <a href="tel:09877" class="contact-link">
+                        <span>📞</span>
+                        <span>تماس: 09877</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- قالب 7 -->
+            <div class="template-card">
+                <img src="m.jpg" alt="قالب 7" class="template-image">
+                <div class="template-info">
+                    <h3>نمونه قالب 7</h3>
+                    <p>این یک نمونه قالب آماده و زیبا برای استفاده در پروژه‌های شما می‌باشد. طراحی مدرن و کاربرپسند.</p>
+                    <a href="tel:09877" class="contact-link">
+                        <span>📞</span>
+                        <span>تماس: 09877</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- قالب 8 -->
+            <div class="template-card">
+                <img src="m.jpg" alt="قالب 8" class="template-image">
+                <div class="template-info">
+                    <h3>نمونه قالب 8</h3>
+                    <p>این یک نمونه قالب آماده و زیبا برای استفاده در پروژه‌های شما می‌باشد. طراحی مدرن و کاربرپسند.</p>
+                    <a href="tel:09877" class="contact-link">
+                        <span>📞</span>
+                        <span>تماس: 09877</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نوار پایین -->
+    <div class="bottom-nav">
+        <a href="m.html" class="nav-item">
+            <span class="icon">📱</span>
+            <span class="label">قالب یک</span>
+        </a>
+        <a href="m.html" class="nav-item">
+            <span class="icon">🎨</span>
+            <span class="label">قالب دو</span>
+        </a>
+        <a href="m.html" class="nav-item">
+            <span class="icon">⚡</span>
+            <span class="label">قالب سه</span>
+        </a>
+        <a href="m.html" class="nav-item">
+            <span class="icon">🌟</span>
+            <span class="label">قالب ۴</span>
+        </a>
+    </div>
+
+    <script>
+        // تابع باز و بسته کردن منوی کشویی
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        // بستن منو با کلید ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('overlay');
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            }
+        });
+    </script>
+
+</body>
+</html>
