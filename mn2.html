@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فروشگاه قالب های فروشگاهی</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #e9ecef;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        header {
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .logo i {
+            color: var(--secondary);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.6);
+        }
+
+        .hero {
+            padding: 4rem 5%;
+            text-align: center;
+            background: linear-gradient(rgba(67, 97, 238, 0.9), rgba(58, 12, 163, 0.9));
+            background-size: cover;
+            background-position: center;
+            min-height: 50vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 3rem 0 2rem;
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--secondary);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+
+        .templates-section {
+            padding: 2rem 5%;
+            margin-bottom: 4rem;
+        }
+
+        .templates-container {
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .row-title {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem;
+            color: var(--secondary);
+            padding-right: 1rem;
+            border-right: 4px solid var(--primary);
+        }
+
+        .templates-scroll {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            gap: 1.5rem;
+            padding: 1.5rem 0;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) var(--gray);
+        }
+
+        .templates-scroll::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .templates-scroll::-webkit-scrollbar-track {
+            background: var(--gray);
+            border-radius: 10px;
+        }
+
+        .templates-scroll::-webkit-scrollbar-thumb {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 10px;
+        }
+
+        .template-card {
+            flex: 0 0 280px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .template-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .template-img {
+            height: 180px;
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            color: white;
+            font-size: 4rem;
+        }
+
+        .template-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .template-card:hover .template-img img {
+            transform: scale(1.05);
+        }
+
+        .template-info {
+            padding: 1.2rem;
+            text-align: center;
+        }
+
+        .template-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .template-price {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+
+        .price {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .scroll-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            border: none;
+            color: var(--primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 10;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .scroll-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .scroll-left {
+            left: 20px;
+        }
+
+        .scroll-right {
+            right: 20px;
+        }
+
+        footer {
+            background: white;
+            padding: 3rem 5%;
+            margin-top: 4rem;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            transition: var(--transition);
+            text-decoration: none;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .instagram {
+            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+            color: white;
+        }
+
+        .telegram {
+            background: #0088cc;
+            color: white;
+        }
+
+        .star {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: white;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray);
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .scroll-btn {
+                display: none;
+            }
+            
+            .template-card {
+                flex: 0 0 250px;
+            }
+            
+            .social-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-store"></i>
+            <span>قالب شاپ</span>
+        </div>
+        <a href="#" class="btn">ورود / ثبت نام</a>
+    </header>
+
+    <section class="hero">
+        <h1>فروشگاه قالب های فروشگاهی</h1>
+        <p>بهترین مجموعه قالب های فروشگاهی با طراحی مدرن و کاربرپسند</p>
+        <a href="#" class="btn">مشاهده قالب ها</a>
+    </section>
+
+    <section class="templates-section">
+        <h2 class="section-title">قالب های فروشگاهی</h2>
+        
+        <div class="templates-container">
+            <h3 class="row-title">ردیف اول - قالب های مدرن</h3>
+            <button class="scroll-btn scroll-left" onclick="scrollTemplates('row1', -1)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="templates-scroll" id="row1">
+                <!-- Template 1 to 20 for Row 1 -->
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m1.jpg" alt="قالب 1">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 1</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۲۰۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m2.jpg" alt="قالب 2">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 2</h3>
+                        <div class="template-price">
+                            <span class="price">۹۵۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m3.jpg" alt="قالب 3">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 3</h3>
+                        <div class="template-price">
+                            <span class="price">۷۵۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m4.jpg" alt="قالب 4">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 4</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۱۰۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m5.jpg" alt="قالب 5">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 5</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۳۵۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m6.jpg" alt="قالب 6">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 6</h3>
+                        <div class="template-price">
+                            <span class="price">۸۵۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m7.jpg" alt="قالب 7">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 7</h3>
+                        <div class="template-price">
+                            <span class="price">۹۰۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m8.jpg" alt="قالب 8">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 8</h3>
+                        <div class="template-price">
+                            <span class="price">۷۸۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m9.jpg" alt="قالب 9">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 9</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۱۵۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m10.jpg" alt="قالب 10">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 10</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۴۰۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m11.jpg" alt="قالب 11">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 11</h3>
+                        <div class="template-price">
+                            <span class="price">۹۸۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m12.jpg" alt="قالب 12">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 12</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۲۵۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m13.jpg" alt="قالب 13">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 13</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۳۰۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m14.jpg" alt="قالب 14">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 14</h3>
+                        <div class="template-price">
+                            <span class="price">۸۷۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m15.jpg" alt="قالب 15">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 15</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۱۰۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m16.jpg" alt="قالب 16">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 16</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۰۵۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m17.jpg" alt="قالب 17">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 17</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۲۰۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m18.jpg" alt="قالب 18">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 18</h3>
+                        <div class="template-price">
+                            <span class="price">۸۰۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m19.jpg" alt="قالب 19">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 19</h3>
+                        <div class="template-price">
+                            <span class="price">۷۵۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m20.jpg" alt="قالب 20">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 20</h3>
+                        <div class="template-price">
+                            <span class="price">۹۵۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="scroll-btn scroll-right" onclick="scrollTemplates('row1', 1)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+        </div>
+
+        <div class="templates-container">
+            <h3 class="row-title">ردیف دوم - قالب های حرفه ای</h3>
+            <button class="scroll-btn scroll-left" onclick="scrollTemplates('row2', -1)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="templates-scroll" id="row2">
+                <!-- Template 1 to 20 for Row 2 -->
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m21.jpg" alt="قالب 21">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 21</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۵۰۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m22.jpg" alt="قالب 22">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 22</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۱۰۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m23.jpg" alt="قالب 23">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 23</h3>
+                        <div class="template-price">
+                            <span class="price">۹۰۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m24.jpg" alt="قالب 24">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 24</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۳۵۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m25.jpg" alt="قالب 25">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 25</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۲۰۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m26.jpg" alt="قالب 26">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 26</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۶۰۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m27.jpg" alt="قالب 27">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 27</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۴۰۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m28.jpg" alt="قالب 28">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 28</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۱۰۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m29.jpg" alt="قالب 29">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 29</h3>
+                        <div class="template-price">
+                            <span class="price">۹۵۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m30.jpg" alt="قالب 30">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 30</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۷۰۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m31.jpg" alt="قالب 31">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 31</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۳۰۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m32.jpg" alt="قالب 32">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 32</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۴۵۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m33.jpg" alt="قالب 33">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 33</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۲۵۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m34.jpg" alt="قالب 34">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 34</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۱۰۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m35.jpg" alt="قالب 35">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 35</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۵۵۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m36.jpg" alt="قالب 36">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 36</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۲۰۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m37.jpg" alt="قالب 37">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 37</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۴۰۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m38.jpg" alt="قالب 38">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 38</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۳۰۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m39.jpg" alt="قالب 39">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 39</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۶۵۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-img">
+                        <img src="m40.jpg" alt="قالب 40">
+                    </div>
+                    <div class="template-info">
+                        <h3>قالب 40</h3>
+                        <div class="template-price">
+                            <span class="price">۱,۵۰۰,۰۰۰ تومان</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="scroll-btn scroll-right" onclick="scrollTemplates('row2', 1)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+        </div>
+    </section>
+
+    <footer>
+        <div class="social-links">
+            <a href="#" class="social-btn instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="social-btn telegram">
+                <i class="fab fa-telegram"></i>
+            </a>
+            <a href="#" class="social-btn star">
+                <i class="fas fa-star"></i>
+            </a>
+        </div>
+        <div class="copyright">
+            <p>کلیه حقوق مادی و معنوی این وبسایت محفوظ می باشد © ۱۴۰۲</p>
+        </div>
+    </footer>
+
+    <script>
+        function scrollTemplates(rowId, direction) {
+            const container = document.getElementById(rowId);
+            const scrollAmount = 350;
+            
+            if(direction === 1) {
+                container.scrollLeft += scrollAmount;
+            } else {
+                container.scrollLeft -= scrollAmount;
+            }
+        }
+        
+        // افزودن افکت اسکرول نرم
+        document.addEventListener('DOMContentLoaded', function() {
+            const scrollContainers = document.querySelectorAll('.templates-scroll');
+            
+            scrollContainers.forEach(container => {
+                container.addEventListener('wheel', (e) => {
+                    e.preventDefault();
+                    container.scrollLeft += e.deltaY;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
