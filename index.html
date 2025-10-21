@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>جنگنده سه بعدی پیشرفته</title>
     <style>
-        /* تمام استایل‌های قبلی بدون تغییر باقی می‌مانند */
         * {
             margin: 0;
             padding: 0;
@@ -330,13 +329,23 @@
         let explosions = [];
         let coinsParticles = [];
         let backgroundStars = [];
-        let backgroundSpeed = 3; // افزایش سرعت حرکت از پایین به بالا
+        let backgroundSpeed = 4; // افزایش سرعت حرکت از پایین به بالا
         let lastShot = 0;
         let lastEnemyShot = 0;
         let shootDelay = 100;
         let enemyShootDelay = 1200;
         let playerRoll = 0;
         let currentLevel = 1;
+        
+        // تصاویر
+        const backgroundImage = new Image();
+        backgroundImage.src = 'm1.jpg';
+        
+        const enemyGif1 = new Image();
+        enemyGif1.src = 'm1.GIF';
+        
+        const enemyGif2 = new Image();
+        enemyGif2.src = 'm2.GIF';
         
         // کلیدهای ذخیره‌سازی
         const SAVE_KEYS = {
@@ -357,37 +366,46 @@
         function saveGame() {
             if (!gameActive) return;
             
-            localStorage.setItem(SAVE_KEYS.SCORE, score);
-            localStorage.setItem(SAVE_KEYS.COINS, coins);
-            localStorage.setItem(SAVE_KEYS.HEALTH, playerHealth);
-            localStorage.setItem(SAVE_KEYS.LEVEL, currentLevel);
-            localStorage.setItem(SAVE_KEYS.PLAYER_X, playerX);
-            localStorage.setItem(SAVE_KEYS.PLAYER_Y, playerY);
+            localStorage.setItem(SAVE_KEYS.SCORE, score.toString());
+            localStorage.setItem(SAVE_KEYS.COINS, coins.toString());
+            localStorage.setItem(SAVE_KEYS.HEALTH, playerHealth.toString());
+            localStorage.setItem(SAVE_KEYS.LEVEL, currentLevel.toString());
+            localStorage.setItem(SAVE_KEYS.PLAYER_X, playerX.toString());
+            localStorage.setItem(SAVE_KEYS.PLAYER_Y, playerY.toString());
+            
+            console.log('بازی ذخیره شد:', { score, coins, playerHealth, currentLevel });
         }
         
         // بارگذاری وضعیت بازی
         function loadGame() {
-            const savedScore = localStorage.getItem(SAVE_KEYS.SCORE);
-            const savedCoins = localStorage.getItem(SAVE_KEYS.COINS);
-            const savedHealth = localStorage.getItem(SAVE_KEYS.HEALTH);
-            const savedLevel = localStorage.getItem(SAVE_KEYS.LEVEL);
-            const savedPlayerX = localStorage.getItem(SAVE_KEYS.PLAYER_X);
-            const savedPlayerY = localStorage.getItem(SAVE_KEYS.PLAYER_Y);
-            
-            if (savedScore !== null) {
-                score = parseInt(savedScore);
-                coins = parseInt(savedCoins);
-                playerHealth = parseInt(savedHealth);
-                currentLevel = parseInt(savedLevel);
-                playerX = parseFloat(savedPlayerX);
-                playerY = parseFloat(savedPlayerY);
+            try {
+                const savedScore = localStorage.getItem(SAVE_KEYS.SCORE);
+                const savedCoins = localStorage.getItem(SAVE_KEYS.COINS);
+                const savedHealth = localStorage.getItem(SAVE_KEYS.HEALTH);
+                const savedLevel = localStorage.getItem(SAVE_KEYS.LEVEL);
+                const savedPlayerX = localStorage.getItem(SAVE_KEYS.PLAYER_X);
+                const savedPlayerY = localStorage.getItem(SAVE_KEYS.PLAYER_Y);
                 
-                updateScore();
-                updateCoins();
-                updateHealth();
-                updateLevel();
+                console.log('بارگذاری ذخیره:', { savedScore, savedCoins, savedHealth, savedLevel });
                 
-                return true;
+                if (savedScore !== null && savedScore !== '0') {
+                    score = parseInt(savedScore) || 0;
+                    coins = parseInt(savedCoins) || 0;
+                    playerHealth = parseInt(savedHealth) || 100;
+                    currentLevel = parseInt(savedLevel) || 1;
+                    playerX = parseFloat(savedPlayerX) || canvas.width / 2;
+                    playerY = parseFloat(savedPlayerY) || canvas.height * 0.8;
+                    
+                    updateScore();
+                    updateCoins();
+                    updateHealth();
+                    updateLevel();
+                    
+                    console.log('بازی بارگذاری شد:', { score, coins, playerHealth, currentLevel });
+                    return true;
+                }
+            } catch (e) {
+                console.error('خطا در بارگذاری بازی:', e);
             }
             
             return false;
@@ -395,12 +413,9 @@
         
         // پاک کردن ذخیره بازی
         function clearSavedGame() {
-            localStorage.removeItem(SAVE_KEYS.SCORE);
-            localStorage.removeItem(SAVE_KEYS.COINS);
-            localStorage.removeItem(SAVE_KEYS.HEALTH);
-            localStorage.removeItem(SAVE_KEYS.LEVEL);
-            localStorage.removeItem(SAVE_KEYS.PLAYER_X);
-            localStorage.removeItem(SAVE_KEYS.PLAYER_Y);
+            Object.values(SAVE_KEYS).forEach(key => {
+                localStorage.removeItem(key);
+            });
         }
         
         // تنظیمات اولیه بازی
@@ -416,6 +431,7 @@
                 coins = 0;
                 playerHealth = 100;
                 currentLevel = 1;
+                console.log('شروع بازی جدید');
             }
             
             bullets = [];
@@ -438,7 +454,7 @@
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
                     size: Math.random() * 3 + 1,
-                    speed: Math.random() * 3 + 1
+                    speed: Math.random() * 3 + 2 // افزایش سرعت ستاره‌ها
                 });
             }
             
@@ -446,6 +462,43 @@
             backgroundSound.loop = true;
             backgroundSound.volume = 0.5;
             backgroundSound.play().catch(e => console.log("اتوپلی صداها نیاز به تعامل کاربر دارد"));
+        }
+        
+        // طراحی پس‌زمینه با تصویر
+        function drawBackground() {
+            // رسم تصویر پس‌زمینه
+            if (backgroundImage.complete) {
+                ctx.drawImage(backgroundImage, 0, cameraOffset, canvas.width, canvas.height);
+                ctx.drawImage(backgroundImage, 0, cameraOffset - canvas.height, canvas.width, canvas.height);
+            } else {
+                // اگر تصویر لود نشده، پس‌زمینه مشکی
+                ctx.fillStyle = '#0a1525';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+            
+            // ستاره‌های متحرک
+            ctx.fillStyle = 'white';
+            for (const star of backgroundStars) {
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        // به روزرسانی پس‌زمینه متحرک
+        function updateBackground() {
+            cameraOffset += backgroundSpeed;
+            if (cameraOffset >= canvas.height) {
+                cameraOffset = 0;
+            }
+            
+            for (const star of backgroundStars) {
+                star.y += star.speed;
+                if (star.y > canvas.height) {
+                    star.y = 0;
+                    star.x = Math.random() * canvas.width;
+                }
+            }
         }
         
         // طراحی جنگنده بزرگ و واقعی
@@ -512,41 +565,43 @@
         
         // طراحی دشمنان (جنگنده‌های دشمن)
         function drawEnemy(enemy) {
-            const screenSize = enemy.size;
-            
-            ctx.save();
-            ctx.translate(enemy.x, enemy.y);
-            
-            // بدنه دشمن
-            const enemyGradient = ctx.createLinearGradient(-screenSize/2, 0, screenSize/2, 0);
-            enemyGradient.addColorStop(0, '#8a1a1a');
-            enemyGradient.addColorStop(0.5, '#cc3333');
-            enemyGradient.addColorStop(1, '#8a1a1a');
-            
-            ctx.fillStyle = enemyGradient;
-            ctx.beginPath();
-            ctx.moveTo(0, -screenSize/3);
-            ctx.lineTo(screenSize/2, screenSize/3);
-            ctx.lineTo(-screenSize/2, screenSize/3);
-            ctx.closePath();
-            ctx.fill();
-            
-            // کابین دشمن
-            ctx.fillStyle = '#400000';
-            ctx.beginPath();
-            ctx.arc(0, -screenSize/8, screenSize/5, 0, Math.PI * 2);
-            ctx.fill();
-            
-            // بال‌های دشمن
-            ctx.fillStyle = '#aa2a2a';
-            ctx.fillRect(-screenSize*0.8, screenSize/6, screenSize*1.6, screenSize/8);
-            
-            // موتورهای دشمن
-            ctx.fillStyle = '#111';
-            ctx.fillRect(-screenSize/3, screenSize/2, screenSize/6, screenSize/4);
-            ctx.fillRect(screenSize/8, screenSize/2, screenSize/6, screenSize/4);
-            
-            ctx.restore();
+            if (enemy.type === 'gif1' && enemyGif1.complete) {
+                ctx.drawImage(enemyGif1, enemy.x - enemy.size/2, enemy.y - enemy.size/2, enemy.size, enemy.size);
+            } else if (enemy.type === 'gif2' && enemyGif2.complete) {
+                ctx.drawImage(enemyGif2, enemy.x - enemy.size/2, enemy.y - enemy.size/2, enemy.size, enemy.size);
+            } else {
+                // طراحی معمولی دشمن اگر تصاویر لود نشده‌اند
+                const screenSize = enemy.size;
+                
+                ctx.save();
+                ctx.translate(enemy.x, enemy.y);
+                
+                // بدنه دشمن
+                const enemyGradient = ctx.createLinearGradient(-screenSize/2, 0, screenSize/2, 0);
+                enemyGradient.addColorStop(0, '#8a1a1a');
+                enemyGradient.addColorStop(0.5, '#cc3333');
+                enemyGradient.addColorStop(1, '#8a1a1a');
+                
+                ctx.fillStyle = enemyGradient;
+                ctx.beginPath();
+                ctx.moveTo(0, -screenSize/3);
+                ctx.lineTo(screenSize/2, screenSize/3);
+                ctx.lineTo(-screenSize/2, screenSize/3);
+                ctx.closePath();
+                ctx.fill();
+                
+                // کابین دشمن
+                ctx.fillStyle = '#400000';
+                ctx.beginPath();
+                ctx.arc(0, -screenSize/8, screenSize/5, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // بال‌های دشمن
+                ctx.fillStyle = '#aa2a2a';
+                ctx.fillRect(-screenSize*0.8, screenSize/6, screenSize*1.6, screenSize/8);
+                
+                ctx.restore();
+            }
         }
         
         // طراحی گلوله قدرتمند با اثر نور
@@ -684,38 +739,10 @@
             ctx.restore();
         }
         
-        // طراحی پس‌زمینه متحرک
-        function drawBackground() {
-            // پس‌زمینه تاریک
-            ctx.fillStyle = '#0a1525';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // ستاره‌های متحرک
-            ctx.fillStyle = 'white';
-            for (const star of backgroundStars) {
-                ctx.beginPath();
-                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-        
-        // به روزرسانی پس‌زمینه متحرک
-        function updateBackground() {
-            cameraOffset += backgroundSpeed;
-            
-            for (const star of backgroundStars) {
-                star.y += star.speed;
-                if (star.y > canvas.height) {
-                    star.y = 0;
-                    star.x = Math.random() * canvas.width;
-                }
-            }
-        }
-        
         // ایجاد دشمن جدید
         function spawnEnemy() {
-            // افزایش تعداد دشمنان
-            if (Math.random() < 0.04) { // افزایش نرخ تولید دشمن
+            // دشمنان معمولی
+            if (Math.random() < 0.04) {
                 enemies.push({
                     x: Math.random() * canvas.width,
                     y: -50,
@@ -726,16 +753,17 @@
                 });
             }
             
-            // ایجاد دشمنان جدید با مسیر متفاوت (از بالا با تصویر GIF)
+            // دشمنان با تصاویر GIF
             if (Math.random() < 0.02) {
+                const gifType = Math.random() < 0.5 ? 'gif1' : 'gif2';
                 enemies.push({
                     x: Math.random() * canvas.width,
-                    y: -50,
-                    size: 50 + Math.random() * 40,
+                    y: -80,
+                    size: 60 + Math.random() * 40,
                     speed: 3 + Math.random() * 2,
                     health: 25,
                     lastShot: 0,
-                    type: 'gif' // نوع جدید دشمن با مسیر متفاوت
+                    type: gifType
                 });
             }
         }
@@ -870,8 +898,8 @@
         function gameLoop() {
             if (!gameActive) return;
             
-            // ذخیره بازی هر 5 ثانیه
-            if (Date.now() % 5000 < 16) {
+            // ذخیره بازی هر 3 ثانیه
+            if (Date.now() % 3000 < 16) {
                 saveGame();
             }
             
@@ -961,19 +989,13 @@
                 }
             }
             
+            // ایجاد دشمنان جدید
+            spawnEnemy();
+            
             // به روزرسانی و رسم دشمنان
             for (let i = enemies.length - 1; i >= 0; i--) {
                 const enemy = enemies[i];
-                
-                // حرکت دشمنان با مسیرهای مختلف
-                if (enemy.type === 'gif') {
-                    // مسیر جدید: حرکت زیگزاگی از بالا
-                    enemy.y += enemy.speed;
-                    enemy.x += Math.sin(enemy.y * 0.05) * 3;
-                } else {
-                    // مسیر اصلی: حرکت مستقیم از بالا
-                    enemy.y += enemy.speed;
-                }
+                enemy.y += enemy.speed;
                 
                 if (enemy.y > canvas.height + 100) {
                     enemies.splice(i, 1);
@@ -987,7 +1009,7 @@
                     createExplosion(enemy.x, enemy.y, enemy.size);
                     createExplosion(playerX, playerY, 80);
                     enemies.splice(i, 1);
-                    playerHealth -= 30;
+                    playerHealth -= 25;
                     updateHealth();
                     
                     if (playerHealth <= 0) {
@@ -1018,54 +1040,49 @@
                 coin.rotation += coin.rotationSpeed;
                 coin.life--;
                 
-                if (coin.life <= 0) {
+                if (coin.life <= 0 || coin.y > canvas.height + 50) {
+                    coinsParticles.splice(i, 1);
+                    continue;
+                }
+                
+                // بررسی جمع‌آوری سکه
+                if (checkCollision(coin, {x: playerX, y: playerY}, coin.size, 40)) {
+                    coins++;
+                    updateCoins();
                     coinsParticles.splice(i, 1);
                     continue;
                 }
                 
                 drawCoin(coin);
-                
-                // جمع‌آوری سکه
-                if (checkCollision(coin, {x: playerX, y: playerY}, coin.size, 40)) {
-                    coins++;
-                    updateCoins();
-                    coinsParticles.splice(i, 1);
-                    
-                    // پخش صدای جمع‌آوری سکه
-                    playerSound.currentTime = 0;
-                    playerSound.play().catch(e => console.log("اتوپلی صداها نیاز به تعامل کاربر دارد"));
-                }
             }
             
-            // ایجاد دشمن جدید
-            spawnEnemy();
-            
+            // ادامه حلقه بازی
             requestAnimationFrame(gameLoop);
         }
         
-        // کنترل‌های لمسی
+        // مدیریت کنترل لمسی - کشیدن جنگنده
         canvas.addEventListener('touchstart', (e) => {
             e.preventDefault();
-            isDragging = true;
             const touch = e.touches[0];
             dragStartX = touch.clientX;
             dragStartY = touch.clientY;
+            isDragging = true;
         });
         
         canvas.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
             e.preventDefault();
-            if (!isDragging || !gameActive) return;
-            
             const touch = e.touches[0];
+            
             const deltaX = touch.clientX - dragStartX;
             const deltaY = touch.clientY - dragStartY;
             
             playerX += deltaX;
             playerY += deltaY;
             
-            // محدود کردن حرکت به داخل صفحه
-            playerX = Math.max(50, Math.min(canvas.width - 50, playerX));
-            playerY = Math.max(50, Math.min(canvas.height - 50, playerY));
+            // محدود کردن حرکت به صفحه
+            playerX = Math.max(60, Math.min(canvas.width - 60, playerX));
+            playerY = Math.max(60, Math.min(canvas.height - 60, playerY));
             
             dragStartX = touch.clientX;
             dragStartY = touch.clientY;
@@ -1076,7 +1093,7 @@
             isDragging = false;
         });
         
-        // دکمه شروع بازی
+        // شروع بازی
         startBtn.addEventListener('click', () => {
             startScreen.classList.add('hidden');
             gameActive = true;
@@ -1084,7 +1101,7 @@
             gameLoop();
         });
         
-        // دکمه شروع مجدد
+        // شروع مجدد بازی
         restartBtn.addEventListener('click', () => {
             gameOverScreen.classList.add('hidden');
             gameActive = true;
@@ -1092,8 +1109,25 @@
             gameLoop();
         });
         
+        // جلوگیری از اسکرول با لمس
+        document.body.addEventListener('touchmove', (e) => {
+            if (gameActive) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+        
+        // ذخیره بازی هنگام بسته شدن صفحه
+        window.addEventListener('beforeunload', function() {
+            if (gameActive) {
+                saveGame();
+            }
+        });
+        
         // بارگذاری اولیه
-        initGame();
+        window.addEventListener('load', function() {
+            resizeCanvas();
+            console.log('بازی آماده است');
+        });
     </script>
 </body>
 </html>
