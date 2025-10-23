@@ -115,6 +115,33 @@
             font-size: 1.4rem;
             padding: 20px 25px;
         }
+
+        /* دکمه اطلاعیه مدیریت */
+        .management-btn {
+            background: linear-gradient(45deg, #ff4444, #cc0000);
+            border: none;
+            padding: 15px 25px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.5);
+            transition: all 0.3s;
+            width: 100%;
+            text-align: center;
+            animation: redPulse 2s infinite;
+        }
+        
+        .management-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 68, 68, 0.7);
+        }
+        
+        @keyframes redPulse {
+            0%, 100% { box-shadow: 0 4px 15px rgba(255, 68, 68, 0.5); }
+            50% { box-shadow: 0 4px 25px rgba(255, 68, 68, 0.8), 0 0 30px rgba(255, 68, 68, 0.4); }
+        }
         
         .stats-panel {
             background: rgba(0, 0, 0, 0.8);
@@ -166,7 +193,7 @@
         
         .player {
             position: absolute;
-            font-size: 60px; /* کمی کوچکتر */
+            font-size: 60px;
             z-index: 4;
             filter: drop-shadow(0 0 10px #00aaff) drop-shadow(0 0 20px #00aaff);
             transition: transform 0.1s;
@@ -493,29 +520,8 @@
             font-weight: bold;
         }
 
-        /* آیکون اطلاعیه */
-        .notification-btn {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            font-size: 25px;
-            z-index: 1;
-            filter: drop-shadow(0 0 10px gold);
-            animation: bellRing 3s infinite;
-            cursor: pointer;
-            background: none;
-            border: none;
-            color: white;
-        }
-        
-        @keyframes bellRing {
-            0%, 100% { transform: rotate(0deg); }
-            10%, 30%, 50%, 70%, 90% { transform: rotate(-10deg); }
-            20%, 40%, 60%, 80% { transform: rotate(10deg); }
-        }
-
-        /* مودال اطلاعیه */
-        .notification-modal {
+        /* مودال اطلاعیه مدیریت */
+        .management-modal {
             position: fixed;
             top: 0;
             left: 0;
@@ -528,43 +534,44 @@
             align-items: center;
             z-index: 30;
             color: white;
+            padding: 20px;
         }
         
-        .notification-content {
+        .management-content {
             background: rgba(0, 0, 0, 0.8);
             padding: 30px;
             border-radius: 20px;
             max-width: 500px;
-            text-align: center;
+            max-height: 80vh;
+            overflow-y: auto;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
         }
         
-        .notification-content h2 {
+        .management-content h2 {
             font-size: 2rem;
             margin-bottom: 20px;
-            color: #00ff88;
+            color: #ff4444;
         }
         
-        .notification-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 25px;
+        .management-message {
+            background: rgba(255, 68, 68, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 68, 68, 0.3);
+            margin: 20px 0;
+            text-align: right;
         }
         
-        .notification-btn-confirm {
-            background: linear-gradient(45deg, #00ff88, #00ccff);
-            border: none;
-            padding: 12px 25px;
+        .management-message p {
             font-size: 1.1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            color: white;
-            font-weight: bold;
+            line-height: 1.8;
+            color: #ffaaaa;
         }
         
-        .notification-btn-cancel {
+        .management-close {
+            margin-top: 20px;
             background: linear-gradient(45deg, #ff4444, #cc0000);
             border: none;
             padding: 12px 25px;
@@ -633,6 +640,11 @@
                 padding: 18px 20px;
             }
             
+            .management-btn {
+                padding: 14px 20px;
+                font-size: 1rem;
+            }
+            
             .stat-item {
                 padding: 10px 12px;
             }
@@ -673,6 +685,10 @@
             .instructions-content {
                 padding: 20px;
             }
+            
+            .management-content {
+                padding: 20px;
+            }
         }
         
         @media (max-width: 360px) {
@@ -691,9 +707,6 @@
     </style>
 </head>
 <body>
-    <!-- آیکون اطلاعیه -->
-    <button class="notification-btn" onclick="showNotification()">🔔</button>
-
     <!-- آتشفشان‌های گوشه‌ها -->
     <div class="corner-volcano top-left">🌋</div>
     <div class="corner-volcano top-right">🌋</div>
@@ -710,6 +723,8 @@
             <button class="main-btn start" onclick="startGame()">🎮 شروع بازی</button>
             <button class="main-btn" onclick="showAchievements()">🏆 مدال‌ها</button>
             <button class="main-btn" onclick="showInstructions()">📖 راهنما</button>
+            <!-- دکمه اطلاعیه مدیریت -->
+            <button class="management-btn" onclick="showManagement()">🔔 اطلاعیه مدیریت</button>
         </div>
         
         <div class="stats-panel">
@@ -825,7 +840,7 @@
 
             <p>✨ <strong>ویژگی‌های ویژه:</strong><br>
             • گرافیک سه بعدی و افکت‌های حرفه‌ای<br>
-            • صدای سکه با کیفیت بالا<br>
+            • موسیقی پس‌زمینه با کیفیت بالا<br>
             • طراحی واکنش‌گرا برای تمام دستگاه‌ها<br>
             • سیستم ذخیره‌سازی خودکار</p>
 
@@ -833,23 +848,42 @@
         </div>
     </div>
 
-    <!-- مودال اطلاعیه -->
-    <div id="notificationModal" class="notification-modal hidden">
-        <div class="notification-content">
-            <h2>🚨 متاسفانه شما به شهاب برخورد کردید!</h2>
-            <p style="font-size: 1.2rem; margin: 20px 0; color: #ffaaaa;">سوخت شما تمام شد. آیا می‌خواهید از همین مرحله ادامه دهید؟</p>
-            <div class="notification-buttons">
-                <button class="notification-btn-confirm" onclick="continueGame()">✅ بله، ادامه می‌دهم</button>
-                <button class="notification-btn-cancel" onclick="backToMain()">❌ خیر، بازگشت به صفحه اصلی</button>
+    <!-- مودال اطلاعیه مدیریت -->
+    <div id="managementModal" class="management-modal hidden">
+        <div class="management-content">
+            <h2>🔔 اطلاعیه مدیریت</h2>
+            
+            <div class="management-message">
+                <p>🎮 <strong>به بازی کهکشانی خوش آمدید!</strong></p>
+                <p>✨ بازی کاملاً بهینه شده و آماده ارائه تجربه‌ای فوق‌العاده است.</p>
+                <p>🚀 <strong>ویژگی‌های جدید:</strong></p>
+                <p>• سیستم صوتی پیشرفته با موسیقی پس‌زمینه<br>
+                   • گرافیک سه بعدی و افکت‌های حرفه‌ای<br>
+                   • کنترل کاملاً روان و پاسخگو<br>
+                   • سیستم ذخیره‌سازی خودکار</p>
+                <p>⭐ از بازی لذت ببرید و به کهکشان‌های دور سفر کنید!</p>
             </div>
+
+            <button class="management-close" onclick="closeManagement()">بستن اطلاعیه</button>
         </div>
     </div>
 
     <script>
-        // سیستم صوتی
-        function playCoinSound() {
-            const audio = new Audio('m.mp3');
-            audio.play().catch(e => console.log('صدا پخش نشد'));
+        // سیستم صوتی - موسیقی پس‌زمینه
+        let backgroundMusic = null;
+        
+        function playBackgroundMusic() {
+            backgroundMusic = new Audio('m.mp3');
+            backgroundMusic.loop = true;
+            backgroundMusic.volume = 0.3;
+            backgroundMusic.play().catch(e => console.log('موسیقی پس‌زمینه پخش نشد'));
+        }
+        
+        function stopBackgroundMusic() {
+            if (backgroundMusic) {
+                backgroundMusic.pause();
+                backgroundMusic.currentTime = 0;
+            }
         }
 
         // ذخیره‌سازی داده‌ها در localStorage
@@ -930,20 +964,12 @@
             document.getElementById('instructionsModal').classList.add('hidden');
         }
 
-        function showNotification() {
-            document.getElementById('notificationModal').classList.remove('hidden');
+        function showManagement() {
+            document.getElementById('managementModal').classList.remove('hidden');
         }
 
-        function continueGame() {
-            document.getElementById('notificationModal').classList.add('hidden');
-            // ادامه بازی از مرحله فعلی
-            restartCurrentLevel();
-        }
-
-        function backToMain() {
-            document.getElementById('notificationModal').classList.add('hidden');
-            // بازگشت به صفحه اصلی
-            gameOver(true);
+        function closeManagement() {
+            document.getElementById('managementModal').classList.add('hidden');
         }
         
         function checkAchievements() {
@@ -997,7 +1023,7 @@
         }
 
         // متغیرهای بازی
-        let player = { x: 0, y: 0, size: 60, rotation: 0, fuel: 100 }; // سایز کمی کوچکتر
+        let player = { x: 0, y: 0, size: 60, rotation: 0, fuel: 100 };
         let playerElement = null;
         let coins = [];
         let enemies = [];
@@ -1026,6 +1052,9 @@
                 bombButton.classList.remove('hidden');
                 bombTimer.classList.remove('hidden');
                 setupGame();
+                
+                // شروع پخش موسیقی پس‌زمینه
+                playBackgroundMusic();
                 
                 playerIndicator.classList.remove('hidden');
                 setTimeout(() => {
@@ -1125,7 +1154,7 @@
             
             const numberElement = document.createElement('div');
             numberElement.className = 'coin-number';
-            numberElement.textContent = currentLevel; // عدد برابر با مرحله فعلی
+            numberElement.textContent = currentLevel;
             numberElement.style.position = 'absolute';
             
             const x = Math.random() * (window.innerWidth - 80) + 40;
@@ -1145,16 +1174,15 @@
                 x: x,
                 y: y,
                 collected: false,
-                hitsNeeded: currentLevel, // تعداد برخورد لازم = مرحله فعلی
+                hitsNeeded: currentLevel,
                 currentHits: 0
             });
         }
 
         function spawnEnemyGroup() {
-            // سیستم پویا برای دشمنان - حداکثر ۷ دشمن
             if (enemies.length >= 7) return;
             
-            const groupSize = Math.min(4, 7 - enemies.length); // حداکثر ۴ دشمن جدید
+            const groupSize = Math.min(4, 7 - enemies.length);
             const directions = ['top', 'right', 'bottom', 'left'];
             
             for (let i = 0; i < groupSize; i++) {
@@ -1290,18 +1318,20 @@
 
         function showFuelCollisionMessage() {
             gameRunning = false;
-            document.getElementById('notificationModal').classList.remove('hidden');
+            // نمایش پیام برخورد
+            showFuelMessage("🚨 متاسفانه شما به شهاب برخورد کردید!");
+            setTimeout(() => {
+                restartCurrentLevel();
+            }, 2000);
         }
 
         function restartCurrentLevel() {
-            // ذخیره وضعیت فعلی برای ادامه
             currentStageData = {
                 level: currentLevel,
                 score: score,
                 coinsCollected: coinsCollected
             };
             
-            // بازنشانی بازی از مرحله فعلی
             player.fuel = 100;
             coinsCollected = 0;
             bombCooldown = 0;
@@ -1314,7 +1344,6 @@
             bombButton.disabled = false;
             safeTimeIndicator.classList.add('hidden');
             
-            // پاکسازی عناصر
             document.querySelectorAll('.coin, .coin-number, .coin-trail, .enemy').forEach(el => el.remove());
             coins = [];
             enemies = [];
@@ -1474,7 +1503,6 @@
         }
 
         function checkCollisions() {
-            // فقط سکه‌ای که با آن برخورد شده را بررسی کن
             coins.forEach(coin => {
                 if (!coin.collected) {
                     const distance = Math.sqrt(
@@ -1483,15 +1511,12 @@
                     );
                     
                     if (distance < player.size + 30) {
-                        // فقط یک عدد از این سکه کم کن
                         if (coin.currentHits < coin.hitsNeeded) {
                             coin.currentHits++;
                             coin.numberElement.textContent = coin.hitsNeeded - coin.currentHits;
                             
-                            playCoinSound();
                             createHitEffect(coin.x, coin.y);
                             
-                            // اگر سکه کامل جمع شد
                             if (coin.currentHits >= coin.hitsNeeded) {
                                 coin.collected = true;
                                 coinsCollected++;
@@ -1620,7 +1645,6 @@
             
             saveGameData();
             
-            // افکت سه بعدی حرفه‌ای برای سکه‌ها
             createLevelCompleteEffects();
             
             setTimeout(() => {
@@ -1630,7 +1654,6 @@
         }
 
         function createLevelCompleteEffects() {
-            // افکت سه بعدی برای سکه‌های باقی‌مانده
             coins.forEach((coin, index) => {
                 if (!coin.collected) {
                     setTimeout(() => {
@@ -1648,7 +1671,6 @@
                 }
             });
             
-            // افکت برای سکه‌های قطار
             coinTrail.forEach((trail, index) => {
                 setTimeout(() => {
                     const effect = document.createElement('div');
@@ -1665,12 +1687,15 @@
             });
         }
 
-        function gameOver(backToMainMenu = false) {
+        function gameOver() {
             gameRunning = false;
+            stopBackgroundMusic();
             
             saveGameData();
             
-            if (backToMainMenu) {
+            setTimeout(() => {
+                alert(`بازی تمام شد! امتیاز شما: ${score}\nشما به مرحله ${currentLevel} رسیدید.`);
+                
                 mainScreen.classList.remove('hidden');
                 gameScreen.classList.add('hidden');
                 fuelIndicator.classList.add('hidden');
@@ -1686,7 +1711,7 @@
                 }
                 
                 updateMainScreenStats();
-            }
+            }, 500);
         }
 
         nextLevelButton.addEventListener('click', () => {
@@ -1757,7 +1782,7 @@
                     useBomb();
                     break;
                 case 'Escape':
-                    gameOver(true);
+                    gameOver();
                     break;
             }
             updatePlayerPosition();
