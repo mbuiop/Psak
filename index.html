@@ -186,16 +186,44 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('m.jpg') no-repeat center center;
-            background-size: cover;
+            background: #000;
             z-index: 3;
+            overflow: hidden;
+        }
+        
+        /* پس‌زمینه متحرک */
+        .space-bg {
+            position: absolute;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle at 30% 30%, #0f1a30, #000000);
+            z-index: 1;
+            transition: transform 0.1s ease-out;
+            top: -100%;
+            left: -100%;
+        }
+        
+        /* اجرام آسمانی */
+        .celestial {
+            position: absolute;
+            z-index: 2;
+            pointer-events: none;
+            animation: celestialFloat 20s infinite linear;
+            font-size: 15px; /* کوچک شده */
+            filter: brightness(0.8);
+        }
+        
+        @keyframes celestialFloat {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-5px) rotate(180deg); }
+            100% { transform: translateY(0) rotate(360deg); }
         }
         
         .player {
             position: absolute;
-            font-size: 60px;
+            font-size: 90px; /* بزرگتر شده */
             z-index: 4;
-            filter: drop-shadow(0 0 10px #00aaff) drop-shadow(0 0 20px #00aaff);
+            filter: drop-shadow(0 0 15px #00aaff) drop-shadow(0 0 25px #00aaff);
             transition: transform 0.1s;
         }
         
@@ -694,7 +722,7 @@
             }
             
             .player {
-                font-size: 50px;
+                font-size: 80px; /* بزرگتر شده برای موبایل */
             }
             
             .enemy {
@@ -794,7 +822,10 @@
     </div>
     
     <!-- صفحه بازی -->
-    <div id="gameScreen" class="hidden"></div>
+    <div id="gameScreen" class="hidden">
+        <!-- پس‌زمینه متحرک -->
+        <div class="space-bg" id="spaceBackground"></div>
+    </div>
     
     <!-- نشانگر سوخت -->
     <div class="fuel-indicator hidden">⛽ سوخت: 100%</div>
@@ -1070,6 +1101,7 @@
         const touchControls = document.querySelector('.touch-controls');
         const joystick = document.querySelector('.joystick');
         const joystickHandle = document.querySelector('.joystick-handle');
+        const spaceBackground = document.getElementById('spaceBackground');
 
         // تنظیم اندازه بازی
         function setupGame() {
@@ -1078,7 +1110,7 @@
         }
 
         // متغیرهای بازی
-        let player = { x: 0, y: 0, size: 60, rotation: 0, fuel: 100 };
+        let player = { x: 0, y: 0, size: 90, rotation: 0, fuel: 100 }; // سایز بزرگتر شده
         let playerElement = null;
         let coins = [];
         let enemies = [];
@@ -1106,6 +1138,15 @@
         let joystickBaseY = 0;
         let joystickRadius = 40;
         
+        // متغیرهای پس‌زمینه متحرک
+        let bgOffsetX = 0;
+        let bgOffsetY = 0;
+        let bgSpeed = 0.5;
+        
+        // اجرام آسمانی
+        let celestialBodies = [];
+        const celestialEmojis = ['🪐', '🌗', '🌛', '⭐️'];
+        
         // شروع بازی
         function startGame() {
             showLoadingScreen(() => {
@@ -1132,6 +1173,7 @@
                 }, 3000);
                 
                 createPlayer();
+                createCelestialBodies();
                 
                 score = 0;
                 coinsCollected = 0;
@@ -1155,6 +1197,50 @@
                 gameRunning = true;
                 gameLoop();
             });
+        }
+
+        // ایجاد اجرام آسمانی
+        function createCelestialBodies() {
+            // پاک کردن اجرام قبلی
+            celestialBodies.forEach(body => {
+                if (body.element && body.element.parentNode) {
+                    body.element.parentNode.removeChild(body.element);
+                }
+            });
+            
+            celestialBodies = [];
+            
+            // ایجاد اجرام جدید
+            const numBodies = 30; // تعداد اجرام
+            
+            for (let i = 0; i < numBodies; i++) {
+                const body = document.createElement('div');
+                body.className = 'celestial';
+                body.innerHTML = celestialEmojis[Math.floor(Math.random() * celestialEmojis.length)];
+                
+                // موقعیت تصادفی در پس‌زمینه
+                const x = Math.random() * 300 - 100; // از -100% تا 200%
+                const y = Math.random() * 300 - 100;
+                
+                body.style.left = x + '%';
+                body.style.top = y + '%';
+                
+                // اندازه تصادفی کوچک
+                const size = 10 + Math.random() * 10;
+                body.style.fontSize = size + 'px';
+                
+                // سرعت و جهت شناور تصادفی
+                const duration = 20 + Math.random() * 30;
+                body.style.animationDuration = duration + 's';
+                
+                gameScreen.appendChild(body);
+                
+                celestialBodies.push({
+                    element: body,
+                    x: x,
+                    y: y
+                });
+            }
         }
 
         // تنظیم کنترل لمسی
@@ -1208,12 +1294,25 @@
                 player.y = Math.max(player.size/2, Math.min(window.innerHeight - player.size/2, player.y));
                 
                 updatePlayerPosition();
+                updateBackgroundPosition();
             }
         }
         
         function handleTouchEnd(e) {
             isTouching = false;
             joystickHandle.style.transform = 'translate(0, 0)';
+        }
+
+        // به‌روزرسانی موقعیت پس‌زمینه
+        function updateBackgroundPosition() {
+            // محاسبه افست بر اساس موقعیت بازیکن
+            bgOffsetX = (player.x / window.innerWidth - 0.5) * bgSpeed * 100;
+            bgOffsetY = (player.y / window.innerHeight - 0.5) * bgSpeed * 100;
+            
+            // اعمال افست به پس‌زمینه
+            if (spaceBackground) {
+                spaceBackground.style.transform = `translate(${-bgOffsetX}%, ${-bgOffsetY}%)`;
+            }
         }
 
         function showLoadingScreen(callback) {
@@ -1864,6 +1963,7 @@
                 player.x = window.innerWidth / 2;
                 player.y = window.innerHeight / 2;
                 updatePlayerPosition();
+                updateBackgroundPosition();
                 
                 // ایجاد المان‌های جدید
                 updateFuel();
@@ -1893,7 +1993,7 @@
                 touchControls.classList.add('hidden');
                 levelComplete.classList.remove('show');
                 
-                document.querySelectorAll('.coin, .enemy, .coin-trail, .coin-number').forEach(el => el.remove());
+                document.querySelectorAll('.coin, .enemy, .coin-trail, .coin-number, .celestial').forEach(el => el.remove());
                 if (playerElement) {
                     playerElement.remove();
                     playerElement = null;
@@ -1903,6 +2003,7 @@
                 enemies = [];
                 coinTrail = [];
                 playerPath = [];
+                celestialBodies = [];
                 
                 updateMainScreenStats();
             }, 2000);
@@ -1937,6 +2038,7 @@
                 player.x = e.clientX;
                 player.y = e.clientY;
                 updatePlayerPosition();
+                updateBackgroundPosition();
             }
         });
 
@@ -1947,6 +2049,7 @@
                 player.x = touch.clientX;
                 player.y = touch.clientY;
                 updatePlayerPosition();
+                updateBackgroundPosition();
             }
         }, { passive: false });
 
