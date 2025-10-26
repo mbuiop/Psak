@@ -23,6 +23,65 @@
             position: fixed;
         }
         
+        /* استایل جدید برای پس‌زمینه متحرک */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #000428, #004e92);
+        }
+
+        .floating-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 4px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 3px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 4px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
+            background-position: 0 0, 40px 60px, 130px 270px;
+            animation: floatBackground 20s linear infinite;
+        }
+
+        @keyframes floatBackground {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-50%, -50%); }
+        }
+
+        .space-icons {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            font-size: 16px;
+            animation: floatIcons 30s linear infinite;
+        }
+
+        @keyframes floatIcons {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-50%, -50%); }
+        }
+
+        .space-icon {
+            position: absolute;
+            opacity: 0.7;
+            text-shadow: 0 0 8px currentColor;
+            animation: twinkle 2s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.9; }
+        }
+        
         /* آتشفشان‌های گوشه‌ها */
         .corner-volcano {
             position: fixed;
@@ -48,8 +107,6 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('m.jpg') no-repeat center center;
-            background-size: cover;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -186,44 +243,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #000;
             z-index: 3;
-            overflow: hidden;
-        }
-        
-        /* پس‌زمینه متحرک */
-        .space-bg {
-            position: absolute;
-            width: 300%;
-            height: 300%;
-            background: radial-gradient(circle at 30% 30%, #0f1a30, #000000);
-            z-index: 1;
-            transition: transform 0.1s ease-out;
-            top: -100%;
-            left: -100%;
-        }
-        
-        /* اجرام آسمانی */
-        .celestial {
-            position: absolute;
-            z-index: 2;
-            pointer-events: none;
-            animation: celestialFloat 20s infinite linear;
-            font-size: 15px; /* کوچک شده */
-            filter: brightness(0.8);
-        }
-        
-        @keyframes celestialFloat {
-            0% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-5px) rotate(180deg); }
-            100% { transform: translateY(0) rotate(360deg); }
         }
         
         .player {
             position: absolute;
-            font-size: 90px; /* بزرگتر شده */
+            font-size: 80px; /* بزرگتر شده */
             z-index: 4;
-            filter: drop-shadow(0 0 15px #00aaff) drop-shadow(0 0 25px #00aaff);
+            filter: drop-shadow(0 0 10px #00aaff) drop-shadow(0 0 20px #00aaff);
             transition: transform 0.1s;
         }
         
@@ -722,7 +749,7 @@
             }
             
             .player {
-                font-size: 80px; /* بزرگتر شده برای موبایل */
+                font-size: 70px; /* بزرگتر شده برای موبایل */
             }
             
             .enemy {
@@ -779,6 +806,12 @@
     </style>
 </head>
 <body>
+    <!-- پس‌زمینه متحرک جدید -->
+    <div class="background-container">
+        <div class="floating-bg"></div>
+        <div class="space-icons" id="spaceIcons"></div>
+    </div>
+    
     <!-- آتشفشان‌های گوشه‌ها -->
     <div class="corner-volcano top-left">🌋</div>
     <div class="corner-volcano top-right">🌋</div>
@@ -822,10 +855,7 @@
     </div>
     
     <!-- صفحه بازی -->
-    <div id="gameScreen" class="hidden">
-        <!-- پس‌زمینه متحرک -->
-        <div class="space-bg" id="spaceBackground"></div>
-    </div>
+    <div id="gameScreen" class="hidden"></div>
     
     <!-- نشانگر سوخت -->
     <div class="fuel-indicator hidden">⛽ سوخت: 100%</div>
@@ -952,14 +982,112 @@
     </div>
 
     <script>
+        // ایجاد آیکون‌های فضایی
+        function createSpaceIcons() {
+            const spaceIcons = document.getElementById('spaceIcons');
+            const icons = ['🌗', '🌘', '🪐', '🌞', '🪐', '⭐️', '🌚', '🌛', '🌜', '🌓', '🌓', '🌕', '🌖'];
+            
+            // ایجاد 150 آیکون در سراسر صفحه
+            for (let i = 0; i < 150; i++) {
+                const icon = document.createElement('div');
+                icon.className = 'space-icon';
+                icon.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+                
+                // موقعیت تصادفی
+                const left = Math.random() * 200;
+                const top = Math.random() * 200;
+                
+                icon.style.left = `${left}%`;
+                icon.style.top = `${top}%`;
+                
+                // اندازه تصادفی
+                const size = 12 + Math.random() * 16;
+                icon.style.fontSize = `${size}px`;
+                
+                // سرعت انیمیشن متفاوت
+                const duration = 1 + Math.random() * 2;
+                icon.style.animationDuration = `${duration}s`;
+                
+                // تاخیر تصادفی برای انیمیشن
+                const delay = Math.random() * 3;
+                icon.style.animationDelay = `${delay}s`;
+                
+                spaceIcons.appendChild(icon);
+            }
+        }
+
+        // صدای جمع‌آوری سکه
+        function createCoinSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                return function playCoinSound() {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.type = 'triangle';
+                    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.1);
+                    
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+                    
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.2);
+                };
+            } catch (error) {
+                console.log('Web Audio API پشتیبانی نمی‌شود');
+                return function() {};
+            }
+        }
+
+        // صدای تخریب کامل (بمب)
+        function createBombSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                return function playBombSound() {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.type = 'sawtooth';
+                    oscillator.frequency.setValueAtTime(150, audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(50, audioContext.currentTime + 0.5);
+                    
+                    gainNode.gain.setValueAtTime(0.4, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.6);
+                    
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.6);
+                };
+            } catch (error) {
+                console.log('Web Audio API پشتیبانی نمی‌شود');
+                return function() {};
+            }
+        }
+
         // سیستم صوتی - موسیقی پس‌زمینه
         let backgroundMusic = null;
+        let playCoinSound = null;
+        let playBombSound = null;
         
         function playBackgroundMusic() {
-            backgroundMusic = new Audio('m.mp3');
-            backgroundMusic.loop = true;
-            backgroundMusic.volume = 0.3;
-            backgroundMusic.play().catch(e => console.log('موسیقی پس‌زمینه پخش نشد'));
+            try {
+                backgroundMusic = new Audio('m.mp3');
+                backgroundMusic.loop = true;
+                backgroundMusic.volume = 0.3;
+                backgroundMusic.play().catch(e => {
+                    console.log('موسیقی پس‌زمینه پخش نشد:', e);
+                });
+            } catch (error) {
+                console.log('خطا در پخش موسیقی:', error);
+            }
         }
         
         function stopBackgroundMusic() {
@@ -971,37 +1099,46 @@
 
         // ذخیره‌سازی داده‌ها در localStorage
         function saveGameData() {
-            const gameData = {
-                highScore: Math.max(score, parseInt(localStorage.getItem('highScore')) || 0),
-                highLevel: Math.max(currentLevel, parseInt(localStorage.getItem('highLevel')) || 1),
-                totalCoins: (parseInt(localStorage.getItem('totalCoins')) || 0) + coinsCollected,
-                achievements: JSON.parse(localStorage.getItem('achievements')) || {}
-            };
-            
-            checkAchievements();
-            
-            localStorage.setItem('highScore', gameData.highScore);
-            localStorage.setItem('highLevel', gameData.highLevel);
-            localStorage.setItem('totalCoins', gameData.totalCoins);
-            localStorage.setItem('achievements', JSON.stringify(gameData.achievements));
-            
-            updateMainScreenStats();
+            try {
+                const gameData = {
+                    highScore: Math.max(score, parseInt(localStorage.getItem('highScore')) || 0),
+                    highLevel: Math.max(currentLevel, parseInt(localStorage.getItem('highLevel')) || 1),
+                    totalCoins: (parseInt(localStorage.getItem('totalCoins')) || 0) + coinsCollected,
+                    achievements: JSON.parse(localStorage.getItem('achievements')) || {}
+                };
+                
+                checkAchievements();
+                
+                localStorage.setItem('highScore', gameData.highScore);
+                localStorage.setItem('highLevel', gameData.highLevel);
+                localStorage.setItem('totalCoins', gameData.totalCoins);
+                localStorage.setItem('achievements', JSON.stringify(gameData.achievements));
+                
+                updateMainScreenStats();
+            } catch (error) {
+                console.log('خطا در ذخیره‌سازی داده‌ها:', error);
+            }
         }
         
         function loadGameData() {
-            const highScore = localStorage.getItem('highScore') || 0;
-            const highLevel = localStorage.getItem('highLevel') || 1;
-            const totalCoins = localStorage.getItem('totalCoins') || 0;
-            const achievements = JSON.parse(localStorage.getItem('achievements')) || {};
-            
-            document.getElementById('highScore').textContent = highScore;
-            document.getElementById('highLevel').textContent = highLevel;
-            document.getElementById('totalCoinsCollected').textContent = totalCoins;
-            
-            const achievedCount = Object.values(achievements).filter(a => a.achieved).length;
-            document.getElementById('achievementsCount').textContent = `${achievedCount}/100`;
-            
-            return achievements;
+            try {
+                const highScore = localStorage.getItem('highScore') || 0;
+                const highLevel = localStorage.getItem('highLevel') || 1;
+                const totalCoins = localStorage.getItem('totalCoins') || 0;
+                const achievements = JSON.parse(localStorage.getItem('achievements')) || {};
+                
+                document.getElementById('highScore').textContent = highScore;
+                document.getElementById('highLevel').textContent = highLevel;
+                document.getElementById('totalCoinsCollected').textContent = totalCoins;
+                
+                const achievedCount = Object.values(achievements).filter(a => a.achieved).length;
+                document.getElementById('achievementsCount').textContent = `${achievedCount}/100`;
+                
+                return achievements;
+            } catch (error) {
+                console.log('خطا در بارگذاری داده‌ها:', error);
+                return {};
+            }
         }
         
         function updateMainScreenStats() {
@@ -1009,30 +1146,35 @@
         }
         
         function showAchievements() {
-            const achievementsModal = document.getElementById('achievementsModal');
-            const achievementGrid = document.getElementById('achievementGrid');
-            const achievements = loadGameData();
-            
-            achievementGrid.innerHTML = '';
-            
-            for (let i = 1; i <= 100; i++) {
-                const achievementItem = document.createElement('div');
-                achievementItem.className = `achievement-item ${achievements[i] ? '' : 'locked'}`;
+            try {
+                const achievementsModal = document.getElementById('achievementsModal');
+                const achievementGrid = document.getElementById('achievementGrid');
+                const achievements = loadGameData();
                 
-                const achievementIcon = document.createElement('div');
-                achievementIcon.className = 'achievement-icon';
-                achievementIcon.innerHTML = achievements[i] ? '🌏' : '🔒';
+                achievementGrid.innerHTML = '';
                 
-                const achievementText = document.createElement('div');
-                const coinsRequired = 100000 + (i-1) * 1000000;
-                achievementText.textContent = achievements[i] ? `مدال ${i}` : `${coinsRequired.toLocaleString()} سکه`;
+                for (let i = 1; i <= 100; i++) {
+                    const achievementItem = document.createElement('div');
+                    achievementItem.className = `achievement-item ${achievements[i] ? '' : 'locked'}`;
+                    
+                    const achievementIcon = document.createElement('div');
+                    achievementIcon.className = 'achievement-icon';
+                    achievementIcon.innerHTML = achievements[i] ? '🌏' : '🔒';
+                    
+                    const achievementText = document.createElement('div');
+                    const coinsRequired = 100000 + (i-1) * 1000000;
+                    achievementText.textContent = achievements[i] ? `مدال ${i}` : `${coinsRequired.toLocaleString()} سکه`;
+                    
+                    achievementItem.appendChild(achievementIcon);
+                    achievementItem.appendChild(achievementText);
+                    achievementGrid.appendChild(achievementItem);
+                }
                 
-                achievementItem.appendChild(achievementIcon);
-                achievementItem.appendChild(achievementText);
-                achievementGrid.appendChild(achievementItem);
+                achievementsModal.classList.remove('hidden');
+            } catch (error) {
+                console.log('خطا در نمایش مدال‌ها:', error);
+                alert('خطا در نمایش مدال‌ها');
             }
-            
-            achievementsModal.classList.remove('hidden');
         }
         
         function closeAchievements() {
@@ -1056,20 +1198,24 @@
         }
         
         function checkAchievements() {
-            const achievements = JSON.parse(localStorage.getItem('achievements')) || {};
-            
-            if (currentLevel > 0 && !achievements[currentLevel]) {
-                achievements[currentLevel] = { achieved: true, date: new Date().toLocaleDateString('fa-IR') };
-            }
-            
-            const scoreMilestones = [100, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000];
-            scoreMilestones.forEach(milestone => {
-                if (score >= milestone && !achievements[`score_${milestone}`]) {
-                    achievements[`score_${milestone}`] = { achieved: true, date: new Date().toLocaleDateString('fa-IR') };
+            try {
+                const achievements = JSON.parse(localStorage.getItem('achievements')) || {};
+                
+                if (currentLevel > 0 && !achievements[currentLevel]) {
+                    achievements[currentLevel] = { achieved: true, date: new Date().toLocaleDateString('fa-IR') };
                 }
-            });
-            
-            localStorage.setItem('achievements', JSON.stringify(achievements));
+                
+                const scoreMilestones = [100, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000];
+                scoreMilestones.forEach(milestone => {
+                    if (score >= milestone && !achievements[`score_${milestone}`]) {
+                        achievements[`score_${milestone}`] = { achieved: true, date: new Date().toLocaleDateString('fa-IR') };
+                    }
+                });
+                
+                localStorage.setItem('achievements', JSON.stringify(achievements));
+            } catch (error) {
+                console.log('خطا در بررسی مدال‌ها:', error);
+            }
         }
         
         function showFuelMessage(message) {
@@ -1101,7 +1247,6 @@
         const touchControls = document.querySelector('.touch-controls');
         const joystick = document.querySelector('.joystick');
         const joystickHandle = document.querySelector('.joystick-handle');
-        const spaceBackground = document.getElementById('spaceBackground');
 
         // تنظیم اندازه بازی
         function setupGame() {
@@ -1110,7 +1255,7 @@
         }
 
         // متغیرهای بازی
-        let player = { x: 0, y: 0, size: 90, rotation: 0, fuel: 100 }; // سایز بزرگتر شده
+        let player = { x: 0, y: 0, size: 80, rotation: 0, fuel: 100 }; // سایز بزرگتر شده
         let playerElement = null;
         let coins = [];
         let enemies = [];
@@ -1119,7 +1264,7 @@
         let score = 0;
         let coinsCollected = 0;
         let currentLevel = 1;
-        let totalCoinsNeeded = 20; /* حداکثر 20 سکه */
+        let totalCoinsNeeded = 20;
         let gameRunning = false;
         let bombCooldown = 0;
         let bombAvailable = false;
@@ -1137,15 +1282,6 @@
         let joystickBaseX = 0;
         let joystickBaseY = 0;
         let joystickRadius = 40;
-        
-        // متغیرهای پس‌زمینه متحرک
-        let bgOffsetX = 0;
-        let bgOffsetY = 0;
-        let bgSpeed = 0.5;
-        
-        // اجرام آسمانی
-        let celestialBodies = [];
-        const celestialEmojis = ['🪐', '🌗', '🌛', '⭐️'];
         
         // شروع بازی
         function startGame() {
@@ -1173,12 +1309,11 @@
                 }, 3000);
                 
                 createPlayer();
-                createCelestialBodies();
                 
                 score = 0;
                 coinsCollected = 0;
                 currentLevel = parseInt(localStorage.getItem('highLevel')) || 1;
-                totalCoinsNeeded = Math.min(20, 5 + currentLevel); /* حداکثر 20 سکه */
+                totalCoinsNeeded = Math.min(20, 5 + currentLevel);
                 bombCooldown = 0;
                 bombAvailable = true;
                 safeTime = 0;
@@ -1199,59 +1334,19 @@
             });
         }
 
-        // ایجاد اجرام آسمانی
-        function createCelestialBodies() {
-            // پاک کردن اجرام قبلی
-            celestialBodies.forEach(body => {
-                if (body.element && body.element.parentNode) {
-                    body.element.parentNode.removeChild(body.element);
-                }
-            });
-            
-            celestialBodies = [];
-            
-            // ایجاد اجرام جدید
-            const numBodies = 30; // تعداد اجرام
-            
-            for (let i = 0; i < numBodies; i++) {
-                const body = document.createElement('div');
-                body.className = 'celestial';
-                body.innerHTML = celestialEmojis[Math.floor(Math.random() * celestialEmojis.length)];
-                
-                // موقعیت تصادفی در پس‌زمینه
-                const x = Math.random() * 300 - 100; // از -100% تا 200%
-                const y = Math.random() * 300 - 100;
-                
-                body.style.left = x + '%';
-                body.style.top = y + '%';
-                
-                // اندازه تصادفی کوچک
-                const size = 10 + Math.random() * 10;
-                body.style.fontSize = size + 'px';
-                
-                // سرعت و جهت شناور تصادفی
-                const duration = 20 + Math.random() * 30;
-                body.style.animationDuration = duration + 's';
-                
-                gameScreen.appendChild(body);
-                
-                celestialBodies.push({
-                    element: body,
-                    x: x,
-                    y: y
-                });
-            }
-        }
-
         // تنظیم کنترل لمسی
         function setupTouchControls() {
-            const joystickRect = joystick.getBoundingClientRect();
-            joystickBaseX = joystickRect.left + joystickRect.width / 2;
-            joystickBaseY = joystickRect.top + joystickRect.height / 2;
-            
-            joystick.addEventListener('touchstart', handleTouchStart);
-            document.addEventListener('touchmove', handleTouchMove);
-            document.addEventListener('touchend', handleTouchEnd);
+            try {
+                const joystickRect = joystick.getBoundingClientRect();
+                joystickBaseX = joystickRect.left + joystickRect.width / 2;
+                joystickBaseY = joystickRect.top + joystickRect.height / 2;
+                
+                joystick.addEventListener('touchstart', handleTouchStart);
+                document.addEventListener('touchmove', handleTouchMove);
+                document.addEventListener('touchend', handleTouchEnd);
+            } catch (error) {
+                console.log('خطا در تنظیم کنترل لمسی:', error);
+            }
         }
         
         function handleTouchStart(e) {
@@ -1283,9 +1378,9 @@
             
             joystickHandle.style.transform = `translate(${newX}px, ${newY}px)`;
             
-            // حرکت بازیکن بر اساس جهت جویستیک - سرعت افزایش یافته
-            if (distance > 10) { // حداقل فاصله برای حرکت
-                const speed = 12; // سرعت افزایش یافته از 8 به 12
+            // حرکت بازیکن بر اساس جهت جویستیک
+            if (distance > 10) {
+                const speed = 12;
                 player.x += Math.cos(angle) * speed;
                 player.y += Math.sin(angle) * speed;
                 
@@ -1294,25 +1389,12 @@
                 player.y = Math.max(player.size/2, Math.min(window.innerHeight - player.size/2, player.y));
                 
                 updatePlayerPosition();
-                updateBackgroundPosition();
             }
         }
         
         function handleTouchEnd(e) {
             isTouching = false;
             joystickHandle.style.transform = 'translate(0, 0)';
-        }
-
-        // به‌روزرسانی موقعیت پس‌زمینه
-        function updateBackgroundPosition() {
-            // محاسبه افست بر اساس موقعیت بازیکن
-            bgOffsetX = (player.x / window.innerWidth - 0.5) * bgSpeed * 100;
-            bgOffsetY = (player.y / window.innerHeight - 0.5) * bgSpeed * 100;
-            
-            // اعمال افست به پس‌زمینه
-            if (spaceBackground) {
-                spaceBackground.style.transform = `translate(${-bgOffsetX}%, ${-bgOffsetY}%)`;
-            }
         }
 
         function showLoadingScreen(callback) {
@@ -1377,12 +1459,12 @@
         function createSingleCoin() {
             const coinElement = document.createElement('div');
             coinElement.className = 'coin';
-            coinElement.innerHTML = '🌏'; /* ایموجی زمین */
+            coinElement.innerHTML = '🌏';
             coinElement.style.position = 'absolute';
             
             const numberElement = document.createElement('div');
             numberElement.className = 'coin-number';
-            const hitsRequired = currentLevel + 2; /* هر مرحله 3 عدد اضافه می‌شود */
+            const hitsRequired = currentLevel + 2;
             numberElement.textContent = hitsRequired;
             numberElement.style.position = 'absolute';
             
@@ -1416,7 +1498,7 @@
             // تعیین تعداد دشمن‌ها بر اساس مرحله
             let enemyCount;
             if (currentLevel >= 70) {
-                enemyCount = 7; // در مرحله 70 به بالا، 7 دشمن یکجا
+                enemyCount = 7;
             } else if (currentLevel >= 50) {
                 enemyCount = Math.min(5 + Math.floor(Math.random() * 3), maxEnemies - enemies.length);
             } else if (currentLevel >= 30) {
@@ -1427,11 +1509,11 @@
             
             // انواع مختلف حمله
             const attackTypes = [
-                'horizontal', // حمله افقی
-                'vertical',   // حمله عمودی
-                'diagonal',   // حمله مورب
-                'surround',   // حمله از همه طرف
-                'wave'        // حمله موجی
+                'horizontal',
+                'vertical',
+                'diagonal',
+                'surround',
+                'wave'
             ];
             
             const attackType = attackTypes[Math.floor(Math.random() * attackTypes.length)];
@@ -1516,7 +1598,7 @@
             enemyElement.style.position = 'absolute';
             
             let startX, startY, targetX, targetY;
-            const baseSpeed = 1 + currentLevel * 0.15; // سرعت بر اساس مرحله
+            const baseSpeed = 1 + currentLevel * 0.15;
             
             switch(direction) {
                 case 'top':
@@ -1660,7 +1742,6 @@
         function updateEnemySpawning() {
             enemySpawnTimer++;
             
-            // زمان تولید دشمن بر اساس مرحله کاهش می‌یابد
             const spawnInterval = Math.max(60, 180 - currentLevel * 2);
             
             if (enemySpawnTimer >= spawnInterval + Math.random() * 60) {
@@ -1678,6 +1759,11 @@
             isSafeTime = true;
             safeTime = 5 * 60;
             safeTimeIndicator.classList.remove('hidden');
+            
+            // پخش صدای بمب
+            if (playBombSound) {
+                playBombSound();
+            }
             
             createBombExplosion(player.x, player.y);
             
@@ -1765,10 +1851,9 @@
             for (let i = 0; i < trailLength; i++) {
                 const trailElement = document.createElement('div');
                 trailElement.className = 'coin-trail';
-                trailElement.innerHTML = '🌏'; /* ایموجی زمین */
+                trailElement.innerHTML = '🌏';
                 trailElement.style.position = 'absolute';
                 
-                // محاسبه موقعیت بر اساس مسیر حرکت بازیکن
                 let targetIndex = Math.max(0, playerPath.length - (i + 1) * 3);
                 if (targetIndex >= playerPath.length) targetIndex = playerPath.length - 1;
                 
@@ -1818,6 +1903,11 @@
                         
                         createHitEffect(coin.x, coin.y);
                         
+                        // پخش صدای سکه فقط در برخورد اول
+                        if (coin.currentHits === 1 && playCoinSound) {
+                            playCoinSound();
+                        }
+                        
                         if (coin.currentHits >= coin.hitsNeeded) {
                             coin.collected = true;
                             coinsCollected++;
@@ -1844,7 +1934,7 @@
                 }
             });
             
-            // برخورد با آتشفشان‌ها - فاصله برخورد بسیار کاهش یافته
+            // برخورد با آتشفشان‌ها
             if (!isSafeTime) {
                 enemies.forEach(enemy => {
                     const distance = Math.sqrt(
@@ -1852,9 +1942,8 @@
                         Math.pow(player.y - enemy.y, 2)
                     );
                     
-                    // فاصله برخورد بسیار بسیار کاهش یافته - باید کاملاً چسبیده باشند
                     if (distance < 5) {
-                        restartCurrentLevel(); // بازی از همان مرحله مجدداً شروع می‌شود
+                        restartCurrentLevel();
                     }
                 });
             }
@@ -1913,7 +2002,6 @@
         }
 
         function createLevelCompleteEffects() {
-            // افکت‌های پایان مرحله
             for (let i = 0; i < 10; i++) {
                 setTimeout(() => {
                     const effect = document.createElement('div');
@@ -1934,11 +2022,9 @@
         function restartCurrentLevel() {
             gameRunning = false;
             
-            // نمایش پیام برخورد
             showFuelMessage("💥 برخورد! شروع مجدد مرحله...");
             
             setTimeout(() => {
-                // ریست کردن وضعیت بازی برای همان مرحله
                 coinsCollected = 0;
                 bombCooldown = 0;
                 bombAvailable = true;
@@ -1951,7 +2037,6 @@
                 bombButton.disabled = false;
                 safeTimeIndicator.classList.add('hidden');
                 
-                // پاک کردن المان‌های بازی
                 document.querySelectorAll('.coin, .enemy, .coin-trail, .coin-number').forEach(el => el.remove());
                 enemies.forEach(enemy => enemy.element.remove());
                 
@@ -1959,17 +2044,13 @@
                 enemies = [];
                 coinTrail = [];
                 
-                // قرار دادن بازیکن در مرکز
                 player.x = window.innerWidth / 2;
                 player.y = window.innerHeight / 2;
                 updatePlayerPosition();
-                updateBackgroundPosition();
                 
-                // ایجاد المان‌های جدید
                 updateFuel();
                 createCoins();
                 
-                // شروع مجدد بازی
                 gameRunning = true;
                 gameLoop();
             }, 1500);
@@ -1993,7 +2074,7 @@
                 touchControls.classList.add('hidden');
                 levelComplete.classList.remove('show');
                 
-                document.querySelectorAll('.coin, .enemy, .coin-trail, .coin-number, .celestial').forEach(el => el.remove());
+                document.querySelectorAll('.coin, .enemy, .coin-trail, .coin-number').forEach(el => el.remove());
                 if (playerElement) {
                     playerElement.remove();
                     playerElement = null;
@@ -2003,7 +2084,6 @@
                 enemies = [];
                 coinTrail = [];
                 playerPath = [];
-                celestialBodies = [];
                 
                 updateMainScreenStats();
             }, 2000);
@@ -2015,7 +2095,7 @@
             showLevelLoading(() => {
                 currentLevel++;
                 coinsCollected = 0;
-                totalCoinsNeeded = Math.min(20, 5 + currentLevel); /* حداکثر 20 سکه */
+                totalCoinsNeeded = Math.min(20, 5 + currentLevel);
                 coinTrail = [];
                 playerPath = [];
                 player.fuel = 100;
@@ -2038,7 +2118,6 @@
                 player.x = e.clientX;
                 player.y = e.clientY;
                 updatePlayerPosition();
-                updateBackgroundPosition();
             }
         });
 
@@ -2049,50 +2128,15 @@
                 player.x = touch.clientX;
                 player.y = touch.clientY;
                 updatePlayerPosition();
-                updateBackgroundPosition();
             }
         }, { passive: false });
-
-        // مدیریت دکمه برگشت گوشی
-        let backButtonPressed = false;
-        
-        function handleBackButton() {
-            if (gameRunning && !backButtonPressed) {
-                backButtonPressed = true;
-                
-                // نمایش پیام و بازگشت به صفحه اصلی
-                showFuelMessage("بازگشت به صفحه اصلی...");
-                
-                setTimeout(() => {
-                    gameOver();
-                    backButtonPressed = false;
-                }, 1000);
-                
-                return true;
-            }
-            return false;
-        }
-
-        // اضافه کردن event listener برای مدیریت دکمه برگشت
-        window.addEventListener('popstate', function(event) {
-            if (handleBackButton()) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-        });
-
-        // جلوگیری از خروج با دکمه برگشت
-        history.pushState(null, null, window.location.href);
-        window.addEventListener('popstate', function(event) {
-            if (gameRunning) {
-                history.pushState(null, null, window.location.href);
-                handleBackButton();
-            }
-        });
 
         window.addEventListener('load', () => {
             setupGame();
             loadGameData();
+            createSpaceIcons();
+            playCoinSound = createCoinSound();
+            playBombSound = createBombSound();
         });
         window.addEventListener('resize', setupGame);
     </script>
