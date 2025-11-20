@@ -54,11 +54,11 @@
         }
 
         .theme-btn.theme1 {
-            background-image: url('m.');
+            background: linear-gradient(45deg, #001122, #003366);
         }
 
         .theme-btn.theme2 {
-            background-image: url('m1.');
+            background: linear-gradient(45deg, #330033, #660066);
         }
         
         /* آتشفشان‌های گوشه‌ها */
@@ -86,15 +86,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('') no-repeat center center;
-            background-size: cover;
+            background: linear-gradient(135deg, #000428, #004e92);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             color: white;
             z-index: 2;
-            transition: background-image 0.5s ease-in-out;
+            transition: background 0.5s ease-in-out;
         }
         
         .header {
@@ -240,8 +239,7 @@
             width: 400%;
             height: 400%;
             transition: transform 0.1s ease-out;
-            background: url('m.jpg') repeat;
-            background-size: 1000px 1000px;
+            background: linear-gradient(135deg, #000428, #004e92);
         }
 
         /* المان‌های بازی */
@@ -928,8 +926,8 @@
 
         <!-- انتخاب تم -->
         <div class="theme-selector">
-            <div class="theme-btn theme1 active" onclick="changeTheme('m.jpg')"></div>
-            <div class="theme-btn theme2" onclick="changeTheme('m1.jpg')"></div>
+            <div class="theme-btn theme1 active" onclick="changeTheme('theme1')"></div>
+            <div class="theme-btn theme2" onclick="changeTheme('theme2')"></div>
         </div>
         
         <div class="main-buttons">
@@ -1105,10 +1103,12 @@
     <script>
         // سیستم صوتی - موسیقی پس‌زمینه
         let backgroundMusic = null;
+        let spaceshipSound = null;
+        let coinSound = null;
         
         function playBackgroundMusic() {
             try {
-                backgroundMusic = new Audio('m.mp3');
+                backgroundMusic = new Audio('m2.mp3');
                 backgroundMusic.loop = true;
                 backgroundMusic.volume = 0.3;
                 backgroundMusic.play().catch(e => {
@@ -1116,6 +1116,30 @@
                 });
             } catch (error) {
                 console.log('خطا در پخش موسیقی:', error);
+            }
+        }
+        
+        function playSpaceshipSound() {
+            try {
+                spaceshipSound = new Audio('m2.mp3');
+                spaceshipSound.volume = 0.2;
+                spaceshipSound.play().catch(e => {
+                    console.log('صدای سفینه پخش نشد:', e);
+                });
+            } catch (error) {
+                console.log('خطا در پخش صدای سفینه:', error);
+            }
+        }
+        
+        function playCoinSound() {
+            try {
+                coinSound = new Audio('m1.mp3');
+                coinSound.volume = 0.4;
+                coinSound.play().catch(e => {
+                    console.log('صدای سکه پخش نشد:', e);
+                });
+            } catch (error) {
+                console.log('خطا در پخش صدای سکه:', error);
             }
         }
         
@@ -1127,9 +1151,14 @@
         }
 
         // تغییر تم صفحه اصلی
-        function changeTheme(themeImage) {
+        function changeTheme(theme) {
             const mainScreen = document.getElementById('mainScreen');
-            mainScreen.style.backgroundImage = `url('${themeImage}')`;
+            
+            if (theme === 'theme1') {
+                mainScreen.style.background = 'linear-gradient(135deg, #000428, #004e92)';
+            } else if (theme === 'theme2') {
+                mainScreen.style.background = 'linear-gradient(135deg, #330033, #660066)';
+            }
             
             // به‌روزرسانی وضعیت فعال دکمه‌ها
             document.querySelectorAll('.theme-btn').forEach(btn => {
@@ -1850,7 +1879,7 @@
             for (let i = 0; i < trailLength; i++) {
                 const trailElement = document.createElement('div');
                 trailElement.className = 'coin-trail';
-                trailElement.innerHTML = '🛸';
+                trailElement.innerHTML = '🌏';
                 trailElement.style.position = 'absolute';
                 
                 let targetIndex = Math.max(0, playerPath.length - (i + 1) * 3);
@@ -1919,6 +1948,9 @@
                             
                             coin.element.style.display = 'none';
                             coin.numberElement.style.display = 'none';
+                            
+                            // پخش صدای جمع‌آوری سکه
+                            playCoinSound();
                             
                             createCollectEffect(coin.x, coin.y, coin.type);
                             
@@ -2130,6 +2162,9 @@
                 player.x = e.clientX - rect.left;
                 player.y = e.clientY - rect.top;
                 
+                // پخش صدای سفینه هنگام حرکت
+                playSpaceshipSound();
+                
                 updatePlayerPosition();
                 updateCamera();
             }
@@ -2145,6 +2180,9 @@
                 
                 player.x = touch.clientX - rect.left;
                 player.y = touch.clientY - rect.top;
+                
+                // پخش صدای سفینه هنگام حرکت
+                playSpaceshipSound();
                 
                 updatePlayerPosition();
                 updateCamera();
