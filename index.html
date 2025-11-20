@@ -22,6 +22,44 @@
             height: 100vh;
             position: fixed;
         }
+
+        /* تم‌های مختلف برای صفحه اصلی */
+        .theme-selector {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .theme-btn {
+            width: 120px;
+            height: 80px;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .theme-btn.active {
+            border-color: #00ccff;
+            box-shadow: 0 0 20px #00ccff;
+        }
+
+        .theme-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .theme-btn.theme1 {
+            background-image: url('m.jpg');
+        }
+
+        .theme-btn.theme2 {
+            background-image: url('m1.jpg');
+        }
         
         /* آتشفشان‌های گوشه‌ها */
         .corner-volcano {
@@ -56,12 +94,13 @@
             align-items: center;
             color: white;
             z-index: 2;
+            transition: background-image 0.5s ease-in-out;
         }
         
         .header {
             text-align: center;
             padding: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
         
         h1 {
@@ -82,75 +121,78 @@
         .main-buttons {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            margin: 20px 0;
+            gap: 8px;
+            margin: 15px 0;
             align-items: center;
             width: 90%;
-            max-width: 300px;
+            max-width: 280px;
         }
         
         .main-btn {
             background: linear-gradient(45deg, #00ccff, #0066ff);
             border: none;
-            padding: 18px 25px;
-            font-size: 1.2rem;
-            border-radius: 50px;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            border-radius: 25px;
             cursor: pointer;
             color: white;
             font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0, 204, 255, 0.5);
+            box-shadow: 0 2px 8px rgba(0, 204, 255, 0.5);
             transition: all 0.3s;
             width: 100%;
             text-align: center;
+            min-height: 35px;
         }
         
         .main-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(0, 204, 255, 0.7);
+            transform: scale(1.03);
+            box-shadow: 0 3px 12px rgba(0, 204, 255, 0.7);
         }
         
         .main-btn.start {
             background: linear-gradient(45deg, #00ff88, #00ccff);
-            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.5);
-            font-size: 1.4rem;
-            padding: 20px 25px;
+            box-shadow: 0 2px 8px rgba(0, 255, 136, 0.5);
+            font-size: 1rem;
+            padding: 12px 15px;
+            min-height: 40px;
         }
 
         /* دکمه اطلاعیه مدیریت */
         .management-btn {
             background: linear-gradient(45deg, #ff4444, #cc0000);
             border: none;
-            padding: 15px 25px;
-            font-size: 1.1rem;
-            border-radius: 50px;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            border-radius: 25px;
             cursor: pointer;
             color: white;
             font-weight: bold;
-            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.5);
+            box-shadow: 0 2px 8px rgba(255, 68, 68, 0.5);
             transition: all 0.3s;
             width: 100%;
             text-align: center;
             animation: redPulse 2s infinite;
+            min-height: 35px;
         }
         
         .management-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(255, 68, 68, 0.7);
+            transform: scale(1.03);
+            box-shadow: 0 3px 12px rgba(255, 68, 68, 0.7);
         }
         
         @keyframes redPulse {
-            0%, 100% { box-shadow: 0 4px 15px rgba(255, 68, 68, 0.5); }
-            50% { box-shadow: 0 4px 25px rgba(255, 68, 68, 0.8), 0 0 30px rgba(255, 68, 68, 0.4); }
+            0%, 100% { box-shadow: 0 2px 8px rgba(255, 68, 68, 0.5); }
+            50% { box-shadow: 0 2px 15px rgba(255, 68, 68, 0.8), 0 0 20px rgba(255, 68, 68, 0.4); }
         }
         
         .stats-panel {
             background: rgba(0, 0, 0, 0.8);
-            padding: 20px;
-            border-radius: 20px;
-            margin: 15px 0;
+            padding: 15px;
+            border-radius: 15px;
+            margin: 12px 0;
             text-align: center;
             width: 90%;
-            max-width: 300px;
+            max-width: 280px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.1);
         }
@@ -158,22 +200,22 @@
         .stats {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin: 15px 0;
+            gap: 10px;
+            margin: 10px 0;
         }
         
         .stat-item {
             background: rgba(0, 0, 0, 0.6);
-            padding: 12px 15px;
-            border-radius: 15px;
+            padding: 8px 10px;
+            border-radius: 12px;
             text-align: center;
         }
         
         .stat-value {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: bold;
             color: #00ccff;
-            margin-top: 5px;
+            margin-top: 3px;
         }
         
         .hidden {
@@ -186,15 +228,90 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('m.jpg') no-repeat center center;
-            background-size: cover;
             z-index: 3;
+            overflow: hidden;
+        }
+
+        /* سیستم دوربین پویا */
+        .camera-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 400%;
+            height: 400%;
+            transition: transform 0.1s ease-out;
+            background: url('m.jpg') repeat;
+            background-size: 1000px 1000px;
+        }
+
+        /* المان‌های بازی */
+        #gameElements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* نقشه کوچک */
+        .mini-map {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 200px;
+            height: 200px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #00ccff;
+            border-radius: 10px;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+            overflow: hidden;
+        }
+
+        .map-view {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 20, 40, 0.9);
+        }
+
+        .map-player {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #00aaff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px #00aaff;
+            z-index: 3;
+        }
+
+        .map-coin {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #00ff88;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        .map-enemy {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: #ff4444;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
         }
         
         .player {
             position: absolute;
-            font-size: 80px; /* بزرگتر شده */
-            z-index: 4;
+            font-size: 80px;
+            z-index: 6;
             filter: drop-shadow(0 0 10px #00aaff) drop-shadow(0 0 20px #00aaff);
             transition: transform 0.1s;
         }
@@ -210,43 +327,65 @@
         
         .enemy {
             position: absolute;
-            font-size: 50px;
+            font-size: 40px;
             z-index: 3;
             filter: drop-shadow(0 0 8px #ff3300) drop-shadow(0 0 12px #ff3300);
             transition: transform 0.3s;
         }
         
+        .enemy.type1 {
+            font-size: 45px;
+        }
+        
+        .enemy.type2 {
+            font-size: 35px;
+            filter: drop-shadow(0 0 8px #ff6600) drop-shadow(0 0 12px #ff6600);
+        }
+        
         .coin {
             position: absolute;
-            font-size: 45px;
             z-index: 2;
-            filter: drop-shadow(0 0 10px #00ff88) drop-shadow(0 0 20px #00ff88);
             animation: float 3s infinite ease-in-out;
+        }
+        
+        .coin.type1 {
+            font-size: 35px;
+            filter: drop-shadow(0 0 10px #00ff88) drop-shadow(0 0 20px #00ff88);
+        }
+        
+        .coin.type2 {
+            font-size: 40px;
+            filter: drop-shadow(0 0 10px #00ccff) drop-shadow(0 0 20px #00ccff);
+        }
+        
+        .coin.type3 {
+            font-size: 30px;
+            filter: drop-shadow(0 0 10px #ff00ff) drop-shadow(0 0 20px #ff00ff);
         }
         
         .coin-number {
             position: absolute;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             color: white;
             z-index: 3;
             text-shadow: 2px 2px 4px black;
             pointer-events: none;
             background: rgba(0,0,0,0.7);
-            padding: 4px 8px;
-            border-radius: 10px;
-            min-width: 25px;
+            padding: 3px 6px;
+            border-radius: 8px;
+            min-width: 20px;
             text-align: center;
         }
         
         @keyframes float {
             0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(10deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
         }
         
         .coin-trail {
             position: absolute;
-            font-size: 30px;
+            font-size: 25px;
             z-index: 2;
             filter: drop-shadow(0 0 6px #00ff88) drop-shadow(0 0 12px #00ff88);
             transition: all 0.2s;
@@ -265,7 +404,7 @@
             color: white;
             font-size: 35px;
             cursor: pointer;
-            z-index: 5;
+            z-index: 10;
             box-shadow: 0 4px 12px rgba(255, 0, 0, 0.5);
             transition: all 0.3s;
         }
@@ -286,7 +425,7 @@
             left: 25px;
             color: white;
             font-size: 14px;
-            z-index: 5;
+            z-index: 10;
             background: rgba(0, 0, 0, 0.7);
             padding: 6px 10px;
             border-radius: 10px;
@@ -347,7 +486,7 @@
             background: rgba(0, 0, 0, 0.7);
             padding: 8px 12px;
             border-radius: 10px;
-            z-index: 5;
+            z-index: 10;
         }
 
         /* سوخت سبز رنگ */
@@ -361,7 +500,7 @@
             background: rgba(0, 0, 0, 0.7);
             padding: 8px 15px;
             border-radius: 10px;
-            z-index: 5;
+            z-index: 10;
             animation: fuelPulse 2s infinite;
         }
         
@@ -377,7 +516,7 @@
             right: 20px;
             width: 120px;
             height: 120px;
-            z-index: 5;
+            z-index: 10;
             display: none;
         }
         
@@ -633,8 +772,8 @@
         
         @keyframes collectEffect {
             0% { transform: scale(1) rotate(0deg); opacity: 1; }
-            50% { transform: scale(2) rotate(180deg); opacity: 0.7; }
-            100% { transform: scale(2.5) rotate(360deg); opacity: 0; }
+            50% { transform: scale(1.5) rotate(180deg); opacity: 0.7; }
+            100% { transform: scale(2) rotate(360deg); opacity: 0; }
         }
 
         /* افکت پایان مرحله */
@@ -653,14 +792,14 @@
                 filter: drop-shadow(0 0 10px #00ff88);
             }
             50% { 
-                transform: scale(2) rotate(180deg) translateY(-50px); 
+                transform: scale(1.5) rotate(180deg) translateY(-30px); 
                 opacity: 0.8;
-                filter: drop-shadow(0 0 30px #00ff88);
+                filter: drop-shadow(0 0 20px #00ff88);
             }
             100% { 
-                transform: scale(2.5) rotate(360deg) translateY(-100px); 
+                transform: scale(2) rotate(360deg) translateY(-60px); 
                 opacity: 0;
-                filter: drop-shadow(0 0 50px #00ff88);
+                filter: drop-shadow(0 0 30px #00ff88);
             }
         }
 
@@ -670,43 +809,58 @@
                 font-size: 2rem;
             }
             
+            .theme-btn {
+                width: 100px;
+                height: 60px;
+            }
+            
+            .mini-map {
+                width: 150px;
+                height: 150px;
+                top: 10px;
+                left: 10px;
+            }
+            
             .main-btn {
-                padding: 16px 20px;
-                font-size: 1.1rem;
+                padding: 8px 12px;
+                font-size: 0.85rem;
+                min-height: 32px;
             }
             
             .main-btn.start {
-                font-size: 1.2rem;
-                padding: 18px 20px;
+                font-size: 0.95rem;
+                padding: 10px 12px;
+                min-height: 36px;
             }
             
             .management-btn {
-                padding: 14px 20px;
-                font-size: 1rem;
+                padding: 7px 12px;
+                font-size: 0.85rem;
+                min-height: 32px;
             }
             
             .stat-item {
-                padding: 10px 12px;
+                padding: 6px 8px;
             }
             
             .stat-value {
-                font-size: 1.3rem;
+                font-size: 1.1rem;
             }
             
             .player {
-                font-size: 70px; /* بزرگتر شده برای موبایل */
+                font-size: 70px;
             }
             
             .enemy {
-                font-size: 40px;
+                font-size: 35px;
             }
             
             .coin {
-                font-size: 36px;
+                font-size: 30px;
             }
             
             .coin-trail {
-                font-size: 25px;
+                font-size: 20px;
             }
             
             .bomb-button {
@@ -747,6 +901,15 @@
             .main-buttons {
                 width: 95%;
             }
+            
+            .theme-selector {
+                gap: 10px;
+            }
+            
+            .theme-btn {
+                width: 80px;
+                height: 50px;
+            }
         }
     </style>
 </head>
@@ -761,6 +924,12 @@
     <div id="mainScreen">
         <div class="header">
             <h1>🚀 بازی کهکشانی</h1>
+        </div>
+
+        <!-- انتخاب تم -->
+        <div class="theme-selector">
+            <div class="theme-btn theme1 active" onclick="changeTheme('m.jpg')"></div>
+            <div class="theme-btn theme2" onclick="changeTheme('m1.jpg')"></div>
         </div>
         
         <div class="main-buttons">
@@ -794,7 +963,20 @@
     </div>
     
     <!-- صفحه بازی -->
-    <div id="gameScreen" class="hidden"></div>
+    <div id="gameScreen" class="hidden">
+        <!-- سیستم دوربین پویا -->
+        <div class="camera-container" id="cameraContainer">
+            <!-- المان‌های بازی -->
+            <div id="gameElements"></div>
+        </div>
+    </div>
+    
+    <!-- نقشه کوچک -->
+    <div class="mini-map hidden" id="miniMap">
+        <div class="map-view" id="mapView">
+            <!-- نقشه اینجا پر می‌شود -->
+        </div>
+    </div>
     
     <!-- نشانگر سوخت -->
     <div class="fuel-indicator hidden">⛽ سوخت: 100%</div>
@@ -942,6 +1124,76 @@
                 backgroundMusic.pause();
                 backgroundMusic.currentTime = 0;
             }
+        }
+
+        // تغییر تم صفحه اصلی
+        function changeTheme(themeImage) {
+            const mainScreen = document.getElementById('mainScreen');
+            mainScreen.style.backgroundImage = `url('${themeImage}')`;
+            
+            // به‌روزرسانی وضعیت فعال دکمه‌ها
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // سیستم دوربین پویا
+        function updateCamera() {
+            if (!player || !gameRunning) return;
+            
+            const cameraContainer = document.getElementById('cameraContainer');
+            const worldWidth = 4000;
+            const worldHeight = 4000;
+            
+            const cameraX = -player.x + (window.innerWidth / 2);
+            const cameraY = -player.y + (window.innerHeight / 2);
+            
+            const maxX = 0;
+            const minX = -(worldWidth - window.innerWidth);
+            const maxY = 0;
+            const minY = -(worldHeight - window.innerHeight);
+            
+            const limitedX = Math.max(minX, Math.min(maxX, cameraX));
+            const limitedY = Math.max(minY, Math.min(maxY, cameraY));
+            
+            cameraContainer.style.transform = `translate(${limitedX}px, ${limitedY}px)`;
+        }
+
+        // به‌روزرسانی نقشه
+        function updateMiniMap() {
+            const mapView = document.getElementById('mapView');
+            if (!mapView) return;
+            
+            // پاک کردن نقشه قبلی
+            mapView.innerHTML = '';
+            
+            // اضافه کردن بازیکن به نقشه (آبی)
+            const mapPlayer = document.createElement('div');
+            mapPlayer.className = 'map-player';
+            mapPlayer.style.left = (player.x / 4000 * 100) + '%';
+            mapPlayer.style.top = (player.y / 4000 * 100) + '%';
+            mapView.appendChild(mapPlayer);
+            
+            // اضافه کردن سکه‌ها به نقشه (سبز)
+            coins.forEach(coin => {
+                if (!coin.collected) {
+                    const mapCoin = document.createElement('div');
+                    mapCoin.className = 'map-coin';
+                    mapCoin.style.left = (coin.x / 4000 * 100) + '%';
+                    mapCoin.style.top = (coin.y / 4000 * 100) + '%';
+                    mapView.appendChild(mapCoin);
+                }
+            });
+            
+            // اضافه کردن دشمنان به نقشه (قرمز)
+            enemies.forEach(enemy => {
+                const mapEnemy = document.createElement('div');
+                mapEnemy.className = 'map-enemy';
+                mapEnemy.style.left = (enemy.x / 4000 * 100) + '%';
+                mapEnemy.style.top = (enemy.y / 4000 * 100) + '%';
+                mapView.appendChild(mapEnemy);
+            });
         }
 
         // ذخیره‌سازی داده‌ها در localStorage
@@ -1094,6 +1346,8 @@
         const touchControls = document.querySelector('.touch-controls');
         const joystick = document.querySelector('.joystick');
         const joystickHandle = document.querySelector('.joystick-handle');
+        const gameElements = document.getElementById('gameElements');
+        const miniMap = document.getElementById('miniMap');
 
         // تنظیم اندازه بازی
         function setupGame() {
@@ -1102,7 +1356,7 @@
         }
 
         // متغیرهای بازی
-        let player = { x: 0, y: 0, size: 80, rotation: 0, fuel: 100 }; // سایز بزرگتر شده
+        let player = { x: 2000, y: 2000, size: 80, rotation: 0, fuel: 100 };
         let playerElement = null;
         let coins = [];
         let enemies = [];
@@ -1111,7 +1365,7 @@
         let score = 0;
         let coinsCollected = 0;
         let currentLevel = 1;
-        let totalCoinsNeeded = 20;
+        let totalCoinsNeeded = 120; // 120 سکه
         let gameRunning = false;
         let bombCooldown = 0;
         let bombAvailable = false;
@@ -1121,6 +1375,7 @@
         let enemySpawnTimer = 0;
         let currentEnemyGroup = 0;
         let currentStageData = null;
+        let lastFrameTime = 0;
         
         // متغیرهای کنترل لمسی
         let isTouching = false;
@@ -1138,6 +1393,7 @@
                 fuelIndicator.classList.remove('hidden');
                 bombButton.classList.remove('hidden');
                 bombTimer.classList.remove('hidden');
+                miniMap.classList.remove('hidden');
                 
                 // نمایش کنترل لمسی در موبایل
                 if (window.innerWidth <= 480) {
@@ -1160,7 +1416,6 @@
                 score = 0;
                 coinsCollected = 0;
                 currentLevel = parseInt(localStorage.getItem('highLevel')) || 1;
-                totalCoinsNeeded = Math.min(20, 5 + currentLevel);
                 bombCooldown = 0;
                 bombAvailable = true;
                 safeTime = 0;
@@ -1175,8 +1430,10 @@
                 
                 updateFuel();
                 createCoins();
+                createEnemies();
                 
                 gameRunning = true;
+                lastFrameTime = performance.now();
                 gameLoop();
             });
         }
@@ -1212,30 +1469,26 @@
             const deltaX = touch.clientX - joystickBaseX;
             const deltaY = touch.clientY - joystickBaseY;
             
-            // محاسبه فاصله از مرکز
             const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
             const angle = Math.atan2(deltaY, deltaX);
             
-            // محدود کردن به شعاع جویستیک
             const limitedDistance = Math.min(distance, joystickRadius);
             
-            // موقعیت جدید هندل
             const newX = limitedDistance * Math.cos(angle);
             const newY = limitedDistance * Math.sin(angle);
             
             joystickHandle.style.transform = `translate(${newX}px, ${newY}px)`;
             
-            // حرکت بازیکن بر اساس جهت جویستیک
             if (distance > 10) {
                 const speed = 12;
                 player.x += Math.cos(angle) * speed;
                 player.y += Math.sin(angle) * speed;
                 
-                // محدود کردن به مرزهای صفحه
-                player.x = Math.max(player.size/2, Math.min(window.innerWidth - player.size/2, player.x));
-                player.y = Math.max(player.size/2, Math.min(window.innerHeight - player.size/2, player.y));
+                player.x = Math.max(player.size/2, Math.min(4000 - player.size/2, player.x));
+                player.y = Math.max(player.size/2, Math.min(4000 - player.size/2, player.y));
                 
                 updatePlayerPosition();
+                updateCamera();
             }
         }
         
@@ -1246,12 +1499,12 @@
 
         function showLoadingScreen(callback) {
             loadingScreen.classList.remove('hidden');
-            loadingText.textContent = "در حال بارگذاری...";
+            loadingText.textContent = "در حال بارگذاری جهان بی‌نهایت...";
             
             let progress = 0;
             const interval = setInterval(() => {
                 progress += 10;
-                loadingText.textContent = `در حال بارگذاری... ${progress}%`;
+                loadingText.textContent = `در حال بارگذاری جهان بی‌نهایت... ${progress}%`;
                 
                 if (progress >= 100) {
                     clearInterval(interval);
@@ -1283,14 +1536,13 @@
             playerElement.innerHTML = '🛸';
             playerElement.style.position = 'absolute';
             
-            player.x = window.innerWidth / 2;
-            player.y = window.innerHeight / 2;
             player.rotation = 0;
             
             playerElement.style.left = (player.x - player.size/2) + 'px';
             playerElement.style.top = (player.y - player.size/2) + 'px';
             
-            gameScreen.appendChild(playerElement);
+            gameElements.appendChild(playerElement);
+            updateCamera();
         }
 
         function createCoins() {
@@ -1298,33 +1550,59 @@
             document.querySelectorAll('.coin-number').forEach(number => number.remove());
             coins = [];
             
+            // ایجاد 120 سکه با انواع مختلف
             for (let i = 0; i < totalCoinsNeeded; i++) {
-                createSingleCoin();
+                createSingleCoin(i);
             }
         }
 
-        function createSingleCoin() {
+        function createSingleCoin(index) {
             const coinElement = document.createElement('div');
-            coinElement.className = 'coin';
-            coinElement.innerHTML = '🌏';
-            coinElement.style.position = 'absolute';
-            
             const numberElement = document.createElement('div');
             numberElement.className = 'coin-number';
-            const hitsRequired = currentLevel + 2;
+            
+            // تعیین نوع سکه بر اساس index
+            const coinType = index % 3;
+            let coinEmoji, hitsRequired, fontSize;
+            
+            switch(coinType) {
+                case 0: // نوع اول - سیاره
+                    coinEmoji = '🪐';
+                    hitsRequired = currentLevel + 1; // آسان‌تر
+                    fontSize = '35px';
+                    coinElement.className = 'coin type1';
+                    break;
+                case 1: // نوع دوم - یخ
+                    coinEmoji = '🧊';
+                    hitsRequired = currentLevel + 2; // متوسط
+                    fontSize = '40px';
+                    coinElement.className = 'coin type2';
+                    break;
+                case 2: // نوع سوم - الماس
+                    coinEmoji = '💎';
+                    hitsRequired = currentLevel + 3; // سخت‌تر
+                    fontSize = '30px';
+                    coinElement.className = 'coin type3';
+                    break;
+            }
+            
+            coinElement.innerHTML = coinEmoji;
+            coinElement.style.fontSize = fontSize;
+            coinElement.style.position = 'absolute';
+            
             numberElement.textContent = hitsRequired;
             numberElement.style.position = 'absolute';
             
-            const x = Math.random() * (window.innerWidth - 80) + 40;
-            const y = Math.random() * (window.innerHeight - 80) + 40;
+            const x = Math.random() * 3800 + 100;
+            const y = Math.random() * 3800 + 100;
             
             coinElement.style.left = (x - 22) + 'px';
             coinElement.style.top = (y - 22) + 'px';
             numberElement.style.left = (x - 8) + 'px';
             numberElement.style.top = (y - 8) + 'px';
             
-            gameScreen.appendChild(coinElement);
-            gameScreen.appendChild(numberElement);
+            gameElements.appendChild(coinElement);
+            gameElements.appendChild(numberElement);
             
             coins.push({
                 element: coinElement,
@@ -1333,199 +1611,83 @@
                 y: y,
                 collected: false,
                 hitsNeeded: hitsRequired,
-                currentHits: 0
+                currentHits: 0,
+                type: coinType
             });
         }
 
-        // سیستم تولید دشمن پویا
-        function spawnEnemyGroup() {
-            const maxEnemies = 7;
-            if (enemies.length >= maxEnemies) return;
+        // ایجاد 70 دشمن با دو نوع مختلف
+        function createEnemies() {
+            document.querySelectorAll('.enemy').forEach(enemy => enemy.remove());
+            enemies = [];
             
-            // تعیین تعداد دشمن‌ها بر اساس مرحله
-            let enemyCount;
-            if (currentLevel >= 70) {
-                enemyCount = 7;
-            } else if (currentLevel >= 50) {
-                enemyCount = Math.min(5 + Math.floor(Math.random() * 3), maxEnemies - enemies.length);
-            } else if (currentLevel >= 30) {
-                enemyCount = Math.min(3 + Math.floor(Math.random() * 3), maxEnemies - enemies.length);
-            } else {
-                enemyCount = Math.min(1 + Math.floor(Math.random() * 4), maxEnemies - enemies.length);
-            }
-            
-            // انواع مختلف حمله
-            const attackTypes = [
-                'horizontal',
-                'vertical',
-                'diagonal',
-                'surround',
-                'wave'
-            ];
-            
-            const attackType = attackTypes[Math.floor(Math.random() * attackTypes.length)];
-            
-            switch(attackType) {
-                case 'horizontal':
-                    spawnHorizontalAttack(enemyCount);
-                    break;
-                case 'vertical':
-                    spawnVerticalAttack(enemyCount);
-                    break;
-                case 'diagonal':
-                    spawnDiagonalAttack(enemyCount);
-                    break;
-                case 'surround':
-                    spawnSurroundAttack(enemyCount);
-                    break;
-                case 'wave':
-                    spawnWaveAttack(enemyCount);
-                    break;
+            for (let i = 0; i < 70; i++) {
+                createSingleEnemy(i);
             }
         }
 
-        function spawnHorizontalAttack(count) {
-            const side = Math.random() > 0.5 ? 'left' : 'right';
-            for (let i = 0; i < count; i++) {
-                setTimeout(() => {
-                    spawnSingleEnemy(side, i, count);
-                }, i * 200);
-            }
-        }
-
-        function spawnVerticalAttack(count) {
-            const side = Math.random() > 0.5 ? 'top' : 'bottom';
-            for (let i = 0; i < count; i++) {
-                setTimeout(() => {
-                    spawnSingleEnemy(side, i, count);
-                }, i * 200);
-            }
-        }
-
-        function spawnDiagonalAttack(count) {
-            const sides = ['top-left', 'top-right', 'bottom-left', 'bottom-right'];
-            for (let i = 0; i < count; i++) {
-                const side = sides[Math.floor(Math.random() * sides.length)];
-                setTimeout(() => {
-                    spawnSingleEnemy(side, i, count);
-                }, i * 150);
-            }
-        }
-
-        function spawnSurroundAttack(count) {
-            const sides = ['top', 'right', 'bottom', 'left', 'top-left', 'top-right', 'bottom-left', 'bottom-right'];
-            for (let i = 0; i < count; i++) {
-                const side = sides[Math.floor(Math.random() * sides.length)];
-                setTimeout(() => {
-                    spawnSingleEnemy(side, i, count);
-                }, i * 100);
-            }
-        }
-
-        function spawnWaveAttack(count) {
-            const waveCount = Math.min(3, count);
-            for (let wave = 0; wave < waveCount; wave++) {
-                setTimeout(() => {
-                    const waveEnemies = Math.min(2 + wave, count);
-                    for (let i = 0; i < waveEnemies; i++) {
-                        const sides = ['top', 'right', 'bottom', 'left'];
-                        const side = sides[Math.floor(Math.random() * sides.length)];
-                        spawnSingleEnemy(side, i, waveEnemies);
-                    }
-                }, wave * 500);
-            }
-        }
-
-        function spawnSingleEnemy(direction, index, groupSize) {
-            if (enemies.length >= 7) return;
-            
+        function createSingleEnemy(index) {
             const enemyElement = document.createElement('div');
-            enemyElement.className = 'enemy';
-            enemyElement.innerHTML = '🌋';
             enemyElement.style.position = 'absolute';
             
-            let startX, startY, targetX, targetY;
-            const baseSpeed = 1 + currentLevel * 0.15;
+            // تعیین نوع دشمن
+            const enemyType = index % 2;
+            let enemyEmoji, enemyClass, speed;
             
-            switch(direction) {
-                case 'top':
-                    startX = Math.random() * window.innerWidth;
-                    startY = -50;
-                    targetX = Math.random() * window.innerWidth;
-                    targetY = window.innerHeight + 50;
-                    break;
-                case 'bottom':
-                    startX = Math.random() * window.innerWidth;
-                    startY = window.innerHeight + 50;
-                    targetX = Math.random() * window.innerWidth;
-                    targetY = -50;
-                    break;
-                case 'left':
-                    startX = -50;
-                    startY = Math.random() * window.innerHeight;
-                    targetX = window.innerWidth + 50;
-                    targetY = Math.random() * window.innerHeight;
-                    break;
-                case 'right':
-                    startX = window.innerWidth + 50;
-                    startY = Math.random() * window.innerHeight;
-                    targetX = -50;
-                    targetY = Math.random() * window.innerHeight;
-                    break;
-                case 'top-left':
-                    startX = -50;
-                    startY = -50;
-                    targetX = window.innerWidth + 50;
-                    targetY = window.innerHeight + 50;
-                    break;
-                case 'top-right':
-                    startX = window.innerWidth + 50;
-                    startY = -50;
-                    targetX = -50;
-                    targetY = window.innerHeight + 50;
-                    break;
-                case 'bottom-left':
-                    startX = -50;
-                    startY = window.innerHeight + 50;
-                    targetX = window.innerWidth + 50;
-                    targetY = -50;
-                    break;
-                case 'bottom-right':
-                    startX = window.innerWidth + 50;
-                    startY = window.innerHeight + 50;
-                    targetX = -50;
-                    targetY = -50;
-                    break;
+            if (enemyType === 0) {
+                enemyEmoji = '🌋';
+                enemyClass = 'enemy type1';
+                speed = 1 + currentLevel * 0.1 + Math.random() * 0.3;
+            } else {
+                enemyEmoji = '☄️';
+                enemyClass = 'enemy type2';
+                speed = 1.5 + currentLevel * 0.15 + Math.random() * 0.4; // سریع‌تر
             }
             
-            enemyElement.style.left = startX + 'px';
-            enemyElement.style.top = startY + 'px';
+            enemyElement.className = enemyClass;
+            enemyElement.innerHTML = enemyEmoji;
             
-            gameScreen.appendChild(enemyElement);
+            const x = Math.random() * 3800 + 100;
+            const y = Math.random() * 3800 + 100;
+            
+            const targetX = Math.random() * 3800 + 100;
+            const targetY = Math.random() * 3800 + 100;
+            
+            enemyElement.style.left = x + 'px';
+            enemyElement.style.top = y + 'px';
+            
+            gameElements.appendChild(enemyElement);
             
             enemies.push({
                 element: enemyElement,
-                x: startX,
-                y: startY,
+                x: x,
+                y: y,
                 targetX: targetX,
                 targetY: targetY,
-                speed: baseSpeed + Math.random() * 0.5,
-                direction: direction
+                speed: speed,
+                type: enemyType
             });
         }
 
-        function gameLoop() {
+        // حلقه اصلی بازی
+        function gameLoop(currentTime) {
             if (!gameRunning) return;
             
+            const deltaTime = currentTime - lastFrameTime;
+            if (deltaTime < 16) {
+                requestAnimationFrame(gameLoop);
+                return;
+            }
+            lastFrameTime = currentTime;
+            
             playerPath.push({ x: player.x, y: player.y });
-            if (playerPath.length > 50) {
+            if (playerPath.length > 30) {
                 playerPath.shift();
             }
             
             updateBombTimer();
             updateSafeTime();
             updateFuelConsumption();
-            updateEnemySpawning();
             
             if (!isSafeTime) {
                 updateEnemies();
@@ -1533,6 +1695,8 @@
             
             updateCoinTrail();
             checkCollisions();
+            updateCamera();
+            updateMiniMap(); // به‌روزرسانی نقشه
             
             requestAnimationFrame(gameLoop);
         }
@@ -1586,15 +1750,25 @@
             }
         }
 
-        function updateEnemySpawning() {
-            enemySpawnTimer++;
-            
-            const spawnInterval = Math.max(60, 180 - currentLevel * 2);
-            
-            if (enemySpawnTimer >= spawnInterval + Math.random() * 60) {
-                enemySpawnTimer = 0;
-                spawnEnemyGroup();
-            }
+        function updateEnemies() {
+            enemies.forEach(enemy => {
+                const dx = enemy.targetX - enemy.x;
+                const dy = enemy.targetY - enemy.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance > 0) {
+                    enemy.x += (dx / distance) * enemy.speed;
+                    enemy.y += (dy / distance) * enemy.speed;
+                    
+                    enemy.element.style.left = enemy.x + 'px';
+                    enemy.element.style.top = enemy.y + 'px';
+                }
+                
+                if (distance < 50) {
+                    enemy.targetX = Math.random() * 3800 + 100;
+                    enemy.targetY = Math.random() * 3800 + 100;
+                }
+            });
         }
 
         function useBomb() {
@@ -1610,10 +1784,18 @@
             createBombExplosion(player.x, player.y);
             
             enemies.forEach(enemy => {
-                createEnemyExplosion(enemy.x, enemy.y);
-                enemy.element.remove();
+                const distance = Math.sqrt(
+                    Math.pow(player.x - enemy.x, 2) + 
+                    Math.pow(player.y - enemy.y, 2)
+                );
+                
+                if (distance < 300) {
+                    createEnemyExplosion(enemy.x, enemy.y);
+                    enemy.element.remove();
+                }
             });
-            enemies = [];
+            
+            enemies = enemies.filter(enemy => enemy.element.parentNode);
         }
 
         function createBombExplosion(x, y) {
@@ -1625,7 +1807,7 @@
             explosion.style.fontSize = '50px';
             explosion.style.zIndex = '6';
             
-            gameScreen.appendChild(explosion);
+            gameElements.appendChild(explosion);
             
             setTimeout(() => {
                 explosion.remove();
@@ -1645,13 +1827,13 @@
             explosion.style.zIndex = '3';
             explosion.style.transition = 'all 0.5s';
             
-            gameScreen.appendChild(explosion);
+            gameElements.appendChild(explosion);
             
             setTimeout(() => {
-                explosion.style.width = '150px';
-                explosion.style.height = '150px';
-                explosion.style.marginLeft = '-75px';
-                explosion.style.marginTop = '-75px';
+                explosion.style.width = '120px';
+                explosion.style.height = '120px';
+                explosion.style.marginLeft = '-60px';
+                explosion.style.marginTop = '-60px';
                 explosion.style.opacity = '0';
                 
                 setTimeout(() => {
@@ -1660,35 +1842,10 @@
             }, 10);
         }
 
-        function updateEnemies() {
-            for (let i = enemies.length - 1; i >= 0; i--) {
-                const enemy = enemies[i];
-                
-                const dx = enemy.targetX - enemy.x;
-                const dy = enemy.targetY - enemy.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                
-                if (distance > 0) {
-                    enemy.x += (dx / distance) * enemy.speed;
-                    enemy.y += (dy / distance) * enemy.speed;
-                    
-                    enemy.element.style.left = enemy.x + 'px';
-                    enemy.element.style.top = enemy.y + 'px';
-                }
-                
-                if (distance < 10 || 
-                    enemy.x < -100 || enemy.x > window.innerWidth + 100 ||
-                    enemy.y < -100 || enemy.y > window.innerHeight + 100) {
-                    enemy.element.remove();
-                    enemies.splice(i, 1);
-                }
-            }
-        }
-
         function updateCoinTrail() {
             document.querySelectorAll('.coin-trail').forEach(trail => trail.remove());
             
-            const trailLength = Math.min(coinTrail.length, 15);
+            const trailLength = Math.min(coinTrail.length, 10);
             
             for (let i = 0; i < trailLength; i++) {
                 const trailElement = document.createElement('div');
@@ -1711,7 +1868,7 @@
                 trailElement.style.transform = `scale(${1 - (i / trailLength) * 0.5})`;
                 trailElement.style.zIndex = '2';
                 
-                gameScreen.appendChild(trailElement);
+                gameElements.appendChild(trailElement);
             }
         }
 
@@ -1719,7 +1876,6 @@
             playerElement.style.left = (player.x - player.size/2) + 'px';
             playerElement.style.top = (player.y - player.size/2) + 'px';
             
-            // چرخش سفینه بر اساس جهت حرکت
             if (playerPath.length > 1) {
                 const currentPos = playerPath[playerPath.length - 1];
                 const prevPos = playerPath[playerPath.length - 2];
@@ -1748,7 +1904,15 @@
                         if (coin.currentHits >= coin.hitsNeeded) {
                             coin.collected = true;
                             coinsCollected++;
-                            score += 10 * currentLevel;
+                            
+                            // امتیاز بر اساس نوع سکه
+                            let points = 0;
+                            switch(coin.type) {
+                                case 0: points = 10 * currentLevel; break;
+                                case 1: points = 15 * currentLevel; break;
+                                case 2: points = 20 * currentLevel; break;
+                            }
+                            score += points;
                             
                             player.fuel = Math.min(100, player.fuel + 10);
                             updateFuel();
@@ -1756,7 +1920,7 @@
                             coin.element.style.display = 'none';
                             coin.numberElement.style.display = 'none';
                             
-                            createCollectEffect(coin.x, coin.y);
+                            createCollectEffect(coin.x, coin.y, coin.type);
                             
                             coinTrail.push({
                                 x: coin.x,
@@ -1799,7 +1963,7 @@
             effect.innerHTML = '✨';
             effect.style.transform = 'scale(1)';
             
-            gameScreen.appendChild(effect);
+            gameElements.appendChild(effect);
             
             setTimeout(() => {
                 effect.style.transform = 'scale(1.5)';
@@ -1811,14 +1975,21 @@
             }, 10);
         }
 
-        function createCollectEffect(x, y) {
+        function createCollectEffect(x, y, coinType) {
             const effect = document.createElement('div');
             effect.className = 'coin-collect-effect';
-            effect.innerHTML = '⭐';
+            
+            // افکت مختلف بر اساس نوع سکه
+            switch(coinType) {
+                case 0: effect.innerHTML = '⭐'; break;
+                case 1: effect.innerHTML = '❄️'; break;
+                case 2: effect.innerHTML = '💎'; break;
+            }
+            
             effect.style.left = x + 'px';
             effect.style.top = y + 'px';
             
-            gameScreen.appendChild(effect);
+            gameElements.appendChild(effect);
             
             setTimeout(() => {
                 effect.remove();
@@ -1839,19 +2010,19 @@
         }
 
         function createLevelCompleteEffects() {
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 5; i++) {
                 setTimeout(() => {
                     const effect = document.createElement('div');
                     effect.className = 'level-complete-effect';
                     effect.innerHTML = '✨';
                     effect.style.left = (player.x + Math.random() * 100 - 50) + 'px';
                     effect.style.top = (player.y + Math.random() * 100 - 50) + 'px';
-                    gameScreen.appendChild(effect);
+                    gameElements.appendChild(effect);
                     
                     setTimeout(() => {
                         effect.remove();
                     }, 1500);
-                }, i * 200);
+                }, i * 300);
             }
         }
 
@@ -1870,25 +2041,21 @@
                 playerPath = [];
                 player.fuel = 100;
                 fuelConsumption = 0;
-                enemySpawnTimer = 0;
                 bombButton.disabled = false;
                 safeTimeIndicator.classList.add('hidden');
                 
-                document.querySelectorAll('.coin, .enemy, .coin-trail, .coin-number').forEach(el => el.remove());
-                enemies.forEach(enemy => enemy.element.remove());
+                player.x = 2000;
+                player.y = 2000;
                 
-                coins = [];
-                enemies = [];
-                coinTrail = [];
-                
-                player.x = window.innerWidth / 2;
-                player.y = window.innerHeight / 2;
                 updatePlayerPosition();
+                updateCamera();
                 
                 updateFuel();
                 createCoins();
+                createEnemies();
                 
                 gameRunning = true;
+                lastFrameTime = performance.now();
                 gameLoop();
             }, 1500);
         }
@@ -1909,6 +2076,7 @@
                 bombTimer.classList.add('hidden');
                 safeTimeIndicator.classList.add('hidden');
                 touchControls.classList.add('hidden');
+                miniMap.classList.add('hidden');
                 levelComplete.classList.remove('show');
                 
                 document.querySelectorAll('.coin, .enemy, .coin-trail, .coin-number').forEach(el => el.remove());
@@ -1932,8 +2100,10 @@
             showLevelLoading(() => {
                 currentLevel++;
                 coinsCollected = 0;
-                totalCoinsNeeded = Math.min(20, 5 + currentLevel);
-                coinTrail = [];
+                bombCooldown = 0;
+                bombAvailable = true;
+                safeTime = 0;
+                isSafeTime = false;
                 playerPath = [];
                 player.fuel = 100;
                 updateFuel();
@@ -1943,8 +2113,10 @@
                 enemies = [];
                 
                 createCoins();
+                createEnemies();
                 
                 gameRunning = true;
+                lastFrameTime = performance.now();
                 gameLoop();
             });
         });
@@ -1952,9 +2124,14 @@
         // کنترل‌ها
         document.addEventListener('mousemove', (e) => {
             if (gameRunning && !isTouching) {
-                player.x = e.clientX;
-                player.y = e.clientY;
+                const cameraContainer = document.getElementById('cameraContainer');
+                const rect = cameraContainer.getBoundingClientRect();
+                
+                player.x = e.clientX - rect.left;
+                player.y = e.clientY - rect.top;
+                
                 updatePlayerPosition();
+                updateCamera();
             }
         });
 
@@ -1962,9 +2139,15 @@
             if (gameRunning && !isTouching) {
                 e.preventDefault();
                 const touch = e.touches[0];
-                player.x = touch.clientX;
-                player.y = touch.clientY;
+                
+                const cameraContainer = document.getElementById('cameraContainer');
+                const rect = cameraContainer.getBoundingClientRect();
+                
+                player.x = touch.clientX - rect.left;
+                player.y = touch.clientY - rect.top;
+                
                 updatePlayerPosition();
+                updateCamera();
             }
         }, { passive: false });
 
