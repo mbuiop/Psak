@@ -1007,7 +1007,7 @@
 
     <!-- لودینگ سه بعدی -->
     <div id="loadingScreen" class="loading-container hidden">
-        <div class="coin-3d">🌏</div>
+        <div class="coin-3d">🛸</div>
         <div class="loading-text" id="loadingText">در حال بارگذاری...</div>
     </div>
 
@@ -1596,7 +1596,7 @@
             
             switch(coinType) {
                 case 0: // نوع اول - سیاره
-                    coinEmoji = '🪐';
+                    coinEmoji = '🛟';
                     hitsRequired = currentLevel + 1; // آسان‌تر
                     fontSize = '35px';
                     coinElement.className = 'coin type1';
@@ -1668,7 +1668,7 @@
                 enemyClass = 'enemy type1';
                 speed = 1 + currentLevel * 0.1 + Math.random() * 0.3;
             } else {
-                enemyEmoji = '☄️';
+                enemyEmoji = '☄️🌀';
                 enemyClass = 'enemy type2';
                 speed = 1.5 + currentLevel * 0.15 + Math.random() * 0.4; // سریع‌تر
             }
@@ -1992,7 +1992,7 @@
             effect.style.opacity = '1';
             effect.style.transition = 'all 0.5s';
             effect.style.zIndex = '5';
-            effect.innerHTML = '✨';
+            effect.innerHTML = '🪅';
             effect.style.transform = 'scale(1)';
             
             gameElements.appendChild(effect);
@@ -2013,9 +2013,9 @@
             
             // افکت مختلف بر اساس نوع سکه
             switch(coinType) {
-                case 0: effect.innerHTML = '⭐'; break;
+                case 0: effect.innerHTML = '🎁'; break;
                 case 1: effect.innerHTML = '❄️'; break;
-                case 2: effect.innerHTML = '💎'; break;
+                case 2: effect.innerHTML = '💶'; break;
             }
             
             effect.style.left = x + 'px';
@@ -2046,7 +2046,7 @@
                 setTimeout(() => {
                     const effect = document.createElement('div');
                     effect.className = 'level-complete-effect';
-                    effect.innerHTML = '✨';
+                    effect.innerHTML = '🪢';
                     effect.style.left = (player.x + Math.random() * 100 - 50) + 'px';
                     effect.style.top = (player.y + Math.random() * 100 - 50) + 'px';
                     gameElements.appendChild(effect);
