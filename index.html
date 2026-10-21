@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crypto Radar Pro — رادار هوشمند تحلیل کریپتو</title>
+<link rel="stylesheet" href="styles.css"></head>
+<body>
+<header><b>Crypto Radar Pro</b><span id="conn" class="pill">در حال اتصال…</span><span id="upd" class="muted"></span></header>
+<main>
+ <section class="cards">
+  <div class="card"><small>قیمت</small><b id="price">—</b></div>
+  <div class="card"><small>تغییر ۲۴ ساعته</small><b id="chg">—</b></div>
+  <div class="card"><small>حجم ۲۴ ساعته (USDT)</small><b id="vol">—</b></div>
+ </section>
+ <section class="bar"><select id="sym"></select><div id="tfs"></div></section>
+ <div id="chart"></div>
+ <div id="msg" class="msg" hidden></div>
+ <section class="card"><h3>تحلیل چندتایم‌فریمی</h3>
+  <div class="scroll"><table id="mtf"><thead><tr><th>تایم‌فریم</th><th>تمایل</th><th>روند</th><th>مومنتوم</th><th>امتیاز*</th><th>آخرین کندل بسته</th></tr></thead><tbody></tbody></table></div>
+  <ul id="ev"></ul>
+  <p class="muted">* امتیاز الگوریتمی است (۰ تا ۱۰۰) و به‌معنی احتمال افزایش یا کاهش قیمت نیست. این ابزار توصیه مالی نیست. منبع: Binance Spot (داده عمومی).</p>
+ </section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
+<script type="module" src="app.js"></script>
+</body></html>
