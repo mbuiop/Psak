@@ -2,11 +2,15 @@
 <html lang="fa" dir="rtl"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Crypto Radar Pro</title><link rel="stylesheet" href="styles.css"></head>
-<body data-v="m3">
-<header><div class="tf" id="tfs"></div><select id="sym"></select></header>
-<div class="info" id="info">…</div>
+<body data-v="home">
+<header class="top"><div class="brand"><svg class="logo" viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="none" stroke="#22d3ee" stroke-width="2"/><circle cx="20" cy="20" r="9" fill="none" stroke="#22c55e" stroke-width="2"/><path d="M20 20L34 8" stroke="#22d3ee" stroke-width="3"/></svg><div><b>Crypto Radar Pro</b><small>رادار هوشمند تحلیل کریپتو</small></div></div>
+<div class="st"><i id="dot"></i><span id="stx">…</span><small id="upd"></small></div><button id="mn" aria-label="منو">☰</button></header>
+<div class="bar"><input id="q" list="dl" placeholder="جستجوی نماد… مثل BTCUSDT"><datalist id="dl"></datalist><div id="chips"></div></div>
+<div class="bar"><div class="tf" id="tfs"></div></div>
+<div class="info" id="info"></div>
 <main id="view"></main>
-<nav id="nav"><button data-v="m1">اندیکاتور</button><button data-v="m2">نقشه حرارتی</button><button data-v="m3" class="on">چارت</button></nav>
+<nav id="nav"><button data-v="home">🏠<br>خانه</button><button data-v="m1">📊<br>اندیکاتور</button><button data-v="m3" class="mid">📈</button><button data-v="m2">🔥<br>نقشه حرارتی</button><button data-v="menu">☰<br>منو</button></nav>
+<aside id="dr" hidden><div><h3>ابزارها</h3><button data-v="A">🔎 اسکنر ارزهای پرپتانسیل</button><button data-v="A1">📐 فیبوناچی و پیوت</button><button data-v="A2">😨 ترس و طمع (با نمودار)</button><button data-v="A3">✍️ تحلیل دستی</button></div></aside>
 <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
 <script type="module" src="app.js"></script>
 </body></html>

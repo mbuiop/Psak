@@ -8,7 +8,7 @@ const DEF = {
 const LBL = { EMA20: 'EMA 20', EMA50: 'EMA 50', EMA200: 'EMA 200', SMA20: 'SMA 20', BB: 'Bollinger', VWAP: 'VWAP', SR: 'S/R' };
 const on = new Set(['EMA20', 'EMA50', 'SR']);
 let chart, candle, vol, cs = [], S = {}, PL = [], key = '', box, tray, ohlc, ctxRef;
-function sr(k) { // قله/دره ۵-چپ ۵-راست، گروه‌بندی ۰٫۳٪، امتیاز = تعداد برخورد
+export function sr(k) { // قله/دره ۵-چپ ۵-راست، گروه‌بندی ۰٫۳٪، امتیاز = تعداد برخورد
   const cl = k.filter(x => x.closed), n = 5, pts = [];
   for (let i = n; i < cl.length - n; i++) { const w = cl.slice(i - n, i + n + 1);
     if (cl[i].h === Math.max(...w.map(x => x.h))) pts.push(cl[i].h);
